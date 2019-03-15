@@ -9,21 +9,13 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Roommate-CU Par</title>
+    <title>MyPage</title>
     <link rel="stylesheet" href="fontawesome-5.5/css/all.min.css" />
     <link rel="stylesheet" href="slick/slick.css">
     <link rel="stylesheet" href="slick/slick-theme.css">
     <link rel="stylesheet" href="magnific-popup/magnific-popup.css">
     <link rel="stylesheet" href="css_main/bootstrap.min.css" />
     <link rel="stylesheet" href="css_main/templatemo-style.css" />
-    <style>
-        input.tm-input-placeholder::-webkit-input-placeholder{
-          color: grey;
-        }
-        select.tm-input-select{
-          color: grey;
-        }
-      </style>
   </head>
 
 
@@ -41,20 +33,19 @@
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <i class="fas fa-bars navbar-toggler-icon"></i>
           </button>
-
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav ml-auto">
               <li class="nav-item">
-                  <a class="nav-link tm-nav-link" href="#hero">Roommate</a>
+                  <a class="nav-link tm-nav-link" onclick="window.location='Roommate.html'"href="###">Roommate</a>
               </li>
               <li class="nav-item">
-                  <a class="nav-link tm-nav-link" onclick="window.location='index.html'"href="###">Teammate</a>
+                  <a class="nav-link tm-nav-link" onclick="window.location='Teammate.html'"href="###">Teammate</a>
               </li>
               <li class="nav-item">
-                  <a class="nav-link tm-nav-link"  onclick="window.location='index.html'"href="###">Post</a>
+                  <a class="nav-link tm-nav-link" onclick="window.location='Post.html'"href="###">Post</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link tm-nav-link" onclick="window.location='self-account.html'"href="###">MyPage</a>
+                  <a class="nav-link tm-nav-link" href="#hero">MyPage</a>
               </li>                       
             </ul>
           </div>        
@@ -63,48 +54,53 @@
       
       <div class="text-center tm-hero-text-container">
         <div class="tm-hero-text-container-inner">
-            <h2 class="tm-hero-title">CU Par - Roommate</h2>
+            <h2 class="tm-hero-title">CU Par - MyPage</h2>
             <p class="tm-hero-subtitle">
-              Find your Roommate here!
-              <br />Come on!
+              Check your information here!
+              <br />Let's see if we find your partners!
             </p>
         </div>        
       </div>
-      
-    
+      <!--
       <div class="tm-next tm-intro-next">
         <a href="#Roommate" class="text-center tm-down-arrow-link">
           <i class="fas fa-3x fa-caret-down tm-down-arrow"></i>
         </a>
       </div>
-          
+    -->      
     </section>
 
-    <!--Main Part-->
-    <section id="Roommate" class="tm-section-pad-top">
-      <div class="container">
-        <div class="row">
-          <div class="col-lg-6">
-            <img src="img/the-town-01.jpg" alt="Image" class="img-fluid tm-intro-img" />
-          </div>
-          <div class="col-lg-6">
-            <div class="tm-intro-text-container">
-                <h2 class="tm-text-primary mb-4 tm-section-title">Roommate</h2>
-                <p class="mb-4 tm-intro-text">
-                  Find your <strong>roommate</strong> here!
-                  <br>Come on and have a try!
-              </p>
-                <p class="mb-5 tm-intro-text">
-                  Please tell your friends about our site 
-                  <a rel="nofollow" href="index.html">CU Par</a>. Thank you.
-                  It will help you and them to find suitable roommate and help us to serve more people.</p>
-                <div class="tm-next">
-                  <a href="#message" class="tm-intro-text tm-btn-primary">Match Roomate</a>
+    <!--Account information-->
+    <section id="information" class="tm-section-pad-top">
+      <!-- <div class="row"></div> -->
+            <div class="tm-intro-text-container" >
+                <h1 class="tm-text-primary mb-4 tm-section-title">Account information</h1>
+                <br>
+                <div class="row">
+                  <div class="col-lg-6">
+                    <p style="font-size:24px; color:#3496d8">Name:</p>
+                    <p class="mb-4 tm-intro-text" >Xiao Jack</p>
+                    <p style="font-size:24px; color:#3496d8">Email:</p>
+                    <p class="mb-4 tm-intro-text" >123456789@link.cuhk.edu.hk</p>
+                    <p style="font-size:24px; color:#3496d8">Sex:</p>
+                    <p class="mb-4 tm-intro-text" >Male/Female</p>
+                  </div>
+                  <div class="col-lg-6">
+                      <form action="http://localhost:8081/check_roommate" method="Post">
+                        <input type="submit" class="tm-btn-primary" style="border-color: white" value="Submit"></input>
+                      </form>
+
+                    <p style="font-size:24px; color:#3496d8">Roommate:</p>
+                    <a class="mb-4 tm-intro-text"  href="">No request/Matching/Found</a><br><br>
+                    <p style="font-size:24px; color:#3496d8">Teammate:</p>
+                    <a class="mb-4 tm-intro-text" href="">No request/Matching/Found</a><br><br>
+                    <p style="font-size:24px; color:#3496d8">Post:</p>
+                    <a class="mb-4 tm-intro-text"  href="">Check your post</a>
+                  </div>
                 </div>
             </div>
-          </div>
-        </div>
-
+        
+      <div class="container">
         <div class="row tm-section-pad-top">
           <div class="col-lg-4">
             <i class="fas fa-4x fa-bus text-center tm-icon"></i>
@@ -136,162 +132,11 @@
         </div>
       </div>
     </section>
-    
-    <!--collect information-->
-    <section id="message" class="tm-section-pad-top" style="text-align:center">    
-      <div>
-        <h2 style="color:#3496d8">Pleace fill your information here:</h1><br>
-        <form action="http://localhost:8081/process_post" method="Post">
-          
-          <!--name-->
-          <p style="font-size:24px; color:#3496d8">Name:</p>
-          <input class="tm-input-placeholder" name="Name" type="text" placeholder="Your name"  required="" />
-          <br><br>
-          
-          <!--sex-->
-          <p style="font-size:24px; color:#3496d8">Sex:</p>
-          <input type="radio" name="sex" value="male" required>Male&nbsp&nbsp
-          <input type="radio" name="sex" value="female">Female
-          <br><br>
-          
-          <!--SID-->
-          <p style="font-size:24px; color:#3496d8">SID:</p>
-          <input class="tm-input-placeholder" name="SID" type="text" placeholder="Your sid"  required="" />
-          <br><br>
-          
-          <!--college-->
-          <p style="font-size:24px; color:#3496d8">College:</p>
-          <select name="College" class="tm-input-select" type="text" id="College" onchange="change();">
-              <option value="CC">Chung Chi College</option>
-              <option value="NA">New Asia College</option>
-              <option value="UC">United College</option>
-              <option value="Shaw">Shaw College</option>
-              <option value="MC">Morningside College</option>
-              <option value="SHHo">S.H.Ho College</option>
-              <option value="CW">C.W.Chu College</option>
-              <option value="WYS">Wu Yee Sun College</option>
-              <option value="WS">Lee Woo Sing College</option>
-          </select>
-          <br><br>
-          <!--
-          <script>
-              function change(){
-                var coll = document.getElementById("College").value;
-                var sel = document.getElementById("Hall");
-                if(coll!="CC"){
-                  for(var i=0;i<10;i++){
-                    sel.remove(i);
-                  }
-                  switch(coll){
-                    case "CC":
-                      break;
-                    case "WYS":{
-                        //sel.options[0].text="Wu Yee Sun College";
-                        //sel.options[0].value="WYS";
-                        var newOption = document.createElement("option");
-                        newOption.appendChild(document.createTextNode("Wu Yee Sun College"));
-                        newOption.setAttribute("value","WYS");
-                        sel.appendChild(newOption);
-                      }
-                      break;
-                    case NA:
-                      break;
-                    case NA:
-                      break;
-                    case NA:
-                      break;
-                    case NA:
-                      break;
-                    case NA:
-                      break;
-                    case NA:
-                      break;
-                    case NA:
-                      break;
-                  }
-                }
-              } 
-          </script>
-        -->
-         <!--Hall-->
-          <p style="font-size:24px; color:#3496d8">Hall:</p>
-          <select name="Hall" class="tm-input-select" type="text"  id="Hall" >
-              <option value="HL">CC:Hua Lien Tang</option>
-              <option value="LSP">CC:Lee Shu Pui Hall</option>
-              <option value="MSH">CC:Madam SH Ho Hall</option>
-              <option value="MH">CC:Ming Hua Tang</option>
-              <option value="PMH">CC:Pentecostal Mission Hall(High)</option>
-              <option value="PML">CC:Pentecostal Mission Hall(Low)</option>
-              <option value="TB">CC:Theology Building</option>
-              <option value="WC">CC:Wen Chih Tang</option>
-              <option value="WL">CC:Wen Lin Tang</option>
-              <option value="YL">CC:Ying Lin Tang</option>
-              <option value="CH">NA:Chih Hsing Hall</option>
-              <option value="XS">NA:Xuesi Hall</option>
-              <option value="GT">NA:Grace Tien Hall</option>
-              <option value="XS">NA:Daisy Li Hall</option>
-              <option value="AS">UC:Adam Schall Residence</option>
-              <option value="BH">UC:Bethlehem Hall</option>
-              <option value="CCH">UC:Chan Chun Ha Hostel</option>
-              <option value="HS">UC:Hang Seng Hall</option>
-              <option value="KM">Shaw:Kuo Mou Hall</option>
-              <option value="SH2">Shaw:Student Hostel 2</option>
-              <option value="LQW">SHHO:Lee Quo Wei Hall</option>
-              <option value="HT">SHHO:Ho Tim Hall</option>
-              <option value="MC">Morningside College</option>
-              <option value="CW">C.W.Chu College</option>
-              <option value="WYS">Wu Yee Sun College</option>
-              <option value="WS">Lee Woo Sing College</option>
-            </select>
-          <br><br>
-          
-          <p style="font-size:24px; color:#3496d8">When do you go to bed?</p>
-          <select name="sleep_start" class="tm-input-select">
-            <option value=100>10:00PM</option>
-            <option value=105>10:30PM</option>
-            <option value=110>11:00PM</option>
-            <option value=115>11:30PM</option>
-            <option value=120>12:00PM</option>
-            <option value=125>12:30PM</option>
-            <option value=130>01:00AM</option>
-            <option value=135>01:30PM</option>
-            <option value=140>02:00AM</option>
-            <option value=145>02:30AM</option>
-            <option value=150>03:00AM</option>
-          </select>
-          <br><br>
-          
-          <p style="font-size:24px; color:#3496d8">When do you wake up:</p>
-          <select name="sleep_end" class="tm-input-select">
-              <option value=190>07:00AM</option>
-              <option value=195>07:30AM</option>
-              <option value=200>08:00AM</option>
-              <option value=205>08:30AM</option>
-              <option value=210>09:00AM</option>              
-              <option value=215>09:30AM</option>
-              <option value=220>10:00AM</option>
-              <option value=225>10:30AM</option>
-              <option value=230>11:00AM</option>
-              <option value=235>11:30AM</option>
-              <option value=240>12:00AM</option>
-              <option value=245>12:30AM</option>
-            </select>
-            <br><br>
- 
-          <p style="font-size:24px; color:#3496d8">Remarks to your roommte:</p>
-          <textarea name="remarks" rows="3" cols="30" maxlength=100 >
-          </textarea>
-          <br><br><br>
-
-          <input type="submit" class="tm-btn-primary" style="border-color: white" value="Submit"></input>
-          <p><br><br></p>
-        </form>
-      </div>
-    </section>
+    <br><br>
 
     <!-- Contact -->
     <section id="Contact" class="tm-section-pad-top tm-parallax-2">
-      <div class="container tm-container-Contact">
+      <div class="container tm-container-COntact">
         <div class="row">
             <div class="col-12">
                 <h2 class="mb-4 tm-section-title">Contact</h2>
@@ -311,7 +156,6 @@
                   <span class="mb-0">010-020-0340</span>
               </a>              
             </div>
-            <!--
             <div class="col-sm-12 col-md-6 d-flex align-items-center tm-Contact-item">
               <a href="mailto:info@company.co" class="tm-Contact-item-link">
                   <i class="fas fa-3x fa-envelope mr-4"></i>
@@ -324,7 +168,6 @@
                   <span class="mb-0">Location on Maps</span>
               </a>              
             </div>
-          -->
             <div class="col-sm-12 col-md-6 d-flex align-items-center tm-Contact-item">
               <form action="" method="get">
                 <input name="email" type="email" placeholder="Subscribe your email" class="tm-input" required />

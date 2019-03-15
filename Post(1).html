@@ -53,7 +53,7 @@
                   <a class="nav-link tm-nav-link" href="#hero">Post</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link tm-nav-link" onclick="window.location='self-account.html'"href="###">MyPage</a>
+                  <a class="nav-link tm-nav-link" onclick="window.location='self-account.html'"href="###">MyPage</a>
               </li>                       
             </ul>
           </div>        
@@ -67,7 +67,7 @@
               Do what you love with new friends!
               <br />Come on!
             </p>
-            <a style="color: DeepSkyBlue" onclick="window.location='index.html'"href="">Create a new post!</a>
+              <a class="nav-link tm-nav-link" href="#New_Post">Create a new post!</a>
         </div>        
       </div>
       
@@ -107,13 +107,13 @@
                 <div class="post">
                   <h2 style="font-size: 60px">Guangzhou</h2>
                   <p style="font-size: 30px">From 4.1 to 4.5<br>Looking for 3 girls!</p>
-                  <a onclick="window.location='index.html'"href="">Like</a>
+                  <a onclick="window.location='index.html'"href="">Like</a>&nbsp&nbsp
                   <a onclick="window.location='index.html'"href="">Follow</a>
                 </div>
                 <div class="post">
                   <h2 style="font-size: 60px">Guangzhou</h2>
                   <p style="font-size: 30px">From 4.1 to 4.5<br>Looking for 3 girls!</p>
-                  <a onclick="window.location='index.html'"href="">Like</a>
+                  <a onclick="window.location='index.html'"href="">Like</a>&nbsp&nbsp
                   <a onclick="window.location='index.html'"href="">Follow</a>
                 </div>
                 </p>  
@@ -153,19 +153,44 @@
         </div>
       </section>
 
-    <!-- Contact -->
-    <section id="Contact" class="tm-section-pad-top tm-parallax-2">
-      <div class="container tm-container-Contact">
+    <!-- New Post -->
+    <section style="background-color: Khaki" id="New_Post" class="tm-section-pad-top tm-parallax-2">
+      <div class="container tm-container-New_Post">
         <div class="row">
             <div class="col-12">
-                <h2 class="mb-4 tm-section-title">Contact</h2>
+                <h2 class="mb-4 tm-section-title">New Post</h2>
                 <div class="mb-5 tm-underline">
                   <div class="tm-underline-inner"></div>
                 </div>
                 <p class="mb-5">
-                  There were some french or germanish 
-                  that I don't understand so I just
-                  delete them all for fun.
+                  <!--collect information-->
+                  <section id="message" class="tm-section-pad-top" style="text-align:center">    
+                    <div>
+                      <h2 style="color:#3496d8">Create your new post</h1><br>
+                      <form action="" method="get">
+                        <!--Action haven't been dealt.-->
+                        <p style="font-size:24px; color:#3496d8">Type</p>
+                            <input type="radio" name="Type" value="Workshop" required>Workshop&nbsp&nbsp
+                            <input type="radio" name="Type" value="Travel" required>Travel&nbsp&nbsp
+                            <input type="radio" name="Type" value="Sports" required>Sports&nbsp&nbsp
+                            <input type="radio" name="Type" value="Other">Other&nbsp&nbsp
+                        <br><br><br>
+                        <p style="font-size:24px; color:#3496d8">Title</p>
+                        <p>Write the name of the workshop/travel destination/type of sports/other</p>
+                        <input class="tm-input-placeholder" name="Name" type="text" placeholder="date"  required="" />
+                        <br><br><br>
+                        <p style="font-size:24px; color:#3496d8">Date</p>
+                        <input class="tm-input-placeholder" name="Date" type="text" placeholder="date"  required="" />
+                        <br><br><br>
+                        <p style="font-size:24px; color:#3496d8">Comment</p>
+                        <input class="tm-input-placeholder" name="Comment" type="text" placeholder="comment"  required="" />
+                        <br><br><br>
+                        <br><br>
+                        <input type="submit" class="tm-btn-primary" style="border-color: white" value="Submit"></button>
+                        <p><br><br></p>
+                      </form>
+                    </div>
+                  </section>
                 </p>
             </div>
             
@@ -203,6 +228,7 @@
           </p>
         </footer>
     </section>
+
     <script src="js_main/jquery-1.9.1.min.js"></script>     
     <script src="slick/slick.min.js"></script>
     <script src="magnific-popup/jquery.magnific-popup.min.js"></script>

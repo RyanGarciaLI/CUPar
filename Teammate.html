@@ -16,6 +16,14 @@
     <link rel="stylesheet" href="magnific-popup/magnific-popup.css">
     <link rel="stylesheet" href="css_main/bootstrap.min.css" />
     <link rel="stylesheet" href="css_main/templatemo-style.css" />
+    <style>
+      input.tm-input-placeholder::-webkit-input-placeholder{
+        color: grey;
+      }
+      select.tm-input-select{
+        color: grey;
+      }
+    </style>
   </head>
 
 
@@ -26,7 +34,7 @@
       <nav class="navbar navbar-expand-md tm-navbar" id="tmNav">              
         <div class="container">   
           <div class="tm-next">
-              <a href="#hero" class="navbar-brand">CU Par</a>
+              <a onclick="window.location='index.html'"href="###" class="navbar-brand">CU Par</a>
           </div>             
             
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" 
@@ -36,14 +44,17 @@
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav ml-auto">
               <li class="nav-item">
-                  <a class="nav-link tm-nav-link" onclick="window.location='index.html'"href="###">Roommate</a>
+                  <a class="nav-link tm-nav-link" onclick="window.location='Roommate.html'"href="###">Roommate</a>
               </li>
               <li class="nav-item">
                   <a class="nav-link tm-nav-link" href="#hero">Teammate</a>
               </li>
               <li class="nav-item">
-                  <a class="nav-link tm-nav-link"  onclick="window.location='index.html'"href="###">Post</a>
-              </li>                    
+                  <a class="nav-link tm-nav-link"  onclick="window.location='Post.html'"href="###">Post</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link tm-nav-link" onclick="window.location='self-account.html'"href="###">MyPage</a>
+              </li>                       
             </ul>
           </div>        
         </div>
@@ -88,7 +99,7 @@
                   It will help you and them to find suitable teammate and help us to serve more people.
                 </p>
                 <div class="tm-next">
-                  <a href="Teammate.html" class="tm-intro-text tm-btn-primary">Match Teamate</a>
+                  <a href="#message" class="tm-intro-text tm-btn-primary">Match Teamate</a>
                 </div>
             </div>
           </div>
@@ -126,6 +137,59 @@
       </div>
     </section>
 
+    <!--collect information-->
+    <section id="message" class="tm-section-pad-top" style="text-align:center">    
+      <div>
+        <h2 style="color:#3496d8">Pleace fill your information here:</h1><br>
+        <form action="" method="get">
+          <!--Action haven't been dealt.-->
+          <p style="font-size:24px; color:#3496d8">Name:</p>
+          <input class="tm-input-placeholder" name="Name" type="text" placeholder="Your name"  required="" />
+          <br><br>
+          <p style="font-size:24px; color:#3496d8">Sex:</p>
+          <input type="radio" name="sex" value="male" required>Male&nbsp&nbsp
+          <input type="radio" name="sex" value="female">Female
+          <br><br>
+          <p style="font-size:24px; color:#3496d8">SID:</p>
+          <input class="tm-input-placeholder" name="SID" type="text" placeholder="Your sid"  required="" />
+          <br><br>
+          <p style="font-size:24px; color:#3496d8">College:</p>
+          <select name="College" class="tm-input-select">
+              <option value="CC">Chung Chi College</option>
+              <option value="NA">New Asia College</option>
+              <option value="UC">United College</option>
+              <option value="Shaw">Shaw College</option>
+              <option value="MC">Morningside College</option>
+              <option value="SHHo">S.H.Ho College</option>
+              <option value="CW">C.W.Chu College</option>
+              <option value="WYS">Wu Yee Sun College</option>
+              <option value="WS">Lee Woo Sing College</option>
+          </select>
+          <br><br>
+          <p style="font-size:24px; color:#3496d8">Course code:</p>
+          <input class="tm-input-placeholder" name="CourseTitle" type="text" placeholder="Title of the course"  required="" />
+          <input class="tm-input-placeholder" name="CourseCode" type="text" placeholder="Code of the course"  required="" />
+          <br><br>
+          <p style="font-size:24px; color:#3496d8">Size of your group:</p>
+          <select name="Size" class="tm-input-select">
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
+            <option value="more">more than 8</option>
+          </select>
+          <br><br>
+          <p style="font-size:24px; color:#3496d8">
+            And so on...</p>
+
+          <input type="submit"  class="tm-intro-text tm-btn-primary" style="border-color: white" value="Submit"></button>
+          <p><br><br></p>
+        </form>
+      </div>
+    </section>
 
     <!-- Contact -->
     <section id="Contact" class="tm-section-pad-top tm-parallax-2">
