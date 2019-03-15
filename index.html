@@ -26,23 +26,26 @@
       <nav class="navbar navbar-expand-md tm-navbar" id="tmNav">              
         <div class="container">   
           <div class="tm-next">
-              <a href="#hero" class="navbar-brand">CU Par</a>
+              <a onclick="window.location='index.html'"href="###" class="navbar-brand">CU Par</a>
           </div>             
-            
-          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" 
-            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <i class="fas fa-bars navbar-toggler-icon"></i>
-          </button>
+           
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+              <i class="fas fa-bars navbar-toggler-icon"></i>
+            </button>
+          
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav ml-auto">
               <li class="nav-item">
-                  <a class="nav-link tm-nav-link" href="#Roommate">Roommate</a>
+                  <a class="nav-link tm-nav-link" onclick="window.location='Roommate.html'"href="###">Roommate</a>
               </li>
               <li class="nav-item">
-                  <a class="nav-link tm-nav-link" href="#Teammate">Teammate</a>
+                  <a class="nav-link tm-nav-link" onclick="window.location='Teammate.html'"href="###">Teammate</a>
               </li>
               <li class="nav-item">
-                  <a class="nav-link tm-nav-link" href="#Post">Post</a>
+                  <a class="nav-link tm-nav-link" onclick="window.location='Post.html'"href="###">Post</a>
+              </li>
+              <li class="nav-item">
+                  <a class="nav-link tm-nav-link" onclick="window.location='self-account.html'"href="###">MyPage</a>
               </li>                    
             </ul>
           </div>        
@@ -60,10 +63,10 @@
       </div>
 
       <div class="tm-next tm-intro-next">
-        <a href="#Roommate" class="text-center tm-down-arrow-link">
-          <i class="fas fa-3x fa-caret-down tm-down-arrow"></i>
-        </a>
-      </div>      
+          <a href="#Roommate" class="text-center tm-down-arrow-link">
+            <i class="fas fa-3x fa-caret-down tm-down-arrow"></i>
+          </a>
+        </div>       
     </section>
 
     <!--Roommate-->
@@ -192,12 +195,15 @@
           </div>
           <div class="text-center col-12">
             <div class="text-center col-12">
+              <br>
               <a href="Post.html" class="tm-intro-text tm-btn-primary">Post</a>
+              <br><br><br>
             </div> 
           </div>         
         </div>
 
-        <!--Photos-->
+
+        <!--
         <div class="row">
             <div class="col-12">
                 <div class="mx-auto tm-gallery-container">
@@ -269,57 +275,45 @@
                     </div>
                 </div>                
             </div>        
-          </div>    
+          </div>   
+        --> 
       </div>
     </section>
 
-    <!-- Contact -->
-    <section id="Contact" class="tm-section-pad-top tm-parallax-2">
-      <div class="container tm-container-COntact">
-        <div class="row">
-            <div class="col-12">
-                <h2 class="mb-4 tm-section-title">Contact</h2>
-                <div class="mb-5 tm-underline">
-                  <div class="tm-underline-inner"></div>
-                </div>
-                <p class="mb-5">
-                  There were some french or germanish 
-                  that I don't understand so I just
-                  delete them all for fun.
-                </p>
-            </div>
-            
-            <div class="col-sm-12 col-md-6 d-flex align-items-center tm-Contact-item">
-              <a href="tel:0100200340" class="tm-Contact-item-link">
-                  <i class="fas fa-3x fa-phone mr-4"></i>
-                  <span class="mb-0">010-020-0340</span>
-              </a>              
-            </div>
-            <div class="col-sm-12 col-md-6 d-flex align-items-center tm-Contact-item">
-              <a href="mailto:info@company.co" class="tm-Contact-item-link">
-                  <i class="fas fa-3x fa-envelope mr-4"></i>
-                  <span class="mb-0">info@company.co</span>
-              </a>              
-            </div>
-            <div class="col-sm-12 col-md-6 d-flex align-items-center tm-Contact-item">
-              <a href="https://www.google.com/maps" class="tm-Contact-item-link">
-                  <i class="fas fa-3x fa-map-marker-alt mr-4"></i>
-                  <span class="mb-0">Location on Maps</span>
-              </a>              
-            </div>
-            <div class="col-sm-12 col-md-6 d-flex align-items-center tm-Contact-item">
-              <form action="" method="get">
-                <input name="email" type="email" placeholder="Subscribe your email" class="tm-input" required />
-                <button type="submit" class="btn tm-btn-submit">Submit</button>
-              </form>
-            </div>
+     <!-- Contact -->
+     <section id="Contact" class="tm-section-pad-top tm-parallax-2">
+        <div class="container tm-container-Contact">
+          <div class="row">
+              <div class="col-12">
+                  <h2 class="mb-4 tm-section-title">Thank:</h2>
+                  <div class="mb-5 tm-underline">
+                    <div class="tm-underline-inner"></div>
+                  </div>
+                  <p class="mb-5">
+                    I think we can add something to confess our thanks.
+                  </p>
+              </div>
+              
+              <div class="col-sm-12 col-md-6 d-flex align-items-center tm-Contact-item">
+                <a href="tel:0100200340" class="tm-Contact-item-link">
+                    <i class="fas fa-3x fa-phone mr-4"></i>
+                    <span class="mb-0">010-020-0340</span>
+                </a>              
+              </div>
+              <div class="col-sm-12 col-md-6 d-flex align-items-center tm-Contact-item">
+                <form action="" method="get">
+                  <input name="email" type="email" placeholder="Subscribe your email" class="tm-input" required />
+                  <button type="submit" class="btn tm-btn-submit">Submit</button>
+                </form>
+              </div>
+          </div>
         </div>
-      </div>
+
       <footer class="text-center small tm-footer">
           <p class="mb-0">
-            Copyright &copy; 2019 Company Name 
+            Copyright &copy; 2019 CU Par Project
             
-            - Design: <a rel="nofollow" href="https://templatemo.com" class="tm-footer-link">Template Mo</a>
+            - Design: CSCI3100 Group 01 (with help from<a rel="nofollow" href="https://templatemo.com" class="tm-footer-link">Template Mo</a>)
           </p>
         </footer>
     </section>
