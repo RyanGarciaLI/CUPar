@@ -1,23 +1,38 @@
-let express = require('express');
-let app = express();
-let path = require('path');
-let fs = require('fs');
-//app.use( express.static('./public'));
-app.use(express.static(__dirname + '/public'));
-app.listen(8081);
+var express = require('express');
+var app = express();
+var bodyParser = require('body-parser');
+var mysql  = require('mysql');  
+var fs = require('fs');
+var path = require('path');
+var hbs = require('express-hbs');
 
+// 创建 application/x-www-form-urlencoded 编码解析
+var urlencodedParser = bodyParser.urlencoded({ extended: false });
 
-let bodyParser = require('body-parser');
-let urlencodedParser = bodyParser.urlencoded({ extended: true })
+app.use(express.static('./public'));
+
+app.engine('hbs', hbs.express4({
+  partialsDir   : __dirname +'/views/partials',
+  defaultLayout : __dirname +'/views/layouts/default',
+  extname       : '.hbs',
+  layoutsDir    : __dirname +'/views/layouts',
+}));
+
+app.set('view engine', 'hbs');
+app.set('views', path.join(__dirname, 'views'));
+
+// **************************************************
+// **************************************************
+// the following code is done by 
+// programmer: Ryan Garcia Yuxin LI
+// date : 21/03/2018
 app.use(bodyParser.json());
 app.use(urlencodedParser);
 
 let favicon = require('serve-favicon');
 app.use(favicon( __dirname + '/keyboarder.ico'));
 
-
 let cookieParser = require('cookie-parser');
-// let cookieSession = require('cookie-session');
 let session = require('express-session');
 app.use(cookieParser("CUPar"));
 app.use(session({
@@ -28,14 +43,8 @@ app.use(session({
      saveUninitialized: false // passport: true, session: false
 }));  // so that object req will have a attribut:session representing cookie
 
-let user = require('./controller/userNew.js');
+let user = require('./controller/user.js');
 app.use(user.authenticate);
-
-// //transmit {user: req.user } among all controller
-// app.use( function (req, res, next){
-//     res.locals.user = req.user;
-//     next();
-// });
 
 //invoke  router
 // var account = require('./routes/account');
@@ -48,87 +57,219 @@ app.use("/login", login);
 app.use('/signup', signup);
 app.use('/logout', logout);
 
-/*
-// passport
-// following declaration is for encryption password
-let passport = require('passport'),
-    User = require('./controller/users');/// need module: user!!!!!!!!!!!!!!!!!!!!!!
-passport.use(User.createStrategy());
-*/
-// following configuration is for normal Passport Operation
+// Ryan part ends
+// *****************************************************
+// *****************************************************
 
 
-/*
-// to protect web from fake authentication
-// passport can help us realize cookie
-app.use(passport.initialize());
-app.use(passport.session()); // check cookie and fill in req.use before user's request coming
-// by 序列化 cookie 
-passport.serializeUser( User.serializeUser());  
-passport.deserializeUser( User.deserializeUser());
-// Caution! Order is important, cookie -> session -> passport, the latter needs the front
+app.use('/index.html',function(req,res){
+  var fileName="./index.html";
+  fs.readFile(fileName,function(err,data){
+      if(err)
+          console.log("Sorry, there is a mistake in your address.");
+      else{res.write(data);}
+  });
+});
 
-// i don't know where the following code belongs t0, mark them 
-router.post('/login', passport.authenticate('local', function(req, res){
-    // if we declare this method, then we have succeed already?
-    // we can redirect to index now.
-    res.redirect('/');
-    // or, we send respon of success
-    // res.status(200).end();
-    // it's up to you
-}))
-// in this part, we argue three parameters, the 2nd and 3rd are 级联的中间件s, 
-// when the 2nd invokes next(), 3rd will be executed so that the passport will
-// be verified before execution of 级联中间件, if it passes, 级联中间件 will be invoked
-// else, return 401 ( Not Authenticated )
+app.use('/Roommate.html',function(req,res){
+  var fileName="./Roommate.html";
+  fs.readFile(fileName,function(err,data){
+      if(err)
+          console.log("Sorry, there is a mistake in your address.");
+      else{res.write(data);}
+  });
+});
+
+app.get('/Roommate.html', function (req, res) {
+   res.sendFile( __dirname + "/" + "Roommate.html" );
+});
+
+//Store data into MySql
+app.post('/process_post', urlencodedParser, function (req, res) {
+ 
+   res.redirect("/index.html");
+   //MySql
+    var connection = mysql.createConnection({     
+        host     : 'localhost',       
+        user     : 'root',              
+        password : 'jack1998',       
+        port: '3306',                   
+        database: 'cup' 
+      }); 
+   
+    connection.connect();
+  
+    var  addSql = 'INSERT INTO Roommate (request_id, user_sid, name, sex, college, hall, sleep_time_start, sleep_time_end, remark) VALUES(0,?,?,?,?,?,?,?,?)';
+    var  addSqlParams = [req.body.SID, req.body.Name, req.body.sex, req.body.College, req.body.Hall, req.body.sleep_start, req.body.sleep_end, req.body.remarks];
+    //add
+    connection.query(addSql,addSqlParams,function (err, result) {
+          if(err){
+           console.log('[INSERT ERROR] - ',err.message);
+           return; }        
+   
+         console.log('--------------------------INSERT----------------------------');
+         //console.log('INSERT ID:',result.insertId);        
+         console.log('INSERT ID:',result);        
+         console.log('-----------------------------------------------------------------\n\n');  
+    });
+   
+    connection.end();
+
+    console.log(res);
+    //res.end(JSON.stringify(res));
+});
 
 
-*/
 
 
-/*
-//cookie
-// setting cookie when logging in
-router.post('/login', passport.authenticate('local'), function(req,res){
-    // res.cookie('authenticated', true);
-    // res.status(200).end();
-    req.session.authenticate = true;
+app.post('/process_teammate', urlencodedParser, function (req, res) {
+ 
+  res.redirect("/index.html");
+  //MySql
+   var connection = mysql.createConnection({     
+       host     : 'localhost',       
+       user     : 'root',              
+       password : 'jack1998',       
+       port: '3306',                   
+       database: 'cup' 
+     }); 
+  
+   connection.connect();
+ 
+   var  addSql = 'INSERT INTO Teammate (request_id, user_sid, name, sex, college, hall, sleep_time_start, sleep_time_end, remark) VALUES(0,?,?,?,?,?,?,?,?)';
+   var  addSqlParams = [req.body.SID, req.body.Name, req.body.sex, req.body.College, req.body.Hall, req.body.sleep_start, req.body.sleep_end, req.body.remarks];
+   //add
+   connection.query(addSql,addSqlParams,function (err, result) {
+         if(err){
+          console.log('[INSERT ERROR] - ',err.message);
+          return; }        
+  
+        console.log('--------------------------INSERT----------------------------');
+        //console.log('INSERT ID:',result.insertId);        
+        console.log('INSERT ID:',result);        
+        console.log('-----------------------------------------------------------------\n\n');  
+   });
+  
+   connection.end();
 
-    res.end();
+   console.log(res);
+   //res.end(JSON.stringify(res));
+});
 
-})
 
-// access cookie in other controler
-router.get('/login', function(req, res){
-    // if cookie has not been set, then redirect to log in
-    // if( !req.cookie.authenticated ) return res.redirect('/account/login');
-    //if( !req.session.authenticated ) return res.redirect('/account/login');
-    if( !req.user ) return res.redirect('/account/login');
-    // if loged in, continue other thing
-    let response = {
-        "sid": req.query.sid,  // {"nameInRes" : req.query.nameInReq } 
-        "password": req.query.password
+
+app.get('/account_page', urlencodedParser, function (req, res) {
+  let user_name = req.cookies.islogin.name;// if any problems, call Ryan
+  let userID = req.cookies.islogin.sid;    // if any problems, call Ryan
+  res.render('account', {
+    layout: null,
+    name: user_name,
+    sid : userID,
+    email: userID + "@link.cuhk.edu.hk",
+  });
+   //res.end(JSON.stringify(res));
+});
+
+// MATCH
+app.post('/check_roommate', urlencodedParser, function (req, res) {
+
+  //MySql
+  var connection = mysql.createConnection({     
+       host     : 'localhost',       
+       user     : 'root',              
+       password : 'jack1998',       
+       port: '3306',                   
+       database: 'cup',
+       useConnectionPooling: true
+  }); 
+  connection.connect(); 
+
+  var connection1 = mysql.createConnection({     
+    host     : 'localhost',       
+    user     : 'root',              
+    password : 'jack1998',       
+    port: '3306',                   
+    database: 'cup',
+    useConnectionPooling: true
+  }); 
+
+  function SearchID(){
+    this.select=function(callback,id){
+      var  sql = 'SELECT distinct * FROM Roommate where user_sid = ' + id;
+      var option = {};
+      connection.query(sql,function(err,result){
+        if(err){console.log(err);}
+        if(result){
+          for(var i = 0; i < result.length; i++)
+            {option[i]={'sex':result[i].sex,'college':result[i].college,'hall':result[i].hall,'sid':result[i].user_sid};}
+        }
+        callback(option); // If return directly, it will return undefined. So we need call back function to receive the data.
+      });
     };
-    res.end(JSON.stringify(response));
-})
+  }
+  module.exports = SearchID;
+  
+  function MatchID(){    
+    this.select=function(callback1){
+      var  sql1 = 'SELECT distinct * FROM Roommate where sex = ? AND college = ? AND hall = ? AND user_sid != ?';
+      var  Params = [datas[0].sex,datas[0].college,datas[0].hall,datas[0].sid];
+      var option1 = {};
+      connection1.query(sql1,Params,function(err,results){
+        if(err){console.log(err);}
 
-router.get('/sign-up', function(req, res){
-    //if( !req.user ) return res.redirect('/account/login');
-    let response = {
-        "sid": req.query.sid,
-        "name": req.query.username,
-        "password": req.query.password,
-        "passwordRP":req.query.passwordRP  // repeat password
+        option1[0]={'name':"NO ONE",'sex':null, 'sid':null};
+        if(results){
+          for(var i = 0; i < results.length; i++)
+          {option1[i]={'name':results[i].name,'sex':results[i].sex,'college':results[i].college,'hall':results[i].hall,'sid':results[i].user_sid};}
+        }
+        
+        callback1(option1); // If return directly, it will return undefined. So we need call back function to receive the data.
+      });
     };
+  }
+  module.exports = MatchID;
+ 
+  var datas = Array;
+  var dom1 = Array;
+ // dom1[0]={'name':"NO ONE", 'sex':null, 'sid':null};
+  var mqt = new SearchID();
+  var SeID = new MatchID();
 
-    res.end(JSON.stringify(response));
-})
+  let userID = req.cookies.islogin.sid; // if any problems, call Ryan
+  mqt.select(function (rdata){
+    datas = rdata;
+    
+    connection1.connect(); 
+    SeID.select(function(rdata1){
+      dom1 = rdata1;
+      console.log('----Search----');
+      console.log(datas);
+      console.log('----Match----');
+      console.log(dom1);
+      if(dom1[0].name=="NO ONE"){
+        res.redirect("NoRoommate.html");
+      }
+      else{res.render('YesRoommate', {
+        layout: null,
+        r_name: dom1[0].name,
+        r_sex: dom1[0].sex,
+        r_sid: dom1[0].sid
+        });
+      }
+    });
+  },userID);  
+
+  connection.end();
+  console.log(res);
+  //res.end(JSON.stringify(res));
+});
 
 
-*/
 
 
 
-
-
-
+var server = app.listen(8081, function () {
+  var host = server.address().address;
+  var port = server.address().port;
+  console.log("Adress is http://%s:%s", host, port);
+});

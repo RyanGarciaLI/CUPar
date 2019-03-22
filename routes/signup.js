@@ -1,16 +1,25 @@
+//************************************
+// Here is a router for sign-up page
+// It deals with get and post request 
+// from sign-up page
+// Author: Ryan Garcia Yuxin LI
+// Date: 21/03/2019
+//************************************
 let express = require('express');
 let router = express.Router();
 let bodyParser = require('body-parser');
 let urlencodedParser = bodyParser.urlencoded({ extended: false });
-let User = require('../controller/userNew');
+let User = require('../controller/user');
 let md5 = require('../plugin/common');
+let path = require("path");
 
+// display page
 router.get('/', function(req, res){
-        res.sendFile(process.cwd() +"/CUPar/public" + "/sign-up.html"); // works but not good
+        res.sendFile(path.resolve( __dirname , "..","./public/sign-up.html")); 
         console.log("welcome to sign up page");
         })
 
-    // receive form from users
+// receive form from users
 router.post('/', urlencodedParser, function(req, res, next){
         var username = req.body.username || '', // make sure username is string
             password = req.body.password || ' ', // make sure password is string
@@ -45,7 +54,8 @@ router.post('/', urlencodedParser, function(req, res, next){
                 else{
                     password = md5(password);
                     User.insertUser(sid, username, password, function( results ){
-                        let userPassport = { user: sid, pwd: password };
+                        // set passport to user for access
+                        let userPassport = { name: username, sid: sid, pwd: password };
                         res.cookie("islogin",userPassport, {maxAge: 2 * 3600 * 1000});
                         res.redirect('/');
                     });

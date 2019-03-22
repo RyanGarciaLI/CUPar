@@ -1,10 +1,20 @@
+//************************************
+// Here is a router for login page
+// It deals with get and post request 
+// from login page
+// Author: Ryan Garcia Yuxin LI
+// Date: 21/03/2019
+//************************************
 let express = require('express');
-var router = express.Router();
+let router = express.Router();
 let bodyParser = require('body-parser');
 let urlencodedParser = bodyParser.urlencoded({ extended: false })
-let User = require('../controller/userNew');
+let User = require('../controller/user');
 let md5 = require('../plugin/common');
+let path = require("path");
 
+
+// receive form from login page
 router.post( '/', urlencodedParser, function(req, res){
     let sid = req.body.sid || 1234;
     let password = req.body.password || '';
@@ -26,7 +36,7 @@ router.post( '/', urlencodedParser, function(req, res){
     password = md5(password);
     User.selectUserInfo( sid, password, function( results ){
         if( results.length > 0 ){
-            let passport = { user: sid, pwd: password};
+            let passport = { name: results[0].name, sid: sid, pwd: password};
             res.cookie('islogin', passport, { maxAge: 2 * 3600 * 1000});
             res.redirect('/');
         }
@@ -38,10 +48,9 @@ router.post( '/', urlencodedParser, function(req, res){
     
 })
 
-
-
+// display page
 router.get('/', function(req, res){
-    res.sendFile(process.cwd() +"/CUPar/public" + "/login.html"); 
+    res.sendFile( path.resolve( __dirname , "..","./public/login.html") ); 
     console.log("welcome to log in page");
 })
 
