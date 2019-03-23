@@ -41,7 +41,7 @@ app.use(session({
      key: 'CUPar deserves an A',  // only for session
      cookie: { maxAge: 2 * 3600 * 1000},  // only for session
      saveUninitialized: false // passport: true, session: false
-}));  // so that object req will have a attribut:session representing cookie
+}));  // so that object req will have a attribute:session representing cookie
 
 let user = require('./controller/user.js');
 app.use(user.authenticate);
@@ -62,14 +62,14 @@ app.use('/logout', logout);
 // *****************************************************
 
 
-app.use('/index.html',function(req,res){
-  var fileName="./index.html";
-  fs.readFile(fileName,function(err,data){
-      if(err)
-          console.log("Sorry, there is a mistake in your address.");
-      else{res.write(data);}
-  });
-});
+// app.use('/index.html',function(req,res){
+//   var fileName="./index.html";
+//   fs.readFile(fileName,function(err,data){
+//       if(err)
+//           console.log("Sorry, there is a mistake in your address.");
+//       else{res.write(data);}
+//   });
+// });
 
 app.use('/Roommate.html',function(req,res){
   var fileName="./Roommate.html";
@@ -264,8 +264,10 @@ app.post('/check_roommate', urlencodedParser, function (req, res) {
   //res.end(JSON.stringify(res));
 });
 
+//Jack part ends
 
-
+// var post = require('./routes/post');
+// app.use('/post',post);
 
 
 var server = app.listen(8081, function () {

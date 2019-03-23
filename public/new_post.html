@@ -92,25 +92,13 @@
     <!--Main Part-->
     <!--collect information-->
     <section id="message" class="tm-section-pad-top" style="text-align:center;">    
-      <div>
-        <h2 style="color:#3496d8">Please fill your information here:</h1><br>
-        <form action="" method="get">
-          <!--Action haven't been dealt.-->
-          <p style="font-size:24px; color:#3496d8">Name:</p>
-          <input class="tm-input-placeholder" name="Name" type="text" placeholder="Your name"  required="" />
-          <br><br>
-          <p style="font-size:24px; color:#3496d8">SID:</p>
-          <input class="tm-input-placeholder" name="SID" type="text" placeholder="Your sid"  required="" />
-          <br><br>
-          <p style="font-size:24px; color:#3496d8">Start Date:</p>
-          <input type="date" name="start_date">
-          <br><br>
-          <p style="font-size:24px; color:#3496d8">End Date:</p>
-          <input type="date" name="end_date">
+      <h2 style="color:#3496d8">Please fill your information here:</h1><br>
+        <div class="add">
+          <!--Action haven't been dealt.-->          
           <br><br>
           
           <p style="font-size:24px; color:#3496d8">Type:</p>
-          <select name="Type" class="tm-input-select">
+          <select name="Type" class="postType">
               <option value="TR">Travel</option>
               <option value="WS">Workshop</option>
               <option value="SP">Sports</option>
@@ -119,11 +107,44 @@
           <br><br>
           <p style="font-size:24px; color:#3496d8">Comments:</p>
 
-          <input class="tm-input-placeholder" name="Comments" type="text" placeholder="Less than 150 words"  required="" size="100px" />
+          <textarea class="content" cols="80" rows="8"></textarea>
           <br><br>
-          <input type="submit" class="tm-btn-primary" style="border-color: white" value="Submit"></button>
+          <input type="button" class="submit" style="border-color: white" value="Submit"></button><span class="tip"></span></p>
           <p><br><br></p>
-        </form>
+          <script type="text/javascript" src="http://mat1.gtimg.com/libs/jquery/1.12.0/jquery.min.js"></script>
+        <script type="text/javascript">
+          var running = false;
+          $('.submit').on('click', function(){
+            if(running) return;
+            running = true;
+            $('.tip').text('');
+
+            var postType = $('.add .postType').val();
+                content = $('.add .content').val();
+            if(!title || !content){
+              $('.tip').text('Please input');
+              return;
+            }
+            $('.tip').text('Processing');
+
+            $.ajax({
+              url : '/posts/addPost',
+              data : {title:title, content:content},
+              dataType : 'json',
+              type : 'get'
+            }).done(function(result){
+              if(result.code==0){
+                var html = '<tr><td><a href="'+result.data.url+'" title="'+result.data.postType+'">'+result.data.postType+'</a></td><td>'+result.data.author+'</td><td>'+result.data.createtime+'</td></tr>';
+                $('table').append(html);
+                $('.tip').text('');
+                $('.title, .content').val('');
+              }else{
+                $('.tip').text('Failed');
+              }
+              running = false;
+            })
+          })
+        </script>
       </div>
     </section>
 
