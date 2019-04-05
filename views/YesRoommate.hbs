@@ -1,5 +1,5 @@
 <!--
-    Templates are used. They're downloaded from 
+    This templates are used. They're downloaded from 
     "https://templatemo.com/tm-521-get-ready" and 
     "https://templatemo.com/tm-525-the-town"  
 -->
@@ -9,7 +9,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Post-CU Par</title>
+    <title>Roommate-CU Par</title>
     <link rel="stylesheet" href="fontawesome-5.5/css/all.min.css" />
     <link rel="stylesheet" href="slick/slick.css">
     <link rel="stylesheet" href="slick/slick-theme.css">
@@ -26,14 +26,6 @@
       </style>
   </head>
 
-<style>
-.post {
-    background-color:DeepSkyBlue;
-    color:white;
-    margin:20px;
-    padding:20px;
-} 
-</style>
 
   <body>    
     <!-- Hero section -->
@@ -42,30 +34,31 @@
       <nav class="navbar navbar-expand-md tm-navbar" id="tmNav">              
         <div class="container">   
           <div class="tm-next">
-              <a href="#hero" class="navbar-brand">CU Par</a>
+              <a onclick="window.location='index.html'"href="###" class="navbar-brand">CU Par</a>
           </div>             
             
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" 
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <i class="fas fa-bars navbar-toggler-icon"></i>
           </button>
+
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav ml-auto">
               <li class="nav-item">
                   <a class="nav-link tm-nav-link" onclick="window.location='Roommate.html'"href="###">Roommate</a>
               </li>
               <li class="nav-item">
-                  <a class="nav-link tm-nav-link" onclick="window.location='Teammate.html'"href="#hero">Teammate</a>
+                  <a class="nav-link tm-nav-link" onclick="window.location='Teammate.html'"href="###">Teammate</a>
               </li>
               <li class="nav-item">
                   <a class="nav-link tm-nav-link"  onclick="window.location='Post.html'"href="###">Post</a>
               </li>
               <li class="nav-item">
-                  <a class="nav-link tm-nav-link" onclick="window.location='account_page.html'" href="###">MyPage</a>
+                <a class="nav-link tm-nav-link" onclick="window.location='account_page'" href="###">MyPage</a>
               </li>
               <li class="nav-item">
-                  <a class="nav-link tm-nav-link" onclick="window.location='logout'" href="###">Log out</a>
-              </li>        
+                <a class="nav-link tm-nav-link" onclick="window.location='logout'" href="###">Log out</a>
+              </li>                        
             </ul>
           </div>        
         </div>
@@ -73,104 +66,45 @@
       
       <div class="text-center tm-hero-text-container">
         <div class="tm-hero-text-container-inner">
-            <h2 class="tm-hero-title"><br/>CU Par - New Post</h2>
+            <h2 class="tm-hero-title">CU Par - Roommate</h2>
             <p class="tm-hero-subtitle">
-              What's on your plan while lacking partners?
+              Find your Roommate here!
+              <br />Come on!
             </p>
         </div>        
-      </div>   
-      <!--for search in site will oifficially use after site is registered-->
-      <div class="tm-hero-text-container-inner" style="text-align:center;">
-            
-        <p class="tm-hero-subtitle">
-          Search for Posts Here!
-        </p>
-    </div>        
-  
-<script>
-(function() {
-var cx = '010776612719253421595:0bsuzxtxe1q';
-var gcse = document.createElement('script');
-gcse.type = 'text/javascript';
-gcse.async = true;
-gcse.src = 'https://cse.google.com/cse.js?cx=' + cx;
-var s = document.getElementsByTagName('script')[0];
-s.parentNode.insertBefore(gcse, s);
-})();
-</script>
-<gcse:searchbox></gcse:searchbox>
-<gcse:searchresults></gcse:searchresults>
-    <!--
+      </div>
+      
+    
       <div class="tm-next tm-intro-next">
         <a href="#Roommate" class="text-center tm-down-arrow-link">
           <i class="fas fa-3x fa-caret-down tm-down-arrow"></i>
         </a>
       </div>
-    -->      
-    </section>
-
-    <!--Main Part-->
-    <!--collect information-->
-    <section id="message" class="tm-section-pad-top" style="text-align:center;">    
-      <h2 style="color:#3496d8">Please fill your information here:</h1><br>
-        <div class="add">
-          <!--Action haven't been dealt.-->          
-          <br><br>
           
-          <p style="font-size:24px; color:#3496d8">Type:</p>
-          <select name="Type" class="postType">
-              <option value="TR">Travel</option>
-              <option value="WS">Workshop</option>
-              <option value="SP">Sports</option>
-              <option value="OT">Others</option>
-          </select>
-          <br><br>
-          <p style="font-size:24px; color:#3496d8">Comments:</p>
-
-          <textarea class="content" cols="80" rows="8"></textarea>
-          <br><br>
-          <input type="button" class="submit" style="border-color: white" value="Submit"></button><span class="tip"></span></p>
-          <p><br><br></p>
-          <script type="text/javascript" src="http://mat1.gtimg.com/libs/jquery/1.12.0/jquery.min.js"></script>
-        <script type="text/javascript">
-          var running = false;
-          $('.submit').on('click', function(){
-            if(running) return;
-            running = true;
-            $('.tip').text('');
-
-            var postType = $('.add .postType').val();
-                content = $('.add .content').val();
-            if(!title || !content){
-              $('.tip').text('Please input');
-              return;
-            }
-            $('.tip').text('Processing');
-
-            $.ajax({
-              url : '/posts/addPost',
-              data : {title:title, content:content},
-              dataType : 'json',
-              type : 'get'
-            }).done(function(result){
-              if(result.code==0){
-                var html = '<tr><td><a href="'+result.data.url+'" title="'+result.data.postType+'">'+result.data.postType+'</a></td><td>'+result.data.author+'</td><td>'+result.data.createtime+'</td></tr>';
-                $('table').append(html);
-                $('.tip').text('');
-                $('.title, .content').val('');
-              }else{
-                $('.tip').text('Failed');
-              }
-              running = false;
-            })
-          })
-        </script>
-      </div>
     </section>
+
+     <!--Main Part-->
+     <section id="Roommate" class="tm-section-pad-top"  style="text-align:center">
+        <div class="container">
+            <br>
+            <p style="font-size:24px; color:#3496d8">
+              Congratulation!
+            </p>
+            <p style="font-size:24px; color:#3496d8">
+              We have found your roommate! Please check his/her information.
+            </p>
+            <br><br><br>
+            <p style="font-size:24px">Name：{{this.r_name}}</p>
+            <p style="font-size:24px">Sex：{{this.r_sex}}</p>
+            <p style="font-size:24px">SID：{{this.r_sid}}</p>
+            <br><br><br><br>
+        </div>
+      </section>
+    
 
     <!-- Contact -->
     <section id="Contact" class="tm-section-pad-top tm-parallax-2">
-      <div class="container tm-container-COntact">
+      <div class="container tm-container-Contact">
         <div class="row">
             <div class="col-12">
                 <h2 class="mb-4 tm-section-title">Contact</h2>
@@ -178,28 +112,45 @@ s.parentNode.insertBefore(gcse, s);
                   <div class="tm-underline-inner"></div>
                 </div>
                 <p class="mb-5">
-                  If you have problems using this website, please contact us.<br> <br> 
+                  There were some french or germanish 
+                  that I don't understand so I just
+                  delete them all for fun.
                 </p>
             </div>
             
-            <div class="text-center col-12">
+            <div class="col-sm-12 col-md-6 d-flex align-items-center tm-Contact-item">
+              <a href="tel:0100200340" class="tm-Contact-item-link">
                   <i class="fas fa-3x fa-phone mr-4"></i>
-                  <span class="mb-0">3100-0001</span>
-              </a>
-              <br>  <br> <br> <br> <br> <br>             
-            </div>
-            <div class="text-center col-12">
-                  <i class="fas fa-3x fa-envelope mr-4"></i>
-                  <span class="mb-0">group01@csci3100.com</span>
+                  <span class="mb-0">010-020-0340</span>
               </a>              
+            </div>
+            <!--
+            <div class="col-sm-12 col-md-6 d-flex align-items-center tm-Contact-item">
+              <a href="mailto:info@company.co" class="tm-Contact-item-link">
+                  <i class="fas fa-3x fa-envelope mr-4"></i>
+                  <span class="mb-0">info@company.co</span>
+              </a>              
+            </div>
+            <div class="col-sm-12 col-md-6 d-flex align-items-center tm-Contact-item">
+              <a href="https://www.google.com/maps" class="tm-Contact-item-link">
+                  <i class="fas fa-3x fa-map-marker-alt mr-4"></i>
+                  <span class="mb-0">Location on Maps</span>
+              </a>              
+            </div>
+          -->
+            <div class="col-sm-12 col-md-6 d-flex align-items-center tm-Contact-item">
+              <form action="" method="get">
+                <input name="email" type="email" placeholder="Subscribe your email" class="tm-input" required />
+                <button type="submit" class="btn tm-btn-submit">Submit</button>
+              </form>
             </div>
         </div>
       </div>
-      <footer class="text-center large tm-footer">
+      <footer class="text-center small tm-footer">
           <p class="mb-0">
-            Copyright &copy; CUPar 
+            Copyright &copy; 2019 Company Name 
             
-            - Design: Group 01
+            - Design: <a rel="nofollow" href="https://templatemo.com" class="tm-footer-link">Template Mo</a>
           </p>
         </footer>
     </section>

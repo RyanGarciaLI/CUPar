@@ -61,6 +61,16 @@ app.use('/logout', logout);
 // *****************************************************
 // *****************************************************
 
+
+// app.use('/index.html',function(req,res){
+//   var fileName="./index.html";
+//   fs.readFile(fileName,function(err,data){
+//       if(err)
+//           console.log("Sorry, there is a mistake in your address.");
+//       else{res.write(data);}
+//   });
+// });
+
 app.use('/Roommate.html',function(req,res){
   var fileName="./Roommate.html";
   fs.readFile(fileName,function(err,data){
@@ -256,8 +266,8 @@ app.post('/check_roommate', urlencodedParser, function (req, res) {
 
 //Jack part ends
 
-// var post = require('./routes/post');
-// app.use('/post',post);
+var post = require('./routes/post');
+app.use('/post',post);
 
 
 var server = app.listen(8081, function () {

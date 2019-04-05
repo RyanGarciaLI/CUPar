@@ -8,30 +8,29 @@ var pool = mysql.createPool({
     database : 'forum'
 });
 
-// addPost : function(params, cb){
-//     pool.getConnection(function(err, connection){
-//         if(err) throw err;
+function addPost(paras, cb){
+     pool.getConnection(function(err, connection){
+         if(err) throw err;
 
-//         connection.query('INSERT INTO `post` SET ?', params, function(err, result){
-//             if(err) throw err;
+         connection.query('INSERT INTO `post` SET ?', params, function(err, result){
+             if(err) throw err;
 
-//             cb(result);
-//             connection.release();
-//         })
-//     });
-// }
+             cb(result);
+             connection.release();
+         })
+     });
+ }
 
-// getPosts : function(id, cb){
-//     pool.getConnection(function(err, connection){
-//         if(err) throw err;
-
-//         connection.query('SELECT * FROM `post` WHERE `id`=?', [id], function(err, result){
-//             if(err) throw err;
-//             cb(result);
-//             connection.release(); 
-//         })
-//     });
-// }
+ function getPosts(id, cb){
+     pool.getConnection(function(err, connection){
+         if(err) throw err;
+         connection.query('SELECT * FROM `post` WHERE `id`=?', [id], function(err, result){
+             if(err) throw err;
+             cb(result);
+             connection.release(); 
+         })
+     });
+ }
 
 function DB() {
     if( this instanceof DB ){
