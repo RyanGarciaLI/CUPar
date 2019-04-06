@@ -50,13 +50,13 @@
 
                     <div class="col-md-12 col-sm-12">
                          <div class="home-info">
-                              <h1 id="a_title" name="thetitle">Welcome to CU Par! <br>Please enter your information here!</h1>
+                              <h1 id="a_title" name="thetitle">Welcome to CU Par!<br>Please enter your information here!</h1>
                               <h1></h1>
                               
                               <div class="subscribe-form">
                                 <form name="register" method="POST" id="sub" action="http://localhost:8081/signup">
                                   <input type="hidden" name="action" value="register" />
-                                  <input type="text" name="sid" class="form-control" placeholder="Fill in your student ID" required="" id="sid" maxlength="10", minlength="10" >
+                                  <input type="text" name="sid" class="form-control" placeholder="Fill in your student ID" required="" id="sid" maxlength="10", minlength="10" onblur="checksid(this)">
                                   <br>
                                   <input type="text" name="username" class="form-control" placeholder="Create your username" required="" id="username">
                                   <br>
@@ -65,11 +65,11 @@
                                   <input type="password" name="passwordRP" class="form-control" placeholder="Re-enter your password" required="" id="re-password" maxlength="20" minlength="6">
                                   <!--  <button type="submit" class="form-control"><i class="fa fa-envelope-o"></i></button>  -->
                                   <br>
-                                  <input type="button" name="sendcode" class="form-control" id="sendcode" value="send code by email" onclick="getInfo()" > <!--need impove-->
-                                  <br>
+                                  <input type="button" name="sendcode" class="form-control" id="sendcode" value="Send auth code via email" onclick="getInfo()"> <!--need impove-->                                  
                                   <input type='text' name="code" class="form-control" placeholder="code" required='' id="code" maxlength="6">
+                                  <p style="color: red;text-align: center;font-size: 14px">{{this.warning}}</p>
                                   <br>
-                                  <input type="submit" value="submit" class="form-control" id="bt" disabled=true/>
+                                  <input type="submit" value="submit" class="form-control" id="bt" >
                                   <!--
                                   <script>
                                         $('#bt').on('click', function (){

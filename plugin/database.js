@@ -32,6 +32,13 @@ function addPost(paras, cb){
      });
  }
 
+//************************************
+// Here is a plugin for operation of 
+// MySQL database, it contains select, 
+// insert, update and delete;
+// Author: Ryan Garcia Yuxin LI
+// Date: 21/03/2019
+//************************************
 function DB() {
     if( this instanceof DB ){
         this.connect();
@@ -138,42 +145,6 @@ DB.prototype.doDelete = function(sql, callback){
 
 module.exports = DB;
 
-// the following function can be invoked anywhere for convenience
-
-// var selectUserInfo = function(){
-//     try{
-//         let _db = new DB();
-//         let strSql = 'SELECT sid, name FROM account';
-//         _db.doSelect(
-//             strSql,
-//             function(results){
-//                 for( let i = 0; i < results.length; i++){
-//                     console.log("%d\t%s", results[i].sid, results[i].name);
-//                 };
-//             }
-//         );
-//         _db = null;
-//     }
-//     catch(err){}
-//     console.log(err.error_msg);
-
-// }
-
-// var insertUser = function(){
-//     try{
-//         let _db = new DB();
-//         let strSql = 'INSERT INTO user ' + '(sid, name, password, gender, state) VALUES(?,?,?,?,?)';
-//         let params = ['11559999999', 'QA', '123456', 'F', 1];
-//         _db.doInsert(
-//             strSql,
-//             params,
-//             function(err, results){
-//                 console.info(results);
-//             }
-//         );
-//         _db = null; 
-//     }
-//     catch(err){
-//         console.log(err.error_msg);
-//     }
-// }
+// ***********************************
+//  Ryan's part ends
+// ***********************************

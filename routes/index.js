@@ -23,8 +23,9 @@ router.get('/', function( req, res){
 
 // display page
 router.get('/index', function( req, res){
+    console.log( req.session.passport);
     if( !req.session.passport ){
-        console.log('welcome');
+        //console.log('welcome');
         res.redirect('/login');
     }
     else{

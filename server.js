@@ -47,7 +47,6 @@ let user = require('./controller/user.js');
 app.use(user.authenticate);
 
 //invoke  router
-// var account = require('./routes/account');
 var index =require('./routes/index');
 var login = require('./routes/login');
 var signup = require('./routes/signup');
@@ -71,7 +70,10 @@ app.use('/logout', logout);
 //   });
 // });
 
-app.use('/Roommate.html',function(req,res){
+app.use('/Roommate',function(req,res){
+  if( !req.session.passport ){ // if any problems, call Ryan
+    res.redirect('/login');
+}
   var fileName="./Roommate.html";
   fs.readFile(fileName,function(err,data){
       if(err)
@@ -80,14 +82,17 @@ app.use('/Roommate.html',function(req,res){
   });
 });
 
-app.get('/Roommate.html', function (req, res) {
+app.get('/Roommate', function (req, res) {
+    if( !req.session.passport ){  // if any problems, call Ryan
+      res.redirect('/login');
+    }
    res.sendFile( __dirname + "/" + "Roommate.html" );
 });
 
 //Store data into MySql
 app.post('/process_post', urlencodedParser, function (req, res) {
  
-   res.redirect("/index.html");
+   res.redirect("/index");
    //MySql
     var connection = mysql.createConnection({     
         host     : 'localhost',       
@@ -124,7 +129,7 @@ app.post('/process_post', urlencodedParser, function (req, res) {
 
 app.post('/process_teammate', urlencodedParser, function (req, res) {
  
-  res.redirect("/index.html");
+  res.redirect("/index");
   //MySql
    var connection = mysql.createConnection({     
        host     : 'localhost',       
@@ -159,6 +164,9 @@ app.post('/process_teammate', urlencodedParser, function (req, res) {
 
 
 app.get('/account_page', urlencodedParser, function (req, res) {
+  if( !req.session.passport ){  // if any problems, call Ryan
+    res.redirect('/login');
+}
   let user_name = req.cookies.islogin.name;// if any problems, call Ryan
   let userID = req.cookies.islogin.sid;    // if any problems, call Ryan
   res.render('account', {
