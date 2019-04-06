@@ -1,5 +1,5 @@
 <!--
-    Templates are used. They're downloaded from 
+    This templates are used. They're downloaded from 
     "https://templatemo.com/tm-521-get-ready" and 
     "https://templatemo.com/tm-525-the-town"  
 -->
@@ -9,23 +9,23 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Post-CU Par</title>
+    <title>Roommate-CU Par</title>
     <link rel="stylesheet" href="fontawesome-5.5/css/all.min.css" />
     <link rel="stylesheet" href="slick/slick.css">
     <link rel="stylesheet" href="slick/slick-theme.css">
     <link rel="stylesheet" href="magnific-popup/magnific-popup.css">
     <link rel="stylesheet" href="css_main/bootstrap.min.css" />
     <link rel="stylesheet" href="css_main/templatemo-style.css" />
+    <style>
+        input.tm-input-placeholder::-webkit-input-placeholder{
+          color: grey;
+        }
+        select.tm-input-select{
+          color: grey;
+        }
+      </style>
   </head>
 
-<style>
-.post {
-    background-color:DeepSkyBlue;
-    color:white;
-    margin:20px;
-    padding:20px;
-} 
-</style>
 
   <body>    
     <!-- Hero section -->
@@ -41,6 +41,7 @@
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <i class="fas fa-bars navbar-toggler-icon"></i>
           </button>
+
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav ml-auto">
               <li class="nav-item">
@@ -50,11 +51,14 @@
                   <a class="nav-link tm-nav-link" onclick="window.location='Teammate.html'"href="###">Teammate</a>
               </li>
               <li class="nav-item">
-                  <a class="nav-link tm-nav-link" href="#hero">Post</a>
+                  <a class="nav-link tm-nav-link"  onclick="window.location='Post.html'"href="###">Post</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link tm-nav-link" onclick="window.location='self-account.html'"href="###">MyPage</a>
-              </li>                       
+                <a class="nav-link tm-nav-link" onclick="window.location='account_page'" href="###">MyPage</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link tm-nav-link" onclick="window.location='index.html'" href="###">Log out</a>
+              </li>                        
             </ul>
           </div>        
         </div>
@@ -62,96 +66,58 @@
       
       <div class="text-center tm-hero-text-container">
         <div class="tm-hero-text-container-inner">
-            <h2 class="tm-hero-title">CU Par - Post</h2>
+            <h2 class="tm-hero-title">CU Par - Teammate</h2>
             <p class="tm-hero-subtitle">
-              Do what you love with new friends!
+              Find your Teammate here!
               <br />Come on!
             </p>
-            <a style="color: DeepSkyBlue" onclick="window.location='index.html'"href="">Create a new post!</a>
         </div>        
       </div>
       
-     <!--
+    
       <div class="tm-next tm-intro-next">
         <a href="#Roommate" class="text-center tm-down-arrow-link">
           <i class="fas fa-3x fa-caret-down tm-down-arrow"></i>
         </a>
       </div>
-    -->      
+          
     </section>
 
-    <!--Main Part-->
-     <section id="Workshop" class="tm-section-pad-top">
-        <div class="container tm-container-gallery">
-          <div class="row">
-            <div class="text-center col-12">
-                <h2 class="tm-text-primary tm-section-title mb-4">Workshop</h2>
-                <p class="mx-auto tm-work-description">
-                  Come and do your interested things here!<br>You need to have try!<br>Just do it!
-                </p>
-            </div>
-          <div class="text-center col-12">
-               <h2 class="tm-text-primary tm-section-title mb-4">We should add something here.</h2>
-               <p class="mx-auto tm-work-description">However I don't know how to do it.<br>So I will do it later.</p>           
-          </div>
-        </div>
-      </section>
+     <!--Main Part-->
+     <section id="Roommate" class="tm-section-pad-top"  style="text-align:center">
+        <div class="container">
+            <br>
+            <p style="font-size:24px; color:#3496d8">
+              Congratulation!
+            </p>
+            <p style="font-size:24px; color:#3496d8">
+              We have found your roommate! Please check his/her information.
+            </p>
+            <br><br><br>
+            <p style="font-size:24px">Name：{{this.r_name1}}</p>
+            <p style="font-size:24px">Sex：{{this.r_sex1}}</p>
+            <p style="font-size:24px">SID：{{this.r_sid1}}</p>
+            <br><br>
+            <p style="font-size:24px">Name：{{this.r_name2}}</p>
+            <p style="font-size:24px">Sex：{{this.r_sex2}}</p>
+            <p style="font-size:24px">SID：{{this.r_sid2}}</p>
+            <br><br>
+            <p style="font-size:24px">Name：{{this.r_name3}}</p>
+            <p style="font-size:24px">Sex：{{this.r_sex3}}</p>
+            <p style="font-size:24px">SID：{{this.r_sid3}}</p>
+            <br><br>
+            <p style="font-size:24px">Name：{{this.r_name4}}</p>
+            <p style="font-size:24px">Sex：{{this.r_sex4}}</p>
+            <p style="font-size:24px">SID：{{this.r_sid4}}</p>
+            <br><br>
+            <p style="font-size:24px">Name：{{this.r_name5}}</p>
+            <p style="font-size:24px">Sex：{{this.r_sex5}}</p>
+            <p style="font-size:24px">SID：{{this.r_sid5}}</p>
 
-      <section id="Travel" class="tm-section-pad-top">
-        <div class="container tm-container-gallery">
-          <div class="row">
-            <div class="text-center col-12">
-                <h2 class="tm-text-primary tm-section-title mb-4">Travel</h2>
-                <p class="mx-auto tm-work-description">
-                  Find the place you want to go and join!
-                <div class="post">
-                  <h2 style="font-size: 60px">Guangzhou</h2>
-                  <p style="font-size: 30px">From 4.1 to 4.5<br>Looking for 3 girls!</p>
-                  <a onclick="window.location='index.html'"href="">Like</a>
-                  <a onclick="window.location='index.html'"href="">Follow</a>
-                </div>
-                <div class="post">
-                  <h2 style="font-size: 60px">Guangzhou</h2>
-                  <p style="font-size: 30px">From 4.1 to 4.5<br>Looking for 3 girls!</p>
-                  <a onclick="window.location='index.html'"href="">Like</a>
-                  <a onclick="window.location='index.html'"href="">Follow</a>
-                </div>
-                </p>  
-            </div>
+            <br><br><br><br>
         </div>
       </section>
-
-      <section id="Sports" class="tm-section-pad-top">
-        <div class="container tm-container-gallery">
-          <div class="row">
-            <div class="text-center col-12">
-                <h2 class="tm-text-primary tm-section-title mb-4">Sports</h2>
-                <p class="mx-auto tm-work-description">
-                  Come and do your interested things here!<br>You need to have try!<br>Just do it!
-                </p>
-            </div>
-          <div class="text-center col-12">
-               <h2 class="tm-text-primary tm-section-title mb-4">We should add something here.</h2>
-               <p class="mx-auto tm-work-description">However I don't know how to do it.<br>So I will do it later.</p>           
-          </div>
-        </div>
-      </section>
-
-      <section id="Other" class="tm-section-pad-top">
-        <div class="container tm-container-gallery">
-          <div class="row">
-            <div class="text-center col-12">
-                <h2 class="tm-text-primary tm-section-title mb-4">Other</h2>
-                <p class="mx-auto tm-work-description">
-                  Come and do your interested things here!<br>You need to have try!<br>Just do it!
-                </p>
-            </div>
-          <div class="text-center col-12">
-               <h2 class="tm-text-primary tm-section-title mb-4">We should add something here.</h2>
-               <p class="mx-auto tm-work-description">However I don't know how to do it.<br>So I will do it later.</p>           
-          </div>
-        </div>
-      </section>
+    
 
     <!-- Contact -->
     <section id="Contact" class="tm-section-pad-top tm-parallax-2">
@@ -175,6 +141,7 @@
                   <span class="mb-0">010-020-0340</span>
               </a>              
             </div>
+            <!--
             <div class="col-sm-12 col-md-6 d-flex align-items-center tm-Contact-item">
               <a href="mailto:info@company.co" class="tm-Contact-item-link">
                   <i class="fas fa-3x fa-envelope mr-4"></i>
@@ -187,6 +154,7 @@
                   <span class="mb-0">Location on Maps</span>
               </a>              
             </div>
+          -->
             <div class="col-sm-12 col-md-6 d-flex align-items-center tm-Contact-item">
               <form action="" method="get">
                 <input name="email" type="email" placeholder="Subscribe your email" class="tm-input" required />
@@ -207,7 +175,7 @@
     <script src="slick/slick.min.js"></script>
     <script src="magnific-popup/jquery.magnific-popup.min.js"></script>
     <script src="js_main/jquery.singlePageNav.min.js"></script>     
-    <script src="js_mian/bootstrap.min.js"></script> 
+    <script src="js_main/bootstrap.min.js"></script> 
     <script>
 
       function getOffSet(){

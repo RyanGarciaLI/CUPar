@@ -272,6 +272,163 @@ app.post('/check_roommate', urlencodedParser, function (req, res) {
   //res.end(JSON.stringify(res));
 });
 
+
+app.post('/check_teammate', urlencodedParser, function (req, res) {
+
+  //MySql
+  var connection = mysql.createConnection({     
+       host     : 'localhost',       
+       user     : 'root',              
+       password : 'jack1998',       
+       port: '3306',                   
+       database: 'cup',
+       useConnectionPooling: true
+  }); 
+  connection.connect(); 
+
+  var connection1 = mysql.createConnection({     
+    host     : 'localhost',       
+    user     : 'root',              
+    password : 'jack1998',       
+    port: '3306',                   
+    database: 'cup',
+    useConnectionPooling: true
+  }); 
+
+  function SearchID(){
+    this.select=function(callback,id){
+      var  sql = 'SELECT distinct * FROM Teammate where user_sid = ' + id;
+      var option = {};
+      connection.query(sql,function(err,result){
+        if(err){console.log(err);}
+        if(result){
+          for(var i = 0; i < result.length; i++)
+            {option[i]={'CourseTitle':result[i].CourseTitle,'CourseCode':result[i].CourseCode,'Size':result[i].Size,'sid':result[i].user_sid};}
+        }
+        callback(option); // If return directly, it will return undefined. So we need call back function to receive the data.
+      });
+    };
+  }
+  module.exports = SearchID;
+ 
+  function MatchID(){    
+    this.select=function(callback1){
+      var  sql1 = 'SELECT distinct * FROM Teammate where CourseCode = ? AND CourseTitle = ? AND user_sid != ?';
+      var thedata = datas[0];
+      var  Params = [thedata.CourseCode,thedata.CourseTitle,thedata.sid];
+      var option1 = {};
+      connection1.query(sql1,Params,function(err,results){
+        if(err){console.log(err);}
+        for(var j = 0; j < thedata.Size; j++)
+          {option1[j]={'name':"NO ONE",'sex':null, 'sid':null};}
+        if(results){
+          for(var i = 0; i < results.length; i++)
+          {option1[i]={'name':results[i].name,'sex':results[i].sex,'sid':results[i].user_sid};}
+        }
+        
+        callback1(option1); // If return directly, it will return undefined. So we need call back function to receive the data.
+      });
+    };
+  }
+  module.exports = MatchID;
+  var MaID = new MatchID();
+  var SeID = new SearchID();
+ 
+  var datas = Array;
+  var dom1 = Array;
+
+ 
+  SeID.select(function (rdata){
+    datas = rdata;
+  
+    connection1.connect(); 
+    MaID.select(function(rdata1){
+      
+      dom1 = rdata1;
+      console.log('----Search----');
+      console.log(datas);
+      console.log('----Match----');
+      console.log(dom1);
+      
+      asize = datas[0].Size-1;
+      console.log(asize);
+    
+      if(dom1[asize-1].name=="NO ONE"){
+        res.redirect("NoTeammate.html");
+      }
+      else if(asize==2){res.render('YesTeammate', {
+        layout: null,
+        r_name1: dom1[0].name,
+        r_sex1: dom1[0].sex,
+        r_sid1: dom1[0].sid
+        });
+      }
+      else if(asize==3){res.render('YesTeammate', {
+        layout: null,
+        r_name1: dom1[0].name,
+        r_sex1: dom1[0].sex,
+        r_sid1: dom1[0].sid,
+        r_name2: dom1[1].name,
+        r_sex2: dom1[1].sex,
+        r_sid2: dom1[1].sid
+        });
+       }
+       else if(asize==4){res.render('YesTeammate', {
+        layout: null,
+        r_name1: dom1[0].name,
+        r_sex1: dom1[0].sex,
+        r_sid1: dom1[0].sid,
+        r_name2: dom1[1].name,
+        r_sex2: dom1[1].sex,
+        r_sid2: dom1[1].sid,
+        r_name3: dom1[2].name,
+        r_sex3: dom1[2].sex,
+        r_sid3: dom1[2].sid
+        });
+       }
+       else if(asize==5){res.render('YesTeammate', {
+        layout: null,
+        r_name1: dom1[0].name,
+        r_sex1: dom1[0].sex,
+        r_sid1: dom1[0].sid,
+        r_name2: dom1[1].name,
+        r_sex2: dom1[1].sex,
+        r_sid2: dom1[1].sid,
+        r_name3: dom1[2].name,
+        r_sex3: dom1[2].sex,
+        r_sid3: dom1[2].sid,
+        r_name4: dom1[3].name,
+        r_sex4: dom1[3].sex,
+        r_sid4: dom1[3].sid
+        });
+       }
+       else if(asize==6){res.render('YesTeammate', {
+        layout: null,
+        r_name1: dom1[0].name,
+        r_sex1: dom1[0].sex,
+        r_sid1: dom1[0].sid,
+        r_name2: dom1[1].name,
+        r_sex2: dom1[1].sex,
+        r_sid2: dom1[1].sid,
+        r_name3: dom1[2].name,
+        r_sex3: dom1[2].sex,
+        r_sid3: dom1[2].sid,
+        r_name4: dom1[3].name,
+        r_sex4: dom1[3].sex,
+        r_sid4: dom1[3].sid,
+        r_name5: dom1[4].name,
+        r_sex5: dom1[4].sex,
+        r_sid5: dom1[4].sid
+        });
+       }
+      });
+     },userID);
+  
+  connection.end();
+  console.log(res);
+  //res.end(JSON.stringify(res));
+});
+
 //Jack part ends
 
 var post = require('./routes/post');

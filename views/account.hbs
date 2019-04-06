@@ -48,7 +48,7 @@
                   <a class="nav-link tm-nav-link" href="#hero">MyPage</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link tm-nav-link" onclick="window.location='logout'" href="###">Log out</a>
+                <a class="nav-link tm-nav-link" onclick="window.location='index.html'" href="###">Log out</a>
               </li>                        
             </ul>
           </div>        
@@ -73,6 +73,8 @@
     -->      
     </section>
 
+<!--CHANGES!!-->
+
     <!--Account information-->
     <section id="information" class="tm-section-pad-top">
       <!-- <div class="row"></div> -->
@@ -94,8 +96,11 @@
                         <input type="submit" class="tm-btn-primary" style="border-color: white" value="Check Result"></input>
                       </form><br>
 
-                    <p style="font-size:24px; color:#3496d8">Teammate:</p>
-                    <a class="mb-4 tm-intro-text" href="">No request/Matching/Found</a><br><br>
+                      <form action="http://localhost:8081/check_teammate" method="Post">
+                        <p style="font-size:24px; color:#3496d8">Teammate:</p>
+                        <input type="submit" class="tm-btn-primary" style="border-color: white" value="Check Result"></input>
+                      </form><br>
+
                     <p style="font-size:24px; color:#3496d8">Post:</p>
                     <a class="mb-4 tm-intro-text"  href="">Check your post</a>
                   </div>
