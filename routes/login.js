@@ -38,9 +38,17 @@ router.post( '/', urlencodedParser, function(req, res){
     password = md5(password);
     User.selectUserInfo( sid, password, function( results ){
         if( results.length > 0 ){
+            if(results[0].state == 1){
             let passport = { name: results[0].name, sid: sid, pwd: password};
             res.cookie('islogin', passport, { maxAge: 2 * 3600 * 1000});
             res.redirect('/');
+            }
+            else{
+                res.render('login', {
+                    layout: null,
+                    warning: "Your account is unactive, please reactive it in signup page"
+                });
+            }
         }
         else{
             res.render('login', {
