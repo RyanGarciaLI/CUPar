@@ -34,7 +34,7 @@
       <nav class="navbar navbar-expand-md tm-navbar" id="tmNav">              
         <div class="container">   
           <div class="tm-next">
-              <a onclick="window.location='index.html'"href="###" class="navbar-brand">CU Par</a>
+              <a onclick="window.location=''"href="###" class="navbar-brand">CU Par</a>
           </div>             
             
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" 
@@ -45,13 +45,13 @@
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav ml-auto">
               <li class="nav-item">
-                  <a class="nav-link tm-nav-link" onclick="window.location='Roommate.html'"href="###">Roommate</a>
+                  <a class="nav-link tm-nav-link" onclick="window.location='Roommate'"href="###">Roommate</a>
               </li>
               <li class="nav-item">
-                  <a class="nav-link tm-nav-link" onclick="window.location='Teammate.html'"href="###">Teammate</a>
+                  <a class="nav-link tm-nav-link" onclick="window.location='Teammate'"href="###">Teammate</a>
               </li>
               <li class="nav-item">
-                  <a class="nav-link tm-nav-link"  onclick="window.location='Post.html'"href="###">Post</a>
+                  <a class="nav-link tm-nav-link"  onclick="window.location='Post'"href="###">Post</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link tm-nav-link" onclick="window.location='account_page'" href="###">MyPage</a>
@@ -97,7 +97,23 @@
             <p style="font-size:24px">Name：{{this.r_name}}</p>
             <p style="font-size:24px">Sex：{{this.r_sex}}</p>
             <p style="font-size:24px">SID：{{this.r_sid}}</p>
-            <br><br><br><br>
+            <p style="font-size:24px">Remark：{{this.r_remark}}</p>
+            <br>
+            <p style="font-size:24px">Status：{{this.r_status}}</p>
+            <p style="font-size:24px">Chatting Room No. {{this.r_result_id}}</p>
+            <br><br>
+            <form action="http://localhost:8081/result_roommate" method="Post">
+              <p style="font-size:24px; color:#3496d8">Your decision:</p>
+              <p style="font-size:20px; color:#3496d8">(If your status is 'Success', then you can't refuse it.)</p>
+              <p style="font-size:20px; color:#3496d8">(So please make your decision seriously.)</p>
+              <input type="radio" name="result" value="accept" required>Accept
+              <br><br>
+              <input type="radio" name="result" value="refuse">Refuse
+              <br><br>
+              <input type="submit" class="tm-btn-primary" style="border-color: white" value="Submit"></input>
+            </form>
+            <br><br>
+            
         </div>
       </section>
     

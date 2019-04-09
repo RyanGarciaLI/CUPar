@@ -1,0 +1,222 @@
+<!--
+    Templates are used. They're downloaded from 
+    "https://templatemo.com/tm-521-get-ready" and 
+    "https://templatemo.com/tm-525-the-town"  
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+     <title>evaluate page of CU Par</title>
+
+     <meta charset="UTF-8">
+     <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+     <meta name="description" content="">
+     <meta name="keywords" content="">
+     <meta name="team" content="">
+     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+     <link rel="stylesheet" href="css/bootstrap.min.css">
+     <link rel="stylesheet" href="css/vegas.min.css">
+     <link rel="stylesheet" href="css/font-awesome.min.css">
+
+     <!-- MAIN CSS -->
+     <link rel="stylesheet" href="css/templatemo-style.css">
+     <style type="text/css">
+     	input.text {
+		    border: none;
+		    background: transparent;
+		}
+
+		div.stars {
+		  width: 480px;
+		  display: inline-block;
+		}
+
+		input.star { display: none; }
+
+		label.star {
+		  float: right;
+		  padding: 10px;
+		  font-size: 36px;
+		  color: #444;
+		  transition: all .2s;
+		}
+
+		input.star:checked ~ label.star:before {
+		  content: '\f005';
+		  color: #FD4;
+		  transition: all .25s;
+		}
+
+		input.star-5:checked ~ label.star:before {
+		  color: #FE7;
+		  text-shadow: 0 0 20px #952;
+		}
+
+		input.star-1:checked ~ label.star:before { color: #F62; }
+
+		label.star:hover { transform: rotate(-15deg) scale(1.3); }
+
+		label.star:before {
+		  content: '\f006';
+		  font-family: FontAwesome;
+		}
+	</style>
+</head>
+<body>
+
+    <div class="menu-bg"></div>
+    <div class="menu-burger">☰</div>
+
+    <div class="menu-items">
+       <div class="container">
+         <div class="row">
+           
+           <div class="col-md-offset-2 col-md-4 col-sm-6">
+            <h1 style="text-align:center;font-size: 40px">About us</h1>
+            <p style="color: white;text-align: center;font-size: 18px">We are CU Par!</p>
+            <p style="color: white;text-align: center;font-size: 18px ">Join us and find your partners here!</p>
+           </div>
+         </div>
+       </div>
+    </div>
+
+
+     <!-- HOME -->
+     <section id="home">
+        <div class="overlay"></div>
+          <div class="container">
+               <div class="row">
+
+                    <div class="col-md-12 col-sm-12">
+                         <div class="home-info">
+                              <h1 id="a_title" name="thetitle">Thanks for using CU Par! <br>You can give some feedback of this matching!</h1>
+                              <h1></h1>
+                              
+                              <div class="subscribe-form">
+                                <form name="register" method="POST" id="sub" action="http://localhost:8081/signup">
+                                  <input type="hidden" name="action" value="register" />
+                                  <p style="font-size:36px; color:#FFFFFF">You use CU Par for</p><br>
+
+						          <select id="choice" class="form-control" type="text" id="Choice"  onchange="update();">
+						              <option value="RM">Roommate</option>
+						              <option value="TM">Teammate</option>
+						          </select>
+						          <br>
+						          <br>
+						          
+						          <p style="font-size:36px; color:#FFFFFF">Your partner's SID</p><br>
+                                  
+                                  <input type="text" name="sid" class="form-control" required="" id="sid" maxlength="10", minlength="10">
+                                  <br>
+                                  <br>
+
+                                  <p style="font-size:36px; color:#FFFFFF">Your evaluation</p><br>
+
+
+                                  <div class="stars form-control">
+                                  <input type="text" class="text" name="comment" required="" id="comment">
+                                  <br>
+                                  <br>
+								    <form action="">
+								      <input class="star star-5" id="star-5" type="radio" name="star"/>
+								      <label class="star star-5" for="star-5"></label>
+								      <input class="star star-4" id="star-4" type="radio" name="star"/>
+								      <label class="star star-4" for="star-4"></label>
+								      <input class="star star-3" id="star-3" type="radio" name="star"/>
+								      <label class="star star-3" for="star-3"></label>
+								      <input class="star star-2" id="star-2" type="radio" name="star"/>
+								      <label class="star star-2" for="star-2"></label>
+								      <input class="star star-1" id="star-1" type="radio" name="star"/>
+								      <label class="star star-1" for="star-1"></label>
+								    </form>
+								  </div>
+								  <p></p>
+								  <br>
+								  <br>
+
+
+
+
+                                  
+
+                                  <input style="font-size:24px; color:#FFFFFF" type="checkbox" name="freerider" value="freerider" id="report">
+                                  	<label style="font-size:18px; color:#FFFFFF" for="freerider" id="freerider">My teammate is a freerider! </label>
+                                  <br>
+                                  								  <br>
+								  <br>
+                                  <input type="submit" value="submit" class="form-control" id="bt" />
+                                  
+                                  <!--
+                                  <script>
+                                        $('#bt').on('click', function (){
+                                            var form = new FormData(document.getElementById('sub'));
+                                            $.ajax({
+                                                type: 'post',
+                                                url: '10.13.59.178:8080',
+                                                data:form,
+                                                processData:false,
+                                                contentType:false,
+                                                success: function (data) {
+                                                    console.log(data);
+                                                    alert('succeed in send data');
+                                                    $('#email').val('');
+                                                    $('#username').val('');
+                                                    $('#password').val('');
+                                                }
+                                            })
+                                        })
+                                    </script>
+                                   -->
+                                </form>
+                              </div>    
+                         </div>
+                    </div>
+               </div>
+          </div>
+     </section>
+
+     <!-- SCRIPTS -->
+     <script src="js/jquery.js"></script>
+     <script src="js/bootstrap.min.js"></script>
+     <script src="js/vegas.min.js"></script>
+     <script src="js/countdown.js"></script>
+     <script src="js/init.js"></script>
+     <script src="js/custom.js"></script>
+     <script src="ajax.js"></script>
+     <script src="./js/entering.js"></script>
+     <script>
+     	init();
+
+     	function init() {
+     		// body...
+     		document.getElementById("report").style.display = 'block';
+
+     		document.getElementById("freerider").style.display = 'block';
+     		change("report");
+     		change("freerider");
+     	}
+
+     	function change(name) {
+     		var e = document.getElementById(name);
+   			if(e.style.display == 'block')
+      			e.style.display = 'none';
+   			else
+      			e.style.display = 'block';
+		}
+
+		function update() {
+			// body...
+			if (document.getElementById("choice").value == "TM") {
+				document.getElementById("report").style.display = 'initial';
+				document.getElementById("freerider").style.display = 'initial';
+			} else {
+				init();
+			}
+		}
+     </script>
+
+</body>
+</html>
