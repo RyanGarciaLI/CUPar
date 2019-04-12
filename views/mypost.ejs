@@ -1,0 +1,116 @@
+<% include common/header.ejs %>
+<p><a href="/forum" class="btn btn-primary">
+    Back to Forum Homepage
+</a>   &nbsp;&nbsp;&nbsp;<a href="/" class="btn btn-primary">
+Back to CUpar Homepage
+</a></p>
+  <% if (datalength) { %>
+    
+      <div class="panel-group">
+      <% for(var i=data.length-1; i>=0; i--) {%>
+        <% if(data[i].status === 1) {%>
+        <div class="panel panel-default">
+          <div class="panel-heading">
+              <div class="text-muted pull-right">
+                  <%= data[i].createtime %>
+              </div>
+              <a href="/post/<%=data[i].id %>.html" ><%=data[i].title %></a>
+            </div>
+            <div class="panel-body">
+              <input id = "<%=i%>" type="button" value="Set public" data-status="<%=data[i].status %>" data-postid="<%=data[i].id %>" style ="border-radius: 12px;border:none;padding:5px; width : 100px;" class="submit" >
+            </div>
+            <% } else { %>
+              <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div class="text-muted pull-right">
+                        <%= data[i].createtime %>
+                    </div>
+                    
+                    <a href="/post/<%=data[i].id %>.html" ><%=data[i].title %></a>
+                  </div>
+                  <div class="panel-body">
+                    <input id = "<%=i%>" type="button" value="Set private" data-status="<%=data[i].status %>" data-postid="<%=data[i].id %>" style ="border-radius: 12px;border:none;padding:5px; width:100px;" class="submit">
+                  </div>
+              <% } %>
+       </div>
+      <% } %>
+    </div>
+    <% } else { %>
+      No Posts! <a href="/forum#newpost">Add one!</a>
+  <% } %>
+  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script type="text/javascript">
+    // for(var i = 0;i<data.length;i++){
+        var clicked = false;
+        var id =0;
+        $('.submit').on('click', function(){
+            if(clicked) return;
+            clicked = true;
+
+        
+
+        var postid = $(this).data('postid');
+        var status = $(this).data('status');
+        if(status === 1){
+          status = 0;
+          $.ajax({
+            url : '/post/setpublic',
+            data : {postid:postid, status:status},
+            dataType : 'json',
+            type : 'get'
+          }).done(function(result){
+            if(result.code===0){
+              alert('set successfully');
+              location.reload();
+            }else{
+              alert('Operation failed');
+            }
+            clicked = false;
+        })
+        }
+        else{
+          status = 1;
+        $.ajax({
+          url : '/post/setprivate',
+          data : {postid:postid, status:status},
+          dataType : 'json',
+          type : 'get'
+        }).done(function(result){
+          if(result.code===0){
+            alert('set successfully');
+            location.reload();
+          }else{
+            alert('Operation failed');
+          }
+          clicked = false;
+        })
+      }
+      })
+    
+      // $('#setpublic').on('click', function(){
+      //       if(clicked) return;
+      //       clicked = true;
+
+        
+
+      //   var postid = $(this).data('postid');
+      //   var status = 0;
+      //   $.ajax({
+      //     url : '/post/setpublic',
+      //     data : {postid:postid, status:status},
+      //     dataType : 'json',
+      //     type : 'get'
+      //   }).done(function(result){
+      //     if(result.code===0){
+      //       alert('set successfully');
+      //       location.reload();
+      //     }else{
+      //       alert('Operation failed');
+      //     }
+      //     clicked = false;
+      //   })
+      // })
+      // }
+    </script>
+    
+<% include common/footer.ejs %>

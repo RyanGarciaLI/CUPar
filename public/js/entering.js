@@ -98,10 +98,10 @@ function timing(){
     let time = 60;
     var mytime = setInterval( function(){
         time--;
-        $("#sendcode").attr("value","Please wait for " + time);
+        $("#sendcode").attr("value",time);
         if( time === 0 ){
             clearInterval(mytime);
-            $("#sendcode").attr("value","Send code again")
+            $("#sendcode").attr("value","Send")
             $("#sendcode").attr("disabled", false);
         }
     }, 1000);

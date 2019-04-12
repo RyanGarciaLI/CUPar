@@ -10,28 +10,43 @@ let path = require("path");
 
 // display page
 router.get('/', function( req, res){
-    console.log("I am here");
-    if( !req.session.passport ){
-        console.log('welcome');
-        res.redirect('/login');
+    if( req.session.passport ) {
+        //console.log("/ no");
+        res.render("index.hbs", {
+            layout: null,
+            username: req.session.passport.name,
+            login: 1
+        });
     }
     else{
-        res.sendFile(path.resolve( __dirname , "..","./public/index.html"));
-    } 
-    
-})
+        //console.log("/ yes");
+
+        res.render("index.hbs", {
+            layout: null,
+            username: "My Page",
+            login: 0
+        });
+    }
+});
 
 // display page
 router.get('/index', function( req, res){
-    console.log( req.session.passport);
-    if( !req.session.passport ){
-        //console.log('welcome');
-        res.redirect('/login');
+    //console.log("index yes");
+    if( req.session.passport ) {
+        res.render("index.hbs", {
+            layout: null,
+            username: req.session.passport.name,
+            login: 1
+        });
     }
     else{
-        //res.redirect('/login');
-        res.sendFile(path.resolve( __dirname , "..","./public/index.html"));
-    } 
-    
- })
+        //console.log("index no");
+        res.render("index.hbs", {
+            layout: null,
+            username: "My Page",
+            login: 0
+        });
+    }
+});
+
 module.exports = router;

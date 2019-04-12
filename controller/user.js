@@ -11,13 +11,16 @@ const db = require("../plugin/database");
 exports.authenticate = function(req, res, next){
     if( req.cookies.islogin ){
         req.session.passport = req.cookies.islogin;
+        let user = {name : req.session.passport.name};
+        res.locals.user = user;
     }
     else{
         req.session.passport = null;
+        res.locals.user = null;
     }
     
     if( !req.session.passport ){ 
-        if( req.url == '/login' || req.url == '/signup' || req.url == '/signup/email' ){
+        if( req.url == '/' || req.url == '/login' || req.url == '/signup' || req.url == '/signup/email' || req.url == "/login/reset" || req.url == "/login/reset/email" || req.url == "/login/reset/pwd" ){
             next();
         }
         else{
@@ -91,8 +94,22 @@ exports.updatePwdNameState = function(sid, username, password, callback){
 exports.updateCode = function( sid, code, callback){
     try{
         let _db = new db();
-        let strSql = 'UPDATE account SET code=' + code + ' WHERE sid=' + sid;
-        _db.doUpdate(strSql, callback);
+        let strSql = 'UPDATE account SET code=? WHERE sid=?';
+        let params = [code, sid];
+        _db.doUpdate(strSql, params, callback);
+        _db = null;
+    }
+    catch(err){
+        console.err(err);
+    }
+}
+
+exports.updatePwd = function( sid, pwd, callback){
+    try{
+        let _db = new db();
+        let strSql = 'UPDATE account SET password=? WHERE sid=?';
+        let params = [pwd, sid];
+        _db.doUpdate(strSql, params, callback);
         _db = null;
     }
     catch(err){

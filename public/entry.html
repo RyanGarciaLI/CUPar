@@ -1,0 +1,102 @@
+<!--
+    Templates are used. They're downloaded from 
+    "https://templatemo.com/tm-521-get-ready"-->
+	
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+     <title>chat-room entry</title>
+<!-- 
+
+Get Ready Template
+
+https://templatemo.com/tm-521-get-ready
+
+-->
+     <meta charset="UTF-8">
+     <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+     <meta name="description" content="">
+     <meta name="keywords" content="">
+     <meta name="team" content="">
+     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+     <link rel="stylesheet" href="css_chat/bootstrap.min.css">
+     <link rel="stylesheet" href="css_chat/vegas.min.css">
+     <link rel="stylesheet" href="css_chat/font-awesome.min.css">
+
+     <!-- MAIN CSS -->
+     <link rel="stylesheet" href="css_chat/templatemo-style.css">
+
+</head>
+<body>
+     <!-- HOME -->
+     <section id="home">
+     <div class="overlay"></div>
+          <div class="container">
+               <div class="row">
+
+                    <div class="col-md-12 col-sm-12" style="text-align:center">
+                         <div class="home-info" style="text-align:center">
+                              <!--<div class="text-center tm-hero-text-container" style = "text-align:center; font-size:20px"></div> -->
+						<h1 class="tm-hero-title">Let's have a chat!</h1>
+                              <h3 style="color:white">Please enter the room entry number:</h3>
+                              <div class="subscribe-form" style="text-align:center" >
+
+                                   
+                                   <input id="input_roomName"  class="form-control" style="text-align:center"  size="20" maxlength="6" placeholder="Enter your room No."><br>
+                                   <input id="input_roomName2" class="form-control" style="text-align:center"  size="20" maxlength="6" placeholder="Please enter again" ><br>
+                                   <input type="button" class="form-control" value="Submit" size = "8" onclick="enterRoom()" target = "_blank" method="get"/>          
+                                   <br>
+                                   <a class="nav-link tm-nav-link" style="color:white" onclick=" window.location='' " href="###">Back to Home Page</a>
+                              </div>
+                         </div>
+                              <!--   
+						<input id="input_roomName" size="20" maxlength="6" placeholder = "   enter your room No." style="border-radius:10px; width: 200px;height: 35px;"><br>
+						<input id="input_roomName2" size="20" maxlength="6" placeholder="   enter again"  style="border-radius:10px; width: 200px;height: 35px;" ><br>
+                              <input type="button"  value="✔" size = "8" onclick="enterRoom()" target = "_blank" method="get"/>          
+                              <br>
+                              <a class="nav-link tm-nav-link" style="color:white" onclick=" window.location='' " href="###">Home Page</a>
+                              -->	
+								
+								
+                    </div>
+               </div>
+          </div>
+     </div>
+     </section>
+
+     <!-- SCRIPTS -->
+     <script src="js/jquery.js"></script>
+     <script src="js/bootstrap.min.js"></script>
+     <script src="js/vegas.min.js"></script>
+     <script src="js/countdown.js"></script>
+     <script src="js/init.js"></script>
+     <script src="js/custom.js"></script>
+	 <script type="text/javascript">
+
+	 function enterRoom() {
+	 
+        var roomNo = document.getElementById("input_roomName").value;
+		var roomNo2 = document.getElementById("input_roomName2").value;
+		
+		if(roomNo == roomNo2 && roomNo != "" && roomNo != null && roomNo2 != "" && roomNo2 != null){
+			
+               window.location.href = "./room/room"+roomNo+".html";
+               //window.location.href = "room/" + roomNo;
+		}
+		if (roomNo == "" || roomNo == null || roomNo2 == "" || roomNo2 == null) {
+            alert("please enter the room number");
+            return;
+        }
+		if(roomNo != roomNo2){
+			alert("check the number you enter~")<br>("they do not match");
+		}
+		
+        
+    }
+</script>
+
+</body>
+
+</html>

@@ -18,7 +18,7 @@ let transporter = nodemailer.createTransport({
     }
 });
 
-let send = function (mailOptions, callback) {
+exports.send = function (mailOptions, callback) {
     mailOptions = mailOptions || {
         from: '"CU Par" <' + config.mail_account + '>', // login user must equel to this user
         to: '1155107874@link.cuhk.edu.hk',
@@ -37,4 +37,41 @@ let send = function (mailOptions, callback) {
     });
 };
 
-module.exports = send;
+exports.resetEmail = function( email, name, code){
+    return {
+        from: '"CU Par" <'+ config.mail_account +'>', // login user must equel to this user
+        to: email,
+        subject: "The CAPTCHA for your to reset password",
+html: `
+<pre style="font-family:calibri;font-size:17px">
+Hi ` + name + ` : 
+    
+    Here is your CAPTCHA Code for reset your password: <b>` + code + `</b> , please enter it into form in 10 minitues :)
+    Here is CU Par, a powful integral platform for all CUHK Undergraduate students! Start to look for your partners now!
+    
+Best wishes
+CU Par Corporation Limited
+</pre> 
+`
+    };
+};
+
+exports.authEmail = function( email, name, code){
+    return {
+        from: '"CU Par" <'+ config.mail_account +'>', // login user must equel to this user
+        to: email,
+        subject: "The CAPTCHA for your to sign up CU Par",
+html: `
+<pre style="font-family:calibri;font-size:17px">
+Hi ` + name + ` : 
+    
+    Welcome! Here is your CAPTCHA Code for authentication: <b>` + code + `</b> , please enter it into form in 10 minitues :)
+    Thank you for your registration. Here is CU Par, a powful integral platform for all CUHK Undergraduate students! Start to look for your partners now!
+    
+
+Best wishes
+CU Par Corporation Limited
+</pre> 
+`
+    };
+}

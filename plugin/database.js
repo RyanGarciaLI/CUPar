@@ -1,36 +1,6 @@
 var mysql = require('mysql');
 var config = require('../config').config;
 
-var pool = mysql.createPool({
-    host : '127.0.0.1',
-    user : 'andy',
-    password : '123456',
-    database : 'forum'
-});
-
-function addPost(paras, cb){
-     pool.getConnection(function(err, connection){
-         if(err) throw err;
-
-         connection.query('INSERT INTO `post` SET ?', params, function(err, result){
-             if(err) throw err;
-
-             cb(result);
-             connection.release();
-         })
-     });
- }
-
- function getPosts(id, cb){
-     pool.getConnection(function(err, connection){
-         if(err) throw err;
-         connection.query('SELECT * FROM `post` WHERE `id`=?', [id], function(err, result){
-             if(err) throw err;
-             cb(result);
-             connection.release(); 
-         })
-     });
- }
 
 //************************************
 // Here is a plugin for operation of 

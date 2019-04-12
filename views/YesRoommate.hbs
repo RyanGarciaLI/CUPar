@@ -1,8 +1,3 @@
-<!--
-    This templates are used. They're downloaded from 
-    "https://templatemo.com/tm-521-get-ready" and 
-    "https://templatemo.com/tm-525-the-town"  
--->
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -51,14 +46,18 @@
                   <a class="nav-link tm-nav-link" onclick="window.location='Teammate'"href="###">Teammate</a>
               </li>
               <li class="nav-item">
-                  <a class="nav-link tm-nav-link"  onclick="window.location='Post'"href="###">Post</a>
+                  <a class="nav-link tm-nav-link"  onclick="window.location='forum'"href="###">Post</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link tm-nav-link" onclick="window.location='account_page'" href="###">MyPage</a>
+                  <a class="nav-link tm-nav-link" onclick="window.location='account_page'"href="###">{{this.username}}</a>
               </li>
               <li class="nav-item">
+                {{#if this.login}}
                 <a class="nav-link tm-nav-link" onclick="window.location='logout'" href="###">Log out</a>
-              </li>                        
+                {{else}}
+                <a class="nav-link tm-nav-link" onclick="window.location='logout'" href="###">Log in</a>
+                {{/if}}
+              </li>                          
             </ul>
           </div>        
         </div>
@@ -105,10 +104,11 @@
             <form action="http://localhost:8081/result_roommate" method="Post">
               <p style="font-size:24px; color:#3496d8">Your decision:</p>
               <p style="font-size:20px; color:#3496d8">(If your status is 'Success', then you can't refuse it.)</p>
+                          <p style="font-size:20px; color:#3496d8">(which means all of your roommate accept the result.)</p>
               <p style="font-size:20px; color:#3496d8">(So please make your decision seriously.)</p>
-              <input type="radio" name="result" value="accept" required>Accept
+              <input type="radio" name="result" value="accept" required> Accept
               <br><br>
-              <input type="radio" name="result" value="refuse">Refuse
+              <input type="radio" name="result" value="refuse"> Refuse
               <br><br>
               <input type="submit" class="tm-btn-primary" style="border-color: white" value="Submit"></input>
             </form>
@@ -120,7 +120,7 @@
 
     <!-- Contact -->
     <section id="Contact" class="tm-section-pad-top tm-parallax-2">
-      <div class="container tm-container-Contact">
+      <div class="container tm-container-COntact">
         <div class="row">
             <div class="col-12">
                 <h2 class="mb-4 tm-section-title">Contact</h2>
@@ -128,45 +128,28 @@
                   <div class="tm-underline-inner"></div>
                 </div>
                 <p class="mb-5">
-                  There were some french or germanish 
-                  that I don't understand so I just
-                  delete them all for fun.
+                  If you have problems using this website, please contact us.<br> <br> 
                 </p>
             </div>
             
-            <div class="col-sm-12 col-md-6 d-flex align-items-center tm-Contact-item">
-              <a href="tel:0100200340" class="tm-Contact-item-link">
+            <div class="text-center col-12">
                   <i class="fas fa-3x fa-phone mr-4"></i>
-                  <span class="mb-0">010-020-0340</span>
-              </a>              
+                  <span class="mb-0">3100-0001</span>
+              </a>
+              <br>  <br> <br> <br> <br> <br>             
             </div>
-            <!--
-            <div class="col-sm-12 col-md-6 d-flex align-items-center tm-Contact-item">
-              <a href="mailto:info@company.co" class="tm-Contact-item-link">
+            <div class="text-center col-12">
                   <i class="fas fa-3x fa-envelope mr-4"></i>
-                  <span class="mb-0">info@company.co</span>
+                  <span class="mb-0">jack123qd@hotmail.com</span>
               </a>              
-            </div>
-            <div class="col-sm-12 col-md-6 d-flex align-items-center tm-Contact-item">
-              <a href="https://www.google.com/maps" class="tm-Contact-item-link">
-                  <i class="fas fa-3x fa-map-marker-alt mr-4"></i>
-                  <span class="mb-0">Location on Maps</span>
-              </a>              
-            </div>
-          -->
-            <div class="col-sm-12 col-md-6 d-flex align-items-center tm-Contact-item">
-              <form action="" method="get">
-                <input name="email" type="email" placeholder="Subscribe your email" class="tm-input" required />
-                <button type="submit" class="btn tm-btn-submit">Submit</button>
-              </form>
             </div>
         </div>
       </div>
-      <footer class="text-center small tm-footer">
+      <footer class="text-center large tm-footer">
           <p class="mb-0">
-            Copyright &copy; 2019 Company Name 
+            Copyright &copy; CUPar 
             
-            - Design: <a rel="nofollow" href="https://templatemo.com" class="tm-footer-link">Template Mo</a>
+            - Design: Group 01
           </p>
         </footer>
     </section>
@@ -324,3 +307,12 @@
     </script>
   </body>
 </html>
+<!--
+  
+    Templates are used at first.
+    However, our team change a lot from the original trmplates.
+    They're downloaded from 
+    "https://templatemo.com/tm-521-get-ready" and 
+    "https://templatemo.com/tm-525-the-town"  
+    
+-->

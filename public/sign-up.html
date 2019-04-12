@@ -56,7 +56,7 @@
                               <div class="subscribe-form">
                                 <form name="register" method="POST" id="sub" action="http://localhost:8081/signup">
                                   <input type="hidden" name="action" value="register" />
-                                  <input type="text" name="sid" class="form-control" placeholder="Fill in your student ID" required="" id="sid" maxlength="10", minlength="10" >
+                                  <input type="text" name="sid" class="form-control" placeholder="Fill in your student ID" required="" id="sid" maxlength="10", minlength="10">
                                   <br>
                                   <input type="text" name="username" class="form-control" placeholder="Create your username" required="" id="username">
                                   <br>
@@ -65,11 +65,7 @@
                                   <input type="password" name="passwordRP" class="form-control" placeholder="Re-enter your password" required="" id="re-password" maxlength="20" minlength="6">
                                   <!--  <button type="submit" class="form-control"><i class="fa fa-envelope-o"></i></button>  -->
                                   <br>
-                                  <input type="button" name="sendcode" class="form-control" id="sendcode" value="send code by email" onclick="getInfo()" > <!--need impove-->
-                                  <br>
-                                  <input type='text' name="code" class="form-control" placeholder="code" required='' id="code" maxlength="6">
-                                  <br>
-                                  <input type="submit" value="submit" class="form-control" id="bt" disabled=true/>
+                                  <input type="submit" value="submit" class="form-control" id="bt" />
                                   <!--
                                   <script>
                                         $('#bt').on('click', function (){
@@ -107,7 +103,7 @@
      <script src="js/init.js"></script>
      <script src="js/custom.js"></script>
      <script src="ajax.js"></script>
-     <script src="js/entering.js"></script>
+     <script src="./js/entering.js"></script>
 
 </body>
 </html>

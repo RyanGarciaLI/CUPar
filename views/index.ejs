@@ -1,0 +1,79 @@
+<% include common/header.ejs %>
+<p><a href="/" class="btn btn-primary">
+Back to CUpar Homepage
+</a> &nbsp;&nbsp;&nbsp;<a href="/forum/mypost" class="btn btn-primary">
+  View my posts
+</a></p>
+  <% if (datalength) { %>
+    
+      <div class="panel-group">
+      <% for(var i=data.length-1; i>=0; i--) {%>
+        
+        <div class="panel panel-default">
+          <div class="panel-heading">
+              <div class="text-muted pull-right">
+                  <%= data[i].createtime %>
+              </div>
+              <a href="/post/<%=data[i].id %>.html" ><%=data[i].title %></a>
+            </div>
+           <div class="panel-body">
+              Author:<%= data[i].name %>
+           </div>
+       </div>
+      <% } %>
+    </div>
+    <% } else { %>
+      <script>alert('No Posts!')</script>  <div class="panel-group">
+         </div>
+  <% } %>
+    <div class="newpost">
+      <% if(user.name){ %>
+        <form method="post" role="form">
+            <div class="form-group">
+                <label for="title">Title</label>
+                <input type="text" class="form-control" id="title" name="title" placeholder="Post title" required>
+            </div>
+            <div class="form-group">
+                <label for="content">Post text</label>
+                <textarea class="form-control" id="body" name="body" placeholder="Have a good time!" rows="5" required></textarea>
+            </div>
+            <div class="form-group">
+                <input id = "newpost" type="button" value="Post entry" class="submit">
+            </div>
+        </form>
+        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+        <script type="text/javascript">
+          var clicked = false;
+          $('.submit').on('click', function(){
+            if(clicked) return;
+            clicked = true;
+
+            var title = $('#title').val();
+                content = $('#body').val();
+            if(!(title && content)){
+              alert('Input can not be empty!');
+              return;
+            }
+
+            $.ajax({
+              url : '/post/newpost',
+              data : {title:title, content:content},
+              dataType : 'json',
+              type : 'get'
+            }).done(function(result){
+              if(result.code===0){
+                var newpost = '<div class="panel panel-default"><div class="panel-heading"><div class="text-muted pull-right">'+ result.data.createtime +'</div><a href="'+result.data.url+'" title="'+result.data.title+'">'+result.data.title +'</a></div><div class="panel-body">Author:'+result.data.author +'</div></div>';
+                //alert(newpost);
+                $('.panel-group').prepend(newpost);
+                $('#title').val('');
+                $('#body').val('');
+              }else{
+                alert('operation failed');
+              }
+              clicked = false;
+            })
+          })
+        </script>
+      <% }%>
+    </div>
+<% include common/footer.ejs %>

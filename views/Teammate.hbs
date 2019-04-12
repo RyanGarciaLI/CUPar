@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Teammate-CU Par</title>
+    <link rel="stylesheet" href="fontawesome-5.5/css/all.min.css" />
+    <link rel="stylesheet" href="slick/slick.css">
+    <link rel="stylesheet" href="slick/slick-theme.css">
+    <link rel="stylesheet" href="magnific-popup/magnific-popup.css">
+    <link rel="stylesheet" href="css_main/bootstrap.min.css" />
+    <link rel="stylesheet" href="css_main/templatemo-style.css" />
+    <style>
+      input.tm-input-placeholder::-webkit-input-placeholder{
+        color: grey;
+      }
+      select.tm-input-select{
+        color: grey;
+      }
+    </style>
+  </head>
+
+
+  <body>    
+    <!-- Hero section -->
+    <section id="hero" class="text-white tm-font-big tm-parallax">
+      <!-- Navigation -->
+      <nav class="navbar navbar-expand-md tm-navbar" id="tmNav">              
+        <div class="container">   
+          <div class="tm-next">
+              <a onclick="window.location=''"href="###" class="navbar-brand">CU Par</a>
+          </div>             
+            
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" 
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="fas fa-bars navbar-toggler-icon"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ml-auto">
+              <li class="nav-item">
+                  <a class="nav-link tm-nav-link" onclick="window.location='Roommate'"href="###">Roommate</a>
+              </li>
+              <li class="nav-item">
+                  <a class="nav-link tm-nav-link" href="#hero">Teammate</a>
+              </li>
+              <li class="nav-item">
+                  <a class="nav-link tm-nav-link"  onclick="window.location='forum'"href="###">Post</a>
+              </li>
+             <li class="nav-item">
+                  <a class="nav-link tm-nav-link" onclick="window.location='account_page'"href="###">{{this.username}}</a>
+              </li>
+              <li class="nav-item">
+                {{#if this.login}}
+                <a class="nav-link tm-nav-link" onclick="window.location='logout'" href="###">Log out</a>
+                {{else}}
+                <a class="nav-link tm-nav-link" onclick="window.location='logout'" href="###">Log in</a>
+                {{/if}}
+              </li>            
+            </ul>
+          </div>        
+        </div>
+      </nav>
+      
+      <div class="text-center tm-hero-text-container">
+        <div class="tm-hero-text-container-inner">
+            <h2 class="tm-hero-title">CU Par - Teammate</h2>
+            <p class="tm-hero-subtitle">
+              Find your Teammate here!
+              <br />Come on!
+            </p>
+        </div>        
+      </div>
+      
+     
+      <div class="tm-next tm-intro-next">
+        <a href="#Teammate" class="text-center tm-down-arrow-link">
+          <i class="fas fa-3x fa-caret-down tm-down-arrow"></i>
+        </a>
+      </div>
+      
+    </section>
+
+    <!--Main Part-->
+    <section id="Teammate" class="tm-section-pad-top">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-6">
+            <img src="img/teammate.jpg" alt="Image" class="img-fluid tm-intro-img" />
+          </div>
+          <div class="col-lg-6">
+            <div class="tm-intro-text-container">
+                <h2 class="tm-text-primary mb-4 tm-section-title">Teammate</h2>
+                <p class="mb-4 tm-intro-text">
+                  Find your <strong>teammate</strong> here!
+                  <br>Come on and have a try!
+                </p>
+                <p class="mb-5 tm-intro-text">
+                  Please tell your friends about our site 
+                  <a rel="nofollow" href="">CU Par</a>. Thank you.<br>
+                  Please remember to check result in your own account page.
+                </p>
+                <div class="tm-next">
+                  <a href="#message" class="tm-intro-text tm-btn-primary">Match Teammate</a>
+                </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row tm-section-pad-top">
+
+        <div class="col-lg-4">
+          <i class="fas fa-4x fa-bus text-center tm-icon"></i>
+        </div>
+        <div class="col-lg-4 mt-5 mt-lg-0">
+          <i class="fas fa-4x fa-bicycle text-center tm-icon"></i>
+        </div>
+        <div class="col-lg-4 mt-5 mt-lg-0">
+          <i class="fas fa-4x fa-city text-center tm-icon"></i>
+        </div>
+
+      </div>
+    </section>
+
+    <!--collect information-->
+    <section id="message" class="tm-section-pad-top" style="text-align:center">    
+      <div>
+        <h2 style="color:#3496d8">Pleace fill your information here:</h1><br>
+        <form action="http://localhost:8081/process_teammate" method="Post">
+          <!--Action haven't been dealt.-->
+          <p style="font-size:24px; color:#3496d8">Name:</p>
+          <input class="tm-input-placeholder" name="Name" id="Name" type="text" placeholder="Your name"  required="" />
+          <br><br>
+          <p style="font-size:24px; color:#3496d8">Sex:</p>
+          <input type="radio" name="sex" id="sex" value="male" required>Male&nbsp&nbsp
+          <input type="radio" name="sex" id="sex" value="female">Female
+          <br><br>
+          <p style="font-size:24px; color:#3496d8">SID:</p>
+          <input class="tm-input-placeholder" name="SID" id="SID" type="text" placeholder="Your sid"  required="" />
+          <br><br>
+          <p style="font-size:24px; color:#3496d8">College:</p>
+          <select name="College" id="College" class="tm-input-select">
+              <option value="CC">Chung Chi College</option>
+              <option value="NA">New Asia College</option>
+              <option value="UC">United College</option>
+              <option value="Shaw">Shaw College</option>
+              <option value="MC">Morningside College</option>
+              <option value="SHHo">S.H.Ho College</option>
+              <option value="CW">C.W.Chu College</option>
+              <option value="WYS">Wu Yee Sun College</option>
+              <option value="WS">Lee Woo Sing College</option>
+          </select>
+          <br><br>
+          <p style="font-size:24px; color:#3496d8">Course code:</p>
+          <input class="tm-input-placeholder" name="CourseTitle" id="CourseTitle" type="text" placeholder="Title of the course"  required="" />
+          <input class="tm-input-placeholder" name="CourseCode" id="CourseCode" type="text" placeholder="Code of the course"  required="" />
+          <br><br>
+          <p style="font-size:24px; color:#3496d8">Size of your group: (number)</p>
+          <input class="tm-input-placeholder" name="size" id="size" type="number" required="" />
+          <br><br>
+          <p style="font-size:24px; color:#3496d8">Remarks to your teammates:</p>
+          <textarea name="remarks" id="remarks" rows="3" cols="30" maxlength=100 ></textarea>
+          <br><br><br>
+
+          <input type="button" class="tm-btn-primary" style="border-color: white" value="Submit" onclick="getTeammate()"></input>
+          <p><br><br></p>
+        </form>
+      </div>
+    </section>
+
+    <!-- Contact -->
+    <section id="Contact" class="tm-section-pad-top tm-parallax-2">
+      <div class="container tm-container-COntact">
+        <div class="row">
+            <div class="col-12">
+                <h2 class="mb-4 tm-section-title">Contact</h2>
+                <div class="mb-5 tm-underline">
+                  <div class="tm-underline-inner"></div>
+                </div>
+                <p class="mb-5">
+                  If you have problems using this website, please contact us.<br> <br> 
+                </p>
+            </div>
+            
+            <div class="text-center col-12">
+                  <i class="fas fa-3x fa-phone mr-4"></i>
+                  <span class="mb-0">3100-0001</span>
+              </a>
+              <br>  <br> <br> <br> <br> <br>             
+            </div>
+            <div class="text-center col-12">
+                  <i class="fas fa-3x fa-envelope mr-4"></i>
+                  <span class="mb-0">jack123qd@hotmail.com</span>
+              </a>              
+            </div>
+        </div>
+      </div>
+      <footer class="text-center large tm-footer">
+          <p class="mb-0">
+            Copyright &copy; CUPar 
+            
+            - Design: Group 01
+          </p>
+        </footer>
+    </section>
+
+    <script src="js_main/jquery-1.9.1.min.js"></script>     
+    <script src="slick/slick.min.js"></script>
+    <script src="magnific-popup/jquery.magnific-popup.min.js"></script>
+    <script src="js_main/jquery.singlePageNav.min.js"></script>     
+    <script src="js_main/bootstrap.min.js"></script>
+    <script src="js/ajax.js"></script>
+    <script>
+
+      function getTeammate(){
+        let SID = $('#SID').val() ;   
+        let size = $('#size').val() ;  
+        let Name = $('#Name').val() ;
+        let College = $('#College').val() ;
+        let sex = $('#sex').val() ;
+        let CourseTitle = $('#CourseTitle').val() ;
+        let CourseCode = $('#CourseCode').val() ;
+        let remarks = $('#remarks').val() ;        
+
+        let info={
+          Name: Name,
+          sex: sex,
+          SID: SID,
+          College: College,
+          CourseTitle: CourseTitle,
+          CourseCode: CourseCode,
+          remarks: remarks,
+          size: size
+        };
+        /*
+        alert(info.Name);
+        if(info.size>6 || indo.size<2){
+          alert("Sorry, there is s bug with the size of your project.(Maybe too large or small)");
+        }
+        
+        alert("OK");
+        */
+        $.post("/process_teammate",info, function(res){
+          if(res=="Wrong"){
+            alert("You have already filled your information!");
+          }
+          else{
+            alert("Successful Submit!");
+            location.reload();
+          }
+        },"text");
+        
+      }
+
+      function getOffSet(){
+        var _offset = 450;
+        var windowHeight = window.innerHeight;
+
+        if(windowHeight > 500) {
+          _offset = 400;
+        } 
+        if(windowHeight > 680) {
+          _offset = 300
+        }
+        if(windowHeight > 830) {
+          _offset = 210;
+        }
+
+        return _offset;
+      }
+
+      function setParallaxPosition($doc, multiplier, $object){
+        var offset = getOffSet();
+        var from_top = $doc.scrollTop(),
+          bg_css = 'center ' +(multiplier * from_top - offset) + 'px';
+        $object.css({"background-position" : bg_css });
+      }
+
+      // Parallax function
+      // Adapted based on https://codepen.io/roborich/pen/wpAsm        
+      var background_image_parallax = function($object, multiplier, forceSet){
+        multiplier = typeof multiplier !== 'undefined' ? multiplier : 0.5;
+        multiplier = 1 - multiplier;
+        var $doc = $(document);
+        // $object.css({"background-attatchment" : "fixed"});
+
+        if(forceSet) {
+          setParallaxPosition($doc, multiplier, $object);
+        } else {
+          $(window).scroll(function(){          
+            setParallaxPosition($doc, multiplier, $object);
+          });
+        }
+      };
+
+      var background_image_parallax_2 = function($object, multiplier){
+        multiplier = typeof multiplier !== 'undefined' ? multiplier : 0.5;
+        multiplier = 1 - multiplier;
+        var $doc = $(document);
+        $object.css({"background-attachment" : "fixed"});
+        $(window).scroll(function(){
+          var firstTop = $object.offset().top,
+              pos = $(window).scrollTop(),
+              yPos = Math.round((multiplier * (firstTop - pos)) - 186);              
+
+          var bg_css = 'center ' + yPos + 'px';
+
+          $object.css({"background-position" : bg_css });
+        });
+      };
+      
+      $(function(){
+        // Hero Section - Background Parallax
+        background_image_parallax($(".tm-parallax"), 0.30, false);
+        background_image_parallax_2($("#Contact"), 0.80);   
+        
+        // Handle window resize
+        window.addEventListener('resize', function(){
+          background_image_parallax($(".tm-parallax"), 0.30, true);
+        }, true);
+
+        // Detect window scroll and update navbar
+        $(window).scroll(function(e){          
+          if($(document).scrollTop() > 120) {
+            $('.tm-navbar').addClass("scroll");
+          } else {
+            $('.tm-navbar').removeClass("scroll");
+          }
+        });
+        
+        // Close mobile menu after click 
+        $('#tmNav a').on('click', function(){
+          $('.navbar-collapse').removeClass('show'); 
+        })
+
+        // Scroll to corresponding section with animation
+        $('#tmNav').singlePageNav();        
+        
+        // Add smooth scrolling to all links
+        // https://www.w3schools.com/howto/howto_css_smooth_scroll.asp
+        $("a").on('click', function(event) {
+          if (this.hash !== "") {
+            event.preventDefault();
+            var hash = this.hash;
+
+            $('html, body').animate({
+              scrollTop: $(hash).offset().top
+            }, 400, function(){
+              window.location.hash = hash;
+            });
+          } // End if
+        });
+
+        // Pop up
+        $('.tm-gallery').magnificPopup({
+          delegate: 'a',
+          type: 'image',
+          gallery: { enabled: true }
+        });
+
+        // Gallery
+        $('.tm-gallery').slick({
+          dots: true,
+          infinite: false,
+          slidesToShow: 5,
+          slidesToScroll: 2,
+          responsive: [
+          {
+            breakpoint: 1199,
+            settings: {
+              slidesToShow: 4,
+              slidesToScroll: 2
+            }
+          },
+          {
+            breakpoint: 991,
+            settings: {
+              slidesToShow: 3,
+              slidesToScroll: 2
+            }
+          },
+          {
+            breakpoint: 767,
+            settings: {
+              slidesToShow: 2,
+              slidesToScroll: 1
+            }
+          },
+          {
+            breakpoint: 480,
+            settings: {
+              slidesToShow: 1,
+              slidesToScroll: 1
+            }
+          }
+        ]
+        });
+      });
+    </script>
+  </body>
+</html>
+<!--
+  
+    Templates are used at first.
+    However, our team change a lot from the original trmplates.
+    They're downloaded from 
+    "https://templatemo.com/tm-521-get-ready" and 
+    "https://templatemo.com/tm-525-the-town"  
+    
+-->

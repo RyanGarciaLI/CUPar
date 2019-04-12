@@ -2,36 +2,115 @@ var express = require('express');
 var router = express.Router();
 var async = require('async');
 
-var datainDB = require('../plugin/database');
-//add a new reply
-router.get('/addPost',function(req,res){
-    if( !req.session.passport ){
-        console.log('welcome');
-        res.json({code:1, msg:'please log in'});
+var datainDB = require('../plugin/forumdb');
+
+
+
+router.get('/:postid.html', function(req, res) {
+	
+	var postid = req.params.postid || 1;
+	console.log(postid);
+	async.parallel([
+		function(callback){
+			datainDB.getPost(postid, function(result){
+				callback(null, result[0]);
+			})
+		},
+		function(callback){
+			datainDB.getReply(postid, function(result){
+				callback(null, result);
+			})
+		},
+	], function(err, results){
+		res.render('post.ejs', { data:results });
+	})
+	
+});
+
+router.get('/setprivate',function(req,res){
+	if( !req.session.passport ){  // if any problems, call Ryan
+        res.redirect('/login');
+	}
+	else{
+		let postid = parseInt(req.query.postid);
+		let status = parseInt(req.query.status);
+	//post id user id
+	let params = {status:status};
+	console.log(params);
+	datainDB.setPrivate(postid,params, function(result){
+
+		if(result.affectedRows){
+			res.send({code:0});
+		}
+	});
+}
+});
+
+router.get('/setpublic',function(req,res){
+	if( !req.session.passport ){  // if any problems, call Ryan
+        res.redirect('/login');
+	}
+	else{
+		let postid = parseInt(req.query.postid);
+		let status = parseInt(req.query.status);
+	//post id user id
+	let params = {status:status};
+	console.log(params);
+	datainDB.setPublic(postid,params, function(result){
+
+		if(result.affectedRows){
+			res.send({code:0});
+		}
+	});
+}
+});
+
+router.get('/newreply', function(req, res){
+//     let user_name = req.cookies.islogin.name;// if any problems, call Ryan
+//   let userID = req.cookies.islogin.sid;    // if any problems, call Ryan
+    if( !req.session.passport ){  // if any problems, call Ryan
+        res.redirect('/login');
+    }
+	else{
+		    let postid = parseInt(req.query.postid);
+			let content = req.query.content;
+            let userID = req.cookies.islogin.id;    // if any problems, call Ryan
+            let user_name = req.cookies.islogin.name;// if any problems, call Ryan
+            let createtime = new Date().toString().substr(0,25);
+		//post id user id
+		let params = {postid:postid, uid:userID, content:content, createtime:createtime};
+		console.log(params);
+		datainDB.addReply(params, function(result){
+
+            if(result.affectedRows){
+				res.send({code:0, data:{rid:result.insertId ,createtime:createtime}});
+			}
+		});
+	}
+});
+
+router.get('/newpost', function(req, res){
+    if( !req.session.passport ){  // if any problems, call Ryan
         res.redirect('/login');
     }
     else{
-        var postType = req.query.postType,
-            content = req.query.content,
-            name = req.cookies.islogin.name,
-            createtime = parseInt(Date.now()/1000);
+		let title = req.query.title;
+		let	content = req.query.content;
+        let userID = req.cookies.islogin.id;    // if any problems, call Ryan
+        let user_name = req.cookies.islogin.name;// if any problems, call Ryan
+		let	createtime = new Date().toString().substr(0,25);
 
-        var paras = {name:name,postType:postType,content:content,createtime:createtime};
+		let params = {uid:userID, title:title, content:content, createtime:createtime};
+		//console.log(params);
+		datainDB.addPost(params, function(result){
 
-        datainDB.addPost(paras,function(result){
             if(result.affectedRows){
-				res.json({code:0, msg:'add successfully', data:{url:'/post/'+result.insertId+'.html', postType:postType, author:req.cookies.islogin.name, createtime:createtime}});
-			}else{
-				res.json({code:2, msg:'topic addition failed,please retry'});
-			}
-        });
-    }
-})
-
-//list all posts
-router.get('/post', function(req, res, next) {
-	datainDB.getPosts(function(result){
-		res.render('post', { data:result }); 
-	})
+				console.log(createtime);
+                res.send({code:0,data:{url:'/post/'+result.insertId+'.html', title:title, author:user_name, createtime:createtime}});
+            }
+		});
+		
+	}
 });
+
 module.exports = router;

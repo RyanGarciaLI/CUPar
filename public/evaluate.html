@@ -67,6 +67,7 @@
 </head>
 <body>
 
+  
     <div class="menu-bg"></div>
     <div class="menu-burger">☰</div>
 
@@ -78,6 +79,8 @@
             <h1 style="text-align:center;font-size: 40px">About us</h1>
             <p style="color: white;text-align: center;font-size: 18px">We are CU Par!</p>
             <p style="color: white;text-align: center;font-size: 18px ">Join us and find your partners here!</p>
+            <br>
+            <a onclick="window.location=''"href="###" style="color: white;text-align: center;font-size: 18px ">Go Back to index</a>
            </div>
          </div>
        </div>
@@ -86,67 +89,61 @@
 
      <!-- HOME -->
      <section id="home">
-        <div class="overlay"></div>
+      <div class="overlay"></div>
           <div class="container">
                <div class="row">
 
                     <div class="col-md-12 col-sm-12">
                          <div class="home-info">
-                              <h1 id="a_title" name="thetitle">Thanks for using CU Par! <br>You can give some feedback of this matching!</h1>
+                              <h1 id="a_title" name="thetitle">Thanks for using CU Par! <br>You can give some feedback of your matching!</h1>
                               <h1></h1>
                               
                               <div class="subscribe-form">
-                                <form name="register" method="POST" id="sub" action="http://localhost:8081/signup">
+                                <form name="register" method="POST" id="sub" action="http://localhost:8081/process_evaluate">
                                   <input type="hidden" name="action" value="register" />
-                                  <p style="font-size:36px; color:#FFFFFF">You use CU Par for</p><br>
-
+                                  <!--
+                                  <p style="font-size:24px; color:#FFFFFF">You use CU Par for</p><br>
 						          <select id="choice" class="form-control" type="text" id="Choice"  onchange="update();">
 						              <option value="RM">Roommate</option>
 						              <option value="TM">Teammate</option>
 						          </select>
 						          <br>
-						          <br>
+                      <br>
+                    -->
 						          
-						          <p style="font-size:36px; color:#FFFFFF">Your partner's SID</p><br>
+						          <p style="font-size:24px; color:#FFFFFF">Your partner's SID</p><br>
                                   
                                   <input type="text" name="sid" class="form-control" required="" id="sid" maxlength="10", minlength="10">
                                   <br>
-                                  <br>
-
-                                  <p style="font-size:36px; color:#FFFFFF">Your evaluation</p><br>
-
-
-                                  <div class="stars form-control">
-                                  <input type="text" class="text" name="comment" required="" id="comment">
-                                  <br>
-                                  <br>
-								    <form action="">
-								      <input class="star star-5" id="star-5" type="radio" name="star"/>
-								      <label class="star star-5" for="star-5"></label>
-								      <input class="star star-4" id="star-4" type="radio" name="star"/>
-								      <label class="star star-4" for="star-4"></label>
-								      <input class="star star-3" id="star-3" type="radio" name="star"/>
-								      <label class="star star-3" for="star-3"></label>
-								      <input class="star star-2" id="star-2" type="radio" name="star"/>
-								      <label class="star star-2" for="star-2"></label>
-								      <input class="star star-1" id="star-1" type="radio" name="star"/>
-								      <label class="star star-1" for="star-1"></label>
-								    </form>
-								  </div>
-								  <p></p>
-								  <br>
-								  <br>
-
-
-
-
+                                  <br> 
+                                  <p style="font-size:24px; color:#FFFFFF">Your evaluation</p><br>
                                   
-
-                                  <input style="font-size:24px; color:#FFFFFF" type="checkbox" name="freerider" value="freerider" id="report">
-                                  	<label style="font-size:18px; color:#FFFFFF" for="freerider" id="freerider">My teammate is a freerider! </label>
+                                  
+                                  <div class="stars form-control">
+                                  <input type="text" class="text" name="comment"  id="comment">
+                                 
                                   <br>
-                                  								  <br>
-								  <br>
+                                  <br>
+								   
+								      <input class="star star-5" value=5 id="star-5" type="radio" name="star"/>
+								      <label class="star star-5" for="star-5"></label>
+								      <input class="star star-4" value=4 id="star-4" type="radio" name="star"/>
+								      <label class="star star-4" for="star-4"></label>
+								      <input class="star star-3" value=3 id="star-3" type="radio" name="star"/>
+								      <label class="star star-3" for="star-3"></label>
+								      <input class="star star-2" value=2 id="star-2" type="radio" name="star"/>
+								      <label class="star star-2" for="star-2"></label>
+								      <input class="star star-1" value=1 id="star-1" type="radio" name="star"/>
+								      <label class="star star-1" for="star-1"></label>
+								  
+								  </div>
+                  <br><br>
+                  <br><br><br>
+                  <input style="font-size:24px; color:#FFFFFF" type="checkbox" name="freerider" value="freerider" >
+                  <label style="font-size:18px; color:#FFFFFF" for="freerider" id="freerider">My teammate is a freerider! </label>
+
+         
+                      <br><br>
                                   <input type="submit" value="submit" class="form-control" id="bt" />
                                   
                                   <!--

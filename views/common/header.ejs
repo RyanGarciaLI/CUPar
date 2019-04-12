@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>CUpar Forum</title>
+<link rel='stylesheet' href='/stylesheets/style.css' />
+<link rel="stylesheet" href="/css/bootstrap_header.min.css">
+
+</head>
+<body class="container" bgcolor="#FE9A2E">
+  <h1>
+      <% if(user.name){ %>
+
+      Welcome to CU Forum, <%= user.name %>
+      <a href="/logout" class="btn btn-primary pull-right">
+          log out
+      </a>
+      <% }else{ %>
+        Welcome to CU Forum
+        <a href="/signup" class="btn btn-primary pull-right">
+          sign up
+      </a>
+      <a href="/login" class="btn btn-primary pull-right">
+        log in
+    </a>
+        <% } %>
+  </h1>
+</body>

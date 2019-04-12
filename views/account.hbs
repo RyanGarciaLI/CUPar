@@ -1,8 +1,3 @@
-<!--
-    Templates are used. They're downloaded from 
-    "https://templatemo.com/tm-521-get-ready" and 
-    "https://templatemo.com/tm-525-the-town"  
--->
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -26,7 +21,7 @@
       <nav class="navbar navbar-expand-md tm-navbar" id="tmNav">              
         <div class="container">   
           <div class="tm-next">
-              <a onclick="window.location='index.html'"href="###" class="navbar-brand">CU Par</a>
+              <a onclick="window.location=''"href="###" class="navbar-brand">CU Par</a>
           </div>             
             
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" 
@@ -36,20 +31,24 @@
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav ml-auto">
               <li class="nav-item">
-                  <a class="nav-link tm-nav-link" onclick="window.location='Roommate.html'"href="###">Roommate</a>
+                  <a class="nav-link tm-nav-link" onclick="window.location='Roommate'"href="###">Roommate</a>
               </li>
               <li class="nav-item">
-                  <a class="nav-link tm-nav-link" onclick="window.location='Teammate.html'"href="###">Teammate</a>
+                  <a class="nav-link tm-nav-link" onclick="window.location='Teammate'"href="###">Teammate</a>
               </li>
               <li class="nav-item">
-                  <a class="nav-link tm-nav-link" onclick="window.location='Post.html'"href="###">Post</a>
+                  <a class="nav-link tm-nav-link" onclick="window.location='forum'"href="###">Post</a>
               </li>
               <li class="nav-item">
-                  <a class="nav-link tm-nav-link" href="#hero">MyPage</a>
+                  <a class="nav-link tm-nav-link" onclick="window.location='account_page'"href="###">{{this.username}}</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link tm-nav-link" onclick="window.location='index.html'" href="###">Log out</a>
-              </li>                        
+                {{#if this.login}}
+                <a class="nav-link tm-nav-link" onclick="window.location='logout'" href="###">Log out</a>
+                {{else}}
+                <a class="nav-link tm-nav-link" onclick="window.location='logout'" href="###">Log in</a>
+                {{/if}}
+              </li>                              
             </ul>
           </div>        
         </div>
@@ -89,20 +88,34 @@
                     <p class="mb-4 tm-intro-text" >{{this.sid}}</p>
                     <p style="font-size:24px; color:#3496d8">Email:</p>
                     <p class="mb-4 tm-intro-text" >{{this.email}}</p>
+                    <form action="http://localhost:8081/entry" method="Post">
+                      <p style="font-size:24px; color:#3496d8">Chat:</p>
+                      <input type="submit" class="tm-btn-primary" style="border-color: white" value="    Chat    "></input>
+                    </form><br><br>
                   </div>
                   <div class="col-lg-6">
-                      <form action="http://localhost:8081/check_roommate" method="Post">
-                        <p style="font-size:24px; color:#3496d8">Roommate:</p>
-                        <input type="submit" class="tm-btn-primary" style="border-color: white" value="Check Result"></input>
-                      </form><br>
+                    <form action="http://localhost:8081/check_roommate" method="Post">
+                      <p style="font-size:24px; color:#3496d8">Roommate:</p>
+                      <input type="submit" class="tm-btn-primary" style="border-color: white" value="Check Result"></input>
+                    </form><br>
 
-                      <form action="http://localhost:8081/check_teammate" method="Post">
-                        <p style="font-size:24px; color:#3496d8">Teammate:</p>
-                        <input type="submit" class="tm-btn-primary" style="border-color: white" value="Check Result"></input>
-                      </form><br>
+                    <form action="http://localhost:8081/check_teammate" method="Post">
+                      <p style="font-size:24px; color:#3496d8">Teammate:</p>
+                      <input type="submit" class="tm-btn-primary" style="border-color: white" value="Check Result"></input>
+                    </form><br>
 
-                    <p style="font-size:24px; color:#3496d8">Post:</p>
-                    <a class="mb-4 tm-intro-text"  href="">Check your post</a>
+                    <!--Haven't done-->
+                    <form action='http://localhost:8081/forum/mypost' method="get">
+                      <p style="font-size:24px; color:#3496d8">Post:</p>
+                      <input type="submit" class="tm-btn-primary" style="border-color: white" value="View Posts"></input>
+                    </form><br>
+
+                    <form action="http://localhost:8081/evaluate" method="Post">
+                      <p style="font-size:24px; color:#3496d8">Evaluate:</p>
+                      <input type="submit" class="tm-btn-primary" style="border-color: white" value="  Evaluate  "></input>
+                    </form>
+
+
                   </div>
                 </div>
             </div>
@@ -111,31 +124,37 @@
         <div class="row tm-section-pad-top">
           <div class="col-lg-4">
             <i class="fas fa-4x fa-bus text-center tm-icon"></i>
+            <!--
             <h4 class="text-center tm-text-primary mb-4">First</h4>
             <p>
             Try to add sth.
             Try to add sth.
             Try to add sth.
             </p>
+            -->
           </div>
         
         <div class="col-lg-4 mt-5 mt-lg-0">
           <i class="fas fa-4x fa-bicycle text-center tm-icon"></i>
+          <!--
           <h4 class="text-center tm-text-primary mb-4">Second</h4>
           <p>
               Try to add sth.
               Try to add sth.
               Try to add sth.
           </p>
+          -->
         </div>
         <div class="col-lg-4 mt-5 mt-lg-0">
           <i class="fas fa-4x fa-city text-center tm-icon"></i>
+          <!--
           <h4 class="text-center tm-text-primary mb-4">Third</h4>
           <p>
             Try to add sth.
             Try to add sth.
             Try to add sth.
           </p>
+          -->
         </div>
       </div>
     </section>
@@ -151,43 +170,28 @@
                   <div class="tm-underline-inner"></div>
                 </div>
                 <p class="mb-5">
-                  There were some french or germanish 
-                  that I don't understand so I just
-                  delete them all for fun.
+                  If you have problems using this website, please contact us.<br> <br> 
                 </p>
             </div>
             
-            <div class="col-sm-12 col-md-6 d-flex align-items-center tm-Contact-item">
-              <a href="tel:0100200340" class="tm-Contact-item-link">
+            <div class="text-center col-12">
                   <i class="fas fa-3x fa-phone mr-4"></i>
-                  <span class="mb-0">010-020-0340</span>
-              </a>              
+                  <span class="mb-0">3100-0001</span>
+              </a>
+              <br>  <br> <br> <br> <br> <br>             
             </div>
-            <div class="col-sm-12 col-md-6 d-flex align-items-center tm-Contact-item">
-              <a href="mailto:info@company.co" class="tm-Contact-item-link">
+            <div class="text-center col-12">
                   <i class="fas fa-3x fa-envelope mr-4"></i>
-                  <span class="mb-0">info@company.co</span>
+                  <span class="mb-0">jack123qd@hotmail.com</span>
               </a>              
-            </div>
-            <div class="col-sm-12 col-md-6 d-flex align-items-center tm-Contact-item">
-              <a href="https://www.google.com/maps" class="tm-Contact-item-link">
-                  <i class="fas fa-3x fa-map-marker-alt mr-4"></i>
-                  <span class="mb-0">Location on Maps</span>
-              </a>              
-            </div>
-            <div class="col-sm-12 col-md-6 d-flex align-items-center tm-Contact-item">
-              <form action="" method="get">
-                <input name="email" type="email" placeholder="Subscribe your email" class="tm-input" required />
-                <button type="submit" class="btn tm-btn-submit">Submit</button>
-              </form>
             </div>
         </div>
       </div>
-      <footer class="text-center small tm-footer">
+      <footer class="text-center large tm-footer">
           <p class="mb-0">
-            Copyright &copy; 2019 Company Name 
+            Copyright &copy; CUPar 
             
-            - Design: <a rel="nofollow" href="https://templatemo.com" class="tm-footer-link">Template Mo</a>
+            - Design: Group 01
           </p>
         </footer>
     </section>
@@ -345,3 +349,12 @@
     </script>
   </body>
 </html>
+<!--
+  
+    Templates are used at first.
+    However, our team change a lot from the original trmplates.
+    They're downloaded from 
+    "https://templatemo.com/tm-521-get-ready" and 
+    "https://templatemo.com/tm-525-the-town"  
+    
+-->

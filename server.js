@@ -1,11 +1,15 @@
+//Final version of server.js
+
 var express = require('express');
 var app = express();
 var bodyParser = require('body-parser');
 var mysql  = require('mysql');  
 var fs = require('fs');
-var path = require('path');
-var hbs = require('express-hbs');
+//var path = require('path');
+//var hbs = require('express-hbs');
 var config = require('./config').config;
+//var http = require('http').Server(app);
+
 
 //Test account:1155104321 1155107777 1155223344;zxczxc
 
@@ -14,16 +18,18 @@ var urlencodedParser = bodyParser.urlencoded({ extended: false });
 
 app.use(express.static('./public'));
 
-app.engine('hbs', hbs.express4({
-  partialsDir   : __dirname +'/views/partials',
-  defaultLayout : __dirname +'/views/layouts/default',
-  extname       : '.hbs',
-  layoutsDir    : __dirname +'/views/layouts',
-}));
+// app.engine('hbs', hbs.express4({
+//   partialsDir   : __dirname +'/views/partials',
+//   defaultLayout : __dirname +'/views/layouts/default',
+//   extname       : '.hbs',
+//   layoutsDir    : __dirname +'/views/layouts',
+// }));
 
-app.set('view engine', 'hbs');
-app.set('views', path.join(__dirname, 'views'));
-
+// app.set('view engine', 'hbs');
+// app.set('views', path.join(__dirname, 'views'));
+var engines = require('consolidate');
+app.engine('html', engines.swig); 
+app.set('view engine', 'html'); 
 // **************************************************
 // **************************************************
 // the following code is done by 
@@ -53,18 +59,36 @@ app.use(user.authenticate);
 // var account = require('./routes/account');
 var index =require('./routes/index');
 var login = require('./routes/login');
+//var chat = require('./routes/chat');
 var signup = require('./routes/signup');
 var logout = require('./routes/logout');
 app.use("/", index);
 app.use("/login", login);
+//app.use("/chat", chat);
 app.use('/signup', signup);
 app.use('/logout', logout);
 
 // Ryan part ends
 // *****************************************************
 // *****************************************************
-
-
+app.get('/Roommate', urlencodedParser, function (req, res) {
+  
+  if( !req.session.passport ){  // if any problems, call Ryan
+    res.redirect('/login');
+}
+  let user_name = req.cookies.islogin.name;// if any problems, call Ryan
+  //let userID = req.cookies.islogin.sid;    // if any problems, call Ryan
+  res.render('Roommate.hbs', {
+    layout: null,
+    //name: user_name,
+    //sid : userID,
+    //email: userID + "@link.cuhk.edu.hk",
+    username: user_name,
+    login: 1
+  });
+   //res.end(JSON.stringify(res));
+});
+/*
 app.use('/Roommate.html',function(req,res){ // Ryan changes Roommate.html to Roommate; back
   if( !req.session.passport ){  // if any problems, call Ryan
     res.redirect('/login');
@@ -83,7 +107,26 @@ app.get('/Roommate', function (req, res) {  // Ryan changes Roommate.html to Roo
   }
    res.sendFile( __dirname + "/public/" + "Roommate.html" );
 });
+*/
+app.get('/Teammate', urlencodedParser, function (req, res) {
+  
+  if( !req.session.passport ){  // if any problems, call Ryan
+    res.redirect('/login');
+}
+  let user_name = req.cookies.islogin.name;// if any problems, call Ryan
+  //let userID = req.cookies.islogin.sid;    // if any problems, call Ryan
+  res.render('Teammate.hbs', {
+    layout: null,
+    //name: user_name,
+    //sid : userID,
+    //email: userID + "@link.cuhk.edu.hk",
+    username: user_name,
+    login: 1
+  });
+   //res.end(JSON.stringify(res));
+});
 
+/*
 app.use('/Teammate.html',function(req,res){ // Ryan changes Roommate.html to Roommate; back
   if( !req.session.passport ){  // if any problems, call Ryan
     res.redirect('/login');
@@ -102,31 +145,54 @@ app.get('/Teammate', function (req, res) {  // Ryan changes Roommate.html to Roo
   }
    res.sendFile( __dirname + "/public/" + "Teammate.html" );
 });
+*/
 
-app.use('/Post',function(req,res){ // Ryan changes Roommate.html to Roommate
+app.post('/entry', urlencodedParser, function (req, res) {  // Ryan changes Roommate.html to Roommate
   if( !req.session.passport ){  // if any problems, call Ryan
     res.redirect('/login');
   }
-  var fileName="./Post.html";
-  fs.readFile(fileName,function(err,data){
-      if(err)
-          console.log("Sorry, there is a mistake in your Post address.");
-      else{res.write(data);}
-  });
+  res.redirect('entry.html');
+  //console.log("finally OK");
 });
 
-app.get('/Post', function (req, res) {  // Ryan changes Roommate.html to Roommate
+
+app.post('/evaluate',urlencodedParser, function (req, res) {  // Ryan changes Roommate.html to Roommate
   if( !req.session.passport ){  // if any problems, call Ryan
     res.redirect('/login');
   }
-   res.sendFile( __dirname + "/public/" + "Post" );
+  res.redirect('evaluate.html');
 });
+
 
 
 // **************************************************
 // **************************************************
 // the following code is done by 
 // programmer: Xiao Tianygi Jack
+
+/////////////////////////////////
+/////      account Page     /////
+/////////////////////////////////
+app.get('/account_page', urlencodedParser, function (req, res) {
+  
+  if( !req.session.passport ){  // if any problems, call Ryan
+    res.redirect('/login');
+}
+  let user_name = req.cookies.islogin.name;// if any problems, call Ryan
+  let userID = req.cookies.islogin.sid;    // if any problems, call Ryan
+  res.render('account.hbs', {
+    layout: null,
+    name: user_name,
+    sid : userID,
+    email: userID + "@link.cuhk.edu.hk",
+    username: user_name,
+    login: 1
+  });
+   //res.end(JSON.stringify(res));
+});
+
+/////////////////////////////////
+/////////////////////////////////
 
 function link(){
   return(mysql.createPool({     
@@ -137,7 +203,7 @@ function link(){
     database: config.db_name,
     useConnectionPooling: true,
     connectionLimit: 500
-  }))
+  }));
 }
 module.exports=link;
 
@@ -150,28 +216,58 @@ function count(o){
 ///////////////////////////////////////
 /////      Input for Roommate     /////
 ///////////////////////////////////////
-app.post('/process_post', urlencodedParser, function (req, res) {
+app.post('/process_roommate', urlencodedParser, function (req, res) {
  
-  res.redirect("/index"); // Ryan changes  to index
-   
-  var pool = new link();
+  console.log(req.body);
+  console.log("START");
   
-    var  addSql = 'INSERT INTO Roommate (request_id, user_sid, name, sex, college, hall, sleep_time_start, sleep_time_end, remark,if_matched) VALUES(0,?,?,?,?,?,?,?,?,0)';
-    var  addSqlParams = [req.body.SID, req.body.Name, req.body.sex, req.body.College, req.body.Hall, req.body.sleep_start, req.body.sleep_end, req.body.remarks];
-    //add
-    pool.query(addSql,addSqlParams,function (err, result) {
-          if(err){
-           console.log('[INSERT ERROR] - ',err.message);
-           return; }        
+  var pool = new link();
+  function SearchID(){
+    this.select=function(callback,id){
+      var sql = 'SELECT distinct * FROM Roommate where user_sid = ' + id;
+      var option = {};
+        pool.query(sql,function(err,result){
+        if(err){console.log(err);}
+        option[0] = {'name':"NO ONE"};
+        if(result){
+          for(var i = 0; i < result.length; i++)
+            {option[i]={'name':result[i].name,'sex':result[i].sex,'college':result[i].college,'hall':result[i].hall,'sid':result[i].user_sid,
+              'remark':result[i].remark,'start':result[i].sleep_time_start,'end':result[i].sleep_time_end};}
+        }
+        callback(option); // If return directly, it will return undefined. So we need call back function to receive the data.
+      });
+    };
+  }
+  module.exports = SearchID;
+  SeID = new SearchID();
+  
+  SeID.select(function(rdata){
+    if(rdata[0].name=="NO ONE"){
+      //res.redirect("/index");
+      var  addSql = 'INSERT INTO Roommate (request_id, user_sid, name, sex, college, hall, sleep_time_start, sleep_time_end, remark,if_matched) VALUES(0,?,?,?,?,?,?,?,?,0)';
+      var  addSqlParams = [req.body.SID, req.body.Name, req.body.sex, req.body.College, req.body.Hall, req.body.sleep_start, req.body.sleep_end, req.body.remarks];
+      //add
+      pool.query(addSql,addSqlParams,function (err, result) {
+        if(err){
+          console.log('[INSERT ERROR] - ',err.message);
+          return;
+        }        
+        console.log('--------------------------INSERT----------------------------');
+        //console.log('INSERT ID:',result.insertId);        
+        console.log('INSERT ID:',result);        
+        console.log('-----------------------------------------------------------------\n\n');  
+      });
+      res.send("yes");
+    }
+    else{
+      //console.log("There should be an aleret!");
+      res.send("Wrong");
+    }
+  },req.body.SID);  
    
-         console.log('--------------------------INSERT----------------------------');
-         //console.log('INSERT ID:',result.insertId);        
-         console.log('INSERT ID:',result);        
-         console.log('-----------------------------------------------------------------\n\n');  
-    });
-   
-    console.log(res);
-    //res.end(JSON.stringify(res));
+  //console.log(res);
+  //res.end(JSON.stringify(res));
+  //res.redirect("/index"); // Ryan changes  to index
 });
 
 
@@ -180,45 +276,54 @@ app.post('/process_post', urlencodedParser, function (req, res) {
 ///////////////////////////////////////
 app.post('/process_teammate', urlencodedParser, function (req, res) {
  
-  res.redirect("/index"); // Ryan changes index.html to index
   //MySql
+  console.log("teammate!!~");
    var pool = new link();
+   function SearchID(){
+    this.select=function(callback,id){
+      var sql = 'SELECT distinct * FROM Teammate where user_sid = ' + id;
+      var option = {};
+        pool.query(sql,function(err,result){
+        if(err){console.log(err);}
+        option[0] = {'name':"NO ONE"};
+        if(result){
+          for(var i = 0; i < result.length; i++)
+            {option[i]={'name':result[i].name,'sex':result[i].sex};}
+        }
+        callback(option); // If return directly, it will return undefined. So we need call back function to receive the data.
+      });
+    };
+  }
+  module.exports = SearchID;
+  SeID = new SearchID();
+
+  SeID.select(function(rdata){
+    if(rdata[0].name=="NO ONE"){
+      var  addSql = 'INSERT INTO Teammate (request_id, user_sid, name, sex, college, CourseTitle, CourseCode, size, remark, now_size, if_matched) VALUES(0,?,?,?,?,?,?,?,?,1,0)';
+      var  addSqlParams = [req.body.SID, req.body.Name, req.body.sex, req.body.College, req.body.CourseTitle, req.body.CourseCode, req.body.size, req.body.remarks];
+      //add
+      pool.query(addSql,addSqlParams,function (err, result){
+      if(err){
+        console.log('[INSERT ERROR] - ',err.message);
+        return;
+      }        
+      console.log('--------------------------INSERT----------------------------');
+      //console.log('INSERT ID:',result.insertId);        
+      console.log('INSERT ID:',result);        
+      console.log('-----------------------------------------------------------------\n\n');  
+      });
+      res.send("yes");
+    }
+    else{
+      res.send("Wrong");
+    }
+  },req.body.SID);  
   
-   var  addSql = 'INSERT INTO Teammate (request_id, user_sid, name, sex, college, CourseTitle, CourseCode, size, remark, now_size,if_matched) VALUES(0,?,?,?,?,?,?,1,0)';
-   var  addSqlParams = [req.body.SID, req.body.Name, req.body.sex, req.body.College, req.body.size, req.body.CourseTitle, req.body.CourseCode, req.body.size, req.body.remarks];
-   //add
-   pool.query(addSql,addSqlParams,function (err, result) {
-         if(err){
-          console.log('[INSERT ERROR] - ',err.message);
-          return;
-        }        
-        console.log('--------------------------INSERT----------------------------');
-        //console.log('INSERT ID:',result.insertId);        
-        console.log('INSERT ID:',result);        
-        console.log('-----------------------------------------------------------------\n\n');  
-   });
-  
-   console.log(res);
-   //res.end(JSON.stringify(res));
+   
+  //console.log(res);
+  //res.end(JSON.stringify(res));
 });
 
-/////////////////////////////////
-/////      account Page     /////
-/////////////////////////////////
-app.get('/account_page', urlencodedParser, function (req, res) {
-  if( !req.session.passport ){  // if any problems, call Ryan
-    res.redirect('/login');
-}
-  let user_name = req.cookies.islogin.name;// if any problems, call Ryan
-  let userID = req.cookies.islogin.sid;    // if any problems, call Ryan
-  res.render('account.hbs', {
-    layout: null,
-    name: user_name,
-    sid : userID,
-    email: userID + "@link.cuhk.edu.hk",
-  });
-   //res.end(JSON.stringify(res));
-});
 
 
 ///////////////////////////////////////
@@ -234,6 +339,7 @@ app.post('/check_roommate', urlencodedParser, function (req, res) {
       var option = {};
         pool.query(sql,function(err,result){
         if(err){console.log(err);}
+        option[0] = {'name':"NO ONE"};
         if(result){
           for(var i = 0; i < result.length; i++)
             {option[i]={'name':result[i].name,'sex':result[i].sex,'college':result[i].college,'hall':result[i].hall,'sid':result[i].user_sid,
@@ -348,6 +454,7 @@ app.post('/check_roommate', urlencodedParser, function (req, res) {
   let userID = req.cookies.islogin.sid; // if any problems, call Ryan
   SeID.select(function (rdataS){
     datas = rdataS;
+    if(datas[0].name!="NO ONE"){
     ChID.select(function (rdataC){
       datasC = rdataC;
 
@@ -378,7 +485,10 @@ app.post('/check_roommate', urlencodedParser, function (req, res) {
   
             //No result
             if(datas1[0].name=="NO ONE"){
-              res.redirect("NoRoommate.html");
+              res.render('NoRoommate.hbs',{
+                username: req.cookies.islogin.name,
+                login: 1
+              });
             }
 
             //Have resultm - choose the best roommate
@@ -411,7 +521,10 @@ app.post('/check_roommate', urlencodedParser, function (req, res) {
               }
               if(time==0)  {
                 console.log("All is banned");
-                res.redirect("NoRoommate.html");
+                res.render('NoRoommate.hbs',{
+                  username: req.cookies.islogin.name,
+                  login: 1
+                });
               }
               else {
                 SaID.select(userID,choice.sid);
@@ -423,13 +536,15 @@ app.post('/check_roommate', urlencodedParser, function (req, res) {
                   r_sid: choice.sid,
                   r_remark: choice.remark,
                   r_status: "waiting for reply",
-                  r_result_id: "(Not prepared yet)"
+                  r_result_id: "(Not prepared yet)",
+                  username: req.cookies.islogin.name,
+                  login: 1
                 });
               }
             }
            },datas[0]);
         },userID);
-       }
+      }
 
       ////Not First check
       else{
@@ -465,7 +580,9 @@ app.post('/check_roommate', urlencodedParser, function (req, res) {
                 r_sid: datas2[0].sid,
                 r_remark: datas2[0].remark,
                 r_status: reply,
-                r_result_id: chat
+                r_result_id: chat,
+                username: req.cookies.islogin.name,
+                login: 1
               });
             },userID);
           }
@@ -477,12 +594,20 @@ app.post('/check_roommate', urlencodedParser, function (req, res) {
               r_sid: datas2[0].sid,
               r_remark: datas2[0].remark,
               r_status: reply,
-              r_result_id: chat
+              r_result_id: chat,
+              username: req.cookies.islogin.name,
+              login: 1
             });
           }
          },otherID);
        }
     },userID);
+   }
+   else {
+    res.render('NoRoommate.hbs',{
+    username: req.cookies.islogin.name,
+    login: 1
+  });}
   },userID);  
   //res.end(JSON.stringify(res));
 });
@@ -509,7 +634,7 @@ app.post('/result_roommate', urlencodedParser, function (req, res) {
         option[0]={'user_id1':"00000",'user_id2':null};
         if(result){
           for(var i = 0; i < result.length; i++)
-            {option[i]={'id':result[i].id,'res1':result[i].res1,'res2':result[i].res2,'user_id1':result[i].user_id1,'user_id2':result[i].user_id2};}
+            {option[i]={'result':result[i].result,'id':result[i].id,'res1':result[i].res1,'res2':result[i].res2,'user_id1':result[i].user_id1,'user_id2':result[i].user_id2};}
         }
         callback(option); // If return directly, it will return undefined. So we need call back function to receive the data.
       });
@@ -561,41 +686,45 @@ app.post('/result_roommate', urlencodedParser, function (req, res) {
   UpID2 = new UpdateID();
 
   datas = Array;
-  if(req.body.result=="accept")
-  {
-    ChRE.select(function(rdata){
-      datas = rdata;
-      var otherID;
-      var num;
-      if(datas[0].user_id1==userID){
-        otherID = datas[0].user_id2;
-        num = 1;
+  
+  ChRE.select(function(rdata){
+    datas = rdata;
+    if(datas[0].result!=1){
+      if(req.body.result=="accept")
+      {
+        var otherID;
+        var num;
+        if(datas[0].user_id1==userID){
+          otherID = datas[0].user_id2;
+          num = 1;
+        }
+        else{
+          num = 2;
+          otherID = datas[0].user_id1;
+        }
+
+        if((datas[0].res1==1 && num==2)||(datas[0].res2==1 && num==1))
+        {//////REAL SUCCESS
+          UpRE.select(userID,1);
+          /*
+          UpID1.select(userID);
+          UpID2.select(otherID);
+          */
+          console.log("-----Real Sucess-----");
+        }
+        else{
+          console.log("-----First accept-----");
+          SiupRE.select(userID,num,1);
+        }
       }
       else{
-        num = 2;
-        otherID = datas[0].user_id1;
+        console.log("-----Refuse-----");
+        UpRE.select(userID,0);
       }
-
-      if((datas[0].res1==1 && num==2)||(datas[0].res2==1 && num==1))
-      {//////REAL SUCCESS
-        UpRE.select(userID,1);
-        UpID1.select(userID);
-        UpID2.select(otherID);
-        console.log("-----Real Sucess-----");
-      }
-      else{
-        console.log("-----First accept-----");
-        SiupRE.select(userID,num,1);
-      }
-
-    },userID);
-  }
-  else{
-    console.log("-----Refuse-----");
-    UpRE.select(userID,0);
-  }
+    }
+  },userID);
+  
 });
-
 
 
 
@@ -608,10 +737,11 @@ app.post('/check_teammate', urlencodedParser, function (req, res) {
   
   function SearchID(){
     this.select=function(callback,id){
-      var  sql = 'SELECT distinct * FROM Teammate where user_sid = ' + id;
+      var sql = 'SELECT distinct * FROM Teammate where user_sid = ' + id;
       var option = {};
       pool.query(sql,function(err,result){
         if(err){console.log(err);}
+        option[0] = {'sid':"00000"};
         if(result){
           for(var i = 0; i < result.length; i++)
             {option[i]={'CourseTitle':result[i].CourseTitle,'CourseCode':result[i].CourseCode,
@@ -623,29 +753,6 @@ app.post('/check_teammate', urlencodedParser, function (req, res) {
   }
   module.exports = SearchID;
  
-  /*
-  function MatchID(){    
-    this.select=function(callback1){
-      var  sql1 = 'SELECT distinct * FROM Teammate where CourseCode = ? AND CourseTitle = ? AND user_sid != ?';
-      var thedata = datas[0];
-      var  Params = [thedata.CourseCode,thedata.CourseTitle,thedata.sid];
-      var option1 = {};
-      pool.query(sql1,Params,function(err,results){
-        if(err){console.log(err);}
-        for(var j = 0; j < thedata.Size; j++)
-          {option1[j]={'name':"NO ONE",'sex':null, 'sid':null};}
-        if(results){
-          for(var i = 0; i < results.length; i++)
-          {option1[i]={'CourseTitle':results[i].CourseTitle,'CourseCode':results[i].CourseCode,
-              'Size':results[i].Size,'sid':results[i].user_sid,'college':results[i].college,'sex':results[i].sex};}
-        }
-        callback1(option1); // If return directly, it will return undefined. So we need call back function to receive the data.
-      });
-    };
-  }
-  module.exports = MatchID;
-  */
-
 
   function CheckID(){
     this.select=function(callback,id,adata){
@@ -711,17 +818,23 @@ app.post('/check_teammate', urlencodedParser, function (req, res) {
   }
   module.exports = UpdateID;
 
-  /*
-  function UpdateRE(){
-    this.select=function(result,team_id){  
-      var sql = 'UPDATE team_result SET result = '+result+'where team_id = '+team_id;
-      pool.query(sql,function(err){
+  function FreeID(){
+    this.select=function(callback,id){
+      var sql = 'SELECT * FROM freerider where sid = ?';
+      var param = [id];
+      var option = {};  
+      pool.query(sql,param,function(err,result){
         if(err){console.log(err);}
+        option[0]={'sid':"00000"};
+        if(result){
+          for(var i = 0; i < result.length; i++)
+            {option[i]={'sid':result[i].sid};}
+        }
+        callback(option); // If return directly, it will return undefined. So we need call back function to receive the data.
       });
     };
   }
-  module.exports = UpdateRE;
-  */
+  module.exports = FreeID;
 
   var SeID = new SearchID();
   //var MaID = new MatchID();
@@ -729,6 +842,7 @@ app.post('/check_teammate', urlencodedParser, function (req, res) {
   var RchID = new ReCheckID();
   var FsID = new FirstSaveID();
   var UpID = new UpdateID();
+  var FrID = new FreeID();
   //var UpRE = new UpdateRE();
 
  
@@ -738,7 +852,7 @@ app.post('/check_teammate', urlencodedParser, function (req, res) {
   
   let userID = req.cookies.islogin.sid; // if any problems, call Ryan
 
-  function YesRender(number,team,team_id){
+  function YesRender(number,team,team_id,status){
     console.log(team);
     console.log(number);
     console.log(team_id);
@@ -746,17 +860,23 @@ app.post('/check_teammate', urlencodedParser, function (req, res) {
       case(1):
       res.render('YesTeammate.hbs', {
         layout: null,
-        r_chat_id: team_id + 500,
+        r_chat_id: team_id + 50,
+        r_team_id: team_id,
+        r_status: status,
         r_name1: team[0][0].name,
         r_sex1: team[0][0].sex,
         r_sid1: team[0][0].sid,
         r_remark1: team[0][0].remark,
+        username: req.cookies.islogin.name,
+        login: 1
       });
     break;
       case(2):
         res.render('YesTeammate.hbs', {
           layout: null,
-          r_chat_id: team_id + 500,
+          r_chat_id: team_id + 50,
+          r_team_id: team_id,
+          r_status: status,
           r_name1: team[0][0].name,
           r_sex1: team[0][0].sex,
           r_sid1: team[0][0].sid,
@@ -765,12 +885,16 @@ app.post('/check_teammate', urlencodedParser, function (req, res) {
           r_sex2: team[1][0].sex,
           r_sid2: team[1][0].sid,
           r_remark2: team[1][0].remark,
+          username: req.cookies.islogin.name,
+          login: 1
         });
       break;
       case(3):
         res.render('YesTeammate.hbs', {
           layout: null,
-          r_chat_id: team_id + 500,
+          r_chat_id: team_id + 50,
+          r_team_id: team_id,
+          r_status: status,
           r_name1: team[0][0].name,
           r_sex1: team[0][0].sex,
           r_sid1: team[0][0].sid,
@@ -783,12 +907,16 @@ app.post('/check_teammate', urlencodedParser, function (req, res) {
           r_sex3: team[2][0].sex,
           r_sid3: team[2][0].sid,
           r_remark3: team[2][0].remark,
+          username: req.cookies.islogin.name,
+          login: 1
         });
       break;
       case(4):
         res.render('YesTeammate.hbs', {
           layout: null,
-          r_chat_id: team_id + 500,
+          r_chat_id: team_id + 50,
+          r_team_id: team_id,
+          r_status: status,
           r_name1: team[0][0].name,
           r_sex1: team[0][0].sex,
           r_sid1: team[0][0].sid,
@@ -805,12 +933,16 @@ app.post('/check_teammate', urlencodedParser, function (req, res) {
           r_sex4: team[3][0].sex,
           r_sid4: team[3][0].sid,
           r_remark4: team[3][0].remark,
+          username: req.cookies.islogin.name,
+          login: 1
         });
       break;
       case(5):
         res.render('YesTeammate.hbs', {
           layout: null,
-          r_chat_id: team_id + 500,
+          r_chat_id: team_id + 50,
+          r_team_id: team_id,
+          r_status: status,
           r_name1: team[0][0].name,
           r_sex1: team[0][0].sex,
           r_sid1: team[0][0].sid,
@@ -830,114 +962,142 @@ app.post('/check_teammate', urlencodedParser, function (req, res) {
           r_name5: team[4][0].name,
           r_sex5: team[4][0].sex,
           r_sid5: team[4][0].sid,
-          r_remark5: team[4][0].remark
+          r_remark5: team[4][0].remark,
+          username: req.cookies.islogin.name,
+          login: 1
         });
       break;
     }
   } 
   
   var team = Array;
+  
   SeID.select(function (rdata){
     datas = rdata;
-   
+    if(datas[0].sid=='00000'){
+      console.log("No record");
+      res.render('NoTeammate.hbs',{
+        username: req.cookies.islogin.name,
+        login: 1
+      });
+    }
+    else{
     ChID.select(function(rdataM){
       datasC = rdataM;
       if(datasC[0].user1=='00000'){
         //First Check for user_now
         console.log("First Check");
-        RchID.select(function(rdataR){
-          datasR = rdataR;
-          if(datasR[0].user1=='00000'){
-            //No relative team_result
-            FsID.select(userID,datas[0]);
-            res.redirect("NoTeammate.html");
+        FrID.select(function (freedata){
+          if(freedata[0].sid!='00000'){
+            res.render('NoTeammate.hbs',{
+              username: req.cookies.islogin.name,
+              login: 1
+            });
           }
           else{
-            //already incomplete team_result there
-            //Let user join the first team
-            //  Which is datasR[0]
-            UpID.select(datasR[0].now_size,userID,datasR[0].team_id);
-            if(datasR[0].now_size+1!=datas[0].Size){
-              res.redirect("NoTeammate.html");
-            }
-            else{
-              console.log("complete");
-              //The team become complete and user_now is the last one to join the team
-              //var team = Array;
-            
-              var now = datasR[0].now_size;
-              var chat_id = datasR[0].team_id;
-              /*
-              for(var i=0;i<now;i++){
-                team[i].name = null;
-                team[i].sex = null;
-                team[i].sid = null;
-                team[i].remark = null;
+            RchID.select(function(rdataR){
+              datasR = rdataR;
+              if(datasR[0].user1=='00000'){
+                //No relative team_result
+                FsID.select(userID,datas[0]);
+                res.render('NoTeammate.hbs',{
+                  username: req.cookies.islogin.name,
+                  login: 1
+                });
               }
-              */
-              if(now==1){
-                SeID.select(function(rdata_t1){
-                  team[0]=rdata_t1;
-                  YesRender(now,team,chat_id);
-                },datasR[0].user1);
+              else{
+                //already incomplete team_result there
+                //Let user join the first team
+                //  Which is datasR[0]
+                UpID.select(datasR[0].now_size,userID,datasR[0].team_id);
+                if(datasR[0].now_size+1!=datas[0].Size){
+                  res.render('NoTeammate.hbs',{
+                    username: req.cookies.islogin.name,
+                    login: 1
+                  });
+                }
+                else{
+                  console.log("complete");
+                  //The team become complete and user_now is the last one to join the team
+                  //var team = Array;
+                
+                  var now = datasR[0].now_size;
+                  var chat_id = datasR[0].team_id;
+                  /*
+                  for(var i=0;i<now;i++){
+                    team[i].name = null;
+                    team[i].sex = null;
+                    team[i].sid = null;
+                    team[i].remark = null;
+                  }
+                  */
+                  var status = "waiting for reply";
+                  if(now==1){
+                    SeID.select(function(rdata_t1){
+                      team[0]=rdata_t1;
+                      YesRender(now,team,chat_id,status);
+                    },datasR[0].user1);
+                  }
+                  if(now==2){
+                    SeID.select(function(rdata_t1){
+                      team[0]=rdata_t1;
+                      SeID.select(function(rdata_t2){
+                        team[1]=rdata_t2;
+                        YesRender(now,team,chat_id,status);
+                      },datasR[0].user2);
+                    },datasR[0].user1);
+                  }
+                  if(now==3){
+                    SeID.select(function(rdata_t1){
+                      team[0]=rdata_t1;
+                      SeID.select(function(rdata_t2){
+                        team[1]=rdata_t2;
+                        SeID.select(function(rdata_t3){
+                          team[2]=rdata_t3;
+                          YesRender(now,team,chat_id,status);
+                        },datasR[0].user3);
+                      },datasR[0].user2);
+                    },datasR[0].user1);
+                  }
+                  if(now==4){
+                    SeID.select(function(rdata_t1){
+                      team[0]=rdata_t1;
+                      SeID.select(function(rdata_t2){
+                        team[1]=rdata_t2;
+                        SeID.select(function(rdata_t3){
+                          team[2]=rdata_t3;
+                          SeID.select(function(rdata_t4){
+                            team[3]=rdata_t4;
+                            YesRender(now,team,chat_id,status);
+                          },datasR[0].user4);
+                        },datasR[0].user3);
+                      },datasR[0].user2);
+                    },datasR[0].user1);
+                  }
+                  if(now==5){
+                    SeID.select(function(rdata_t1){
+                      team[0]=rdata_t1;
+                      SeID.select(function(rdata_t2){
+                        team[1]=rdata_t2;
+                        SeID.select(function(rdata_t3){
+                          team[2]=rdata_t3;
+                          SeID.select(function(rdata_t4){
+                            team[3]=rdata_t4;
+                            SeID.select(function(rdata_t5){
+                              team[4]=rdata_t5;
+                              YesRender(now,team,chat_id,status);
+                            },datasR[0].user5);
+                          },datasR[0].user4);
+                        },datasR[0].user3);
+                      },datasR[0].user2);
+                    },datasR[0].user1);
+                  }
+                }
               }
-              if(now==2){
-                SeID.select(function(rdata_t1){
-                  team[0]=rdata_t1;
-                  SeID.select(function(rdata_t2){
-                    team[1]=rdata_t2;
-                    YesRender(now,team,chat_id);
-                  },datasR[0].user2);
-                },datasR[0].user1);
-              }
-              if(now==3){
-                SeID.select(function(rdata_t1){
-                  team[0]=rdata_t1;
-                  SeID.select(function(rdata_t2){
-                    team[1]=rdata_t2;
-                    SeID.select(function(rdata_t3){
-                      team[2]=rdata_t3;
-                      YesRender(now,team,chat_id);
-                    },datasR[0].user3);
-                  },datasR[0].user2);
-                },datasR[0].user1);
-              }
-              if(now==4){
-                SeID.select(function(rdata_t1){
-                  team[0]=rdata_t1;
-                  SeID.select(function(rdata_t2){
-                    team[1]=rdata_t2;
-                    SeID.select(function(rdata_t3){
-                      team[2]=rdata_t3;
-                      SeID.select(function(rdata_t4){
-                        team[3]=rdata_t4;
-                        YesRender(now,team,chat_id);
-                      },datasR[0].user4);
-                    },datasR[0].user3);
-                  },datasR[0].user2);
-                },datasR[0].user1);
-              }
-              if(now==5){
-                SeID.select(function(rdata_t1){
-                  team[0]=rdata_t1;
-                  SeID.select(function(rdata_t2){
-                    team[1]=rdata_t2;
-                    SeID.select(function(rdata_t3){
-                      team[2]=rdata_t3;
-                      SeID.select(function(rdata_t4){
-                        team[3]=rdata_t4;
-                        SeID.select(function(rdata_t5){
-                          team[4]=rdata_t5;
-                          YesRender(now,team,chat_id);
-                        },datasR[0].user5);
-                      },datasR[0].user4);
-                    },datasR[0].user3);
-                  },datasR[0].user2);
-                },datasR[0].user1);
-              }
-            }
+            },datas[0]);
           }
-        },datas[0]);
+        },userID);
+        
       }
       else{
         //user already in a team
@@ -972,10 +1132,13 @@ app.post('/check_teammate', urlencodedParser, function (req, res) {
             team[i].remark = null;
           }
           */
+          var status = "waiting for reply";
+          if(datasC[0].result==1)
+            status = "Success!";
           if(now==1){
             SeID.select(function(rdata_t1){
               team[0]=rdata_t1;
-              YesRender(now,team,datasC[0].team_id);
+              YesRender(now,team,chat_id,status);
             },sids[a[0]]);
           }
           if(now==2){
@@ -983,7 +1146,7 @@ app.post('/check_teammate', urlencodedParser, function (req, res) {
               team[0]=rdata_t1;
               SeID.select(function(rdata_t2){
                 team[1]=rdata_t2;
-                YesRender(now,team,datasC[0].team_id);
+                YesRender(now,team,chat_id,status);
               },sids[a[1]]);
             },sids[a[0]]);
           }
@@ -994,7 +1157,7 @@ app.post('/check_teammate', urlencodedParser, function (req, res) {
                 team[1]=rdata_t2;
                 SeID.select(function(rdata_t3){
                   team[2]=rdata_t3;
-                  YesRender(now,team,datasC[0].team_id);
+                  YesRender(now,team,chat_id,status);
                 },sids[a[2]]);
               },sids[a[1]]);
             },sids[a[0]]);
@@ -1008,7 +1171,7 @@ app.post('/check_teammate', urlencodedParser, function (req, res) {
                   team[2]=rdata_t3;
                   SeID.select(function(rdata_t4){
                     team[3]=rdata_t4;
-                    YesRender(now,team,datasC[0].team_id);
+                    YesRender(now,team,chat_id,status);
                   },sids[a[3]]);
                 },sids[a[2]]);
               },sids[a[1]]);
@@ -1025,7 +1188,7 @@ app.post('/check_teammate', urlencodedParser, function (req, res) {
                     team[3]=rdata_t4;
                     SeID.select(function(rdata_t5){
                       team[4]=rdata_t5;
-                      YesRender(now,team,datasC[0].team_id);
+                      YesRender(now,team,chat_id,status);
                     },sids[a[4]]);
                   },sids[a[3]]);
                 },sids[a[2]]);
@@ -1033,114 +1196,260 @@ app.post('/check_teammate', urlencodedParser, function (req, res) {
             },sids[a[0]]);
           }
         }
-        else{console.log("not complete");res.redirect("NoTeammate.html");}
+        else{
+          console.log("not complete");
+          res.render('NoTeammate.hbs',{
+            username: req.cookies.islogin.name,
+            login: 1
+          });
+        }
       }
     },userID,datas[0]);
-
-    ///////////////////////////////////////////////
-    ///////////////////////////////////////////////
-    /*
-    MaID.select(function(rdata1){
-      
-      dom1 = rdata1;
-      console.log('----Search----');
-      console.log(datas);
-      console.log('----Match----');
-      console.log(dom1);
-      
-      asize = datas[0].Size-1;
-      console.log(asize);
-    
-      if(dom1[asize-1].name=="NO ONE"){
-        res.redirect("NoTeammate");
-      }
-      else if(asize==2){res.render('YesTeammate', {
-        layout: null,
-        r_name1: dom1[0].name,
-        r_sex1: dom1[0].sex,
-        r_sid1: dom1[0].sid
-        });
-      }
-      else if(asize==3){res.render('YesTeammate', {
-        layout: null,
-        r_name1: dom1[0].name,
-        r_sex1: dom1[0].sex,
-        r_sid1: dom1[0].sid,
-        r_name2: dom1[1].name,
-        r_sex2: dom1[1].sex,
-        r_sid2: dom1[1].sid
-        });
-       }
-       else if(asize==4){res.render('YesTeammate', {
-        layout: null,
-        r_name1: dom1[0].name,
-        r_sex1: dom1[0].sex,
-        r_sid1: dom1[0].sid,
-        r_name2: dom1[1].name,
-        r_sex2: dom1[1].sex,
-        r_sid2: dom1[1].sid,
-        r_name3: dom1[2].name,
-        r_sex3: dom1[2].sex,
-        r_sid3: dom1[2].sid
-        });
-       }
-       else if(asize==5){res.render('YesTeammate', {
-        layout: null,
-        r_name1: dom1[0].name,
-        r_sex1: dom1[0].sex,
-        r_sid1: dom1[0].sid,
-        r_name2: dom1[1].name,
-        r_sex2: dom1[1].sex,
-        r_sid2: dom1[1].sid,
-        r_name3: dom1[2].name,
-        r_sex3: dom1[2].sex,
-        r_sid3: dom1[2].sid,
-        r_name4: dom1[3].name,
-        r_sex4: dom1[3].sex,
-        r_sid4: dom1[3].sid
-        });
-       }
-       else if(asize==6){
-         res.render('YesTeammate', {
-          layout: null,
-          r_name1: dom1[0].name,
-          r_sex1: dom1[0].sex,
-          r_sid1: dom1[0].sid,
-          r_name2: dom1[1].name,
-          r_sex2: dom1[1].sex,
-          r_sid2: dom1[1].sid,
-          r_name3: dom1[2].name,
-          r_sex3: dom1[2].sex,
-          r_sid3: dom1[2].sid,
-          r_name4: dom1[3].name,
-          r_sex4: dom1[3].sex,
-          r_sid4: dom1[3].sid,
-          r_name5: dom1[4].name,
-          r_sex5: dom1[4].sex,
-          r_sid5: dom1[4].sid
-        });
-       }
-      });
-      */
-    ///////////////////////////////////////////////
-    ///////////////////////////////////////////////
-
+  }
   },userID);
+
   
-  //connection.end();
+  
+  
   console.log(res);
   //res.end(JSON.stringify(res));
 });
+
+
+
+////////////////////////////////////
+//////   Result of Teammate   //////
+////////////////////////////////////
+app.post('/result_teammate', urlencodedParser, function (req, res) {
+
+  res.redirect("/index");
+  let userID = req.cookies.islogin.sid; 
+
+  var pool = new link();
+
+  function CheckRE(){
+    //var connect = new link(); connect.connect();
+    this.select=function(callback,id,team_id){
+      var sql = 'SELECT * FROM team_result where (user1 = ? or user2 = ? or user3 = ? or user4 = ? or user5 = ? or user6 = ?) AND team_id = ?  AND result != 0';
+      var params = [id,id,id,id,id,id,team_id];
+      var option = {};  
+      pool.query(sql,params,function(err,result){
+        if(err){console.log(err);}
+        option[0]={'user_id1':"00000",'user_id2':null};
+        if(result){
+          for(var i = 0; i < result.length; i++)
+          {option[i]={'user1':result[i].user1,'user2':result[i].user2,'user3':result[i].user3,'user4':result[i].user4,'user5':result[i].user5,
+          'user6':result[i].user6,'result':result[i].result,'now_size':result[i].now_size,'Size':result[i].Size,'team_id':result[i].team_id,'agree_number':result[i].agree_number};}
+        }
+        callback(option); // If return directly, it will return undefined. So we need call back function to receive the data.
+      });
+    };
+    //this.end = function(){connect.end();}
+  }
+  module.exports = CheckRE;
+  ChRE = new CheckRE();
+
+
+  function UpdateNumber(){
+    this.select=function(team_id,number){
+      var sql = 'UPDATE team_result SET agree_number = ' + number + ' where team_id = ' + team_id;
+      pool.query(sql,function(err){
+        if(err){console.log(err);}
+      });
+    };
+  }
+  module.exports = UpdateNumber;
+  UpNum = new UpdateNumber();
+  
+
+  function UpdateRE(){
+    this.select=function(team_id,result){
+      var sql = 'UPDATE team_result SET result = ' + result + ' where team_id = ' + team_id;
+      pool.query(sql,function(err){
+        if(err){console.log(err);}
+      });
+    };
+  }
+  module.exports = UpdateRE;
+  UpRE = new UpdateRE();
+
+
+  function UpdateID(){
+    this.select=function(id){
+      var sql = 'UPDATE teammate SET if_matched = 1 where user_sid = ' + id ;
+      pool.query(sql,function(err){if(err){console.log(err);}});
+    };
+  }
+  module.exports = UpdateID;
+  UpID = new UpdateID();
+  //UpID2 = new UpdateID();
+
+  datas = Array;
+  ChRE.select(function(rdata){
+    datas = rdata;
+    var code = datas[0].agree_number;
+    var position;
+    if(datas[0].user1==userID)
+      position = 0;
+    else if(datas[0].user2==userID)
+      position = 1;
+    else if(datas[0].user3==userID)
+      position = 2;
+    else if(datas[0].user4==userID)
+      position = 3;
+    else if(datas[0].user5==userID)
+      position = 4;
+    else if(datas[0].user6==userID)
+      position = 5;
+    var end_num = 0;
+    for(var i=0;i<datas[0].Size;i++){
+      end_num += Math.pow(10,i);
+    }
+    if(code!=end_num){
+      if(req.body.result=="accept"){
+        if((code % Math.pow(10,position+1)) < Math.pow(10,position)){
+          UpNum.select(req.body.team_id,code+Math.pow(10,position));
+          if(code+Math.pow(10,position)==end_num){
+            UpRE.select(req.body.team_id,1);
+            /*
+            UpID.select(datas[0].user1);
+            if(datas[0].Size>2)
+              UpID.select(datas[0].user2);
+            if(datas[0].Size>3)
+              UpID.select(datas[0].user3);
+            if(datas[0].Size>4)
+              UpID.select(datas[0].user4);
+            if(datas[0].Size>5)
+              UpID.select(datas[0].user5);
+              */
+          }
+        }
+      }
+      else{
+        console.log("-----Refuse-----");
+        UpRE.select(team_id,0);
+      }
+    }
+    
+  },userID,req.body.team_id);
+});
+
+
+
+////////////////////////////////////
+//////       Evaluation       //////
+////////////////////////////////////
+app.post('/process_evaluate', urlencodedParser, function (req, res) {
+
+  var pool = new link();
+  let userID = req.cookies.islogin.sid; 
+  
+  function SearchID(){
+    this.select=function(callback,id){
+      var  sql = 'SELECT distinct * FROM Teammate where user_sid = ' + id;
+      var option = {};
+      pool.query(sql,function(err,result){
+        if(err){console.log(err);}
+        option[0] = {'Size':0,'evaluation':0};
+        if(result){
+          for(var i = 0; i < result.length; i++)
+            {option[i]={'CourseTitle':result[i].CourseTitle,'CourseCode':result[i].CourseCode,'evaluation':result[i].evaluation,
+              'Size':result[i].Size,'sid':result[i].user_sid,'college':result[i].college,'sex':result[i].sex,'remark':result[i].remark,'name':result[i].name};}
+        }
+        callback(option); // If return directly, it will return undefined. So we need call back function to receive the data.
+      });
+    };
+  }
+  module.exports = SearchID;
+  SeID = new SearchID();
+
+  function UpdateID(){
+    this.select=function(point,id){
+      var sql = 'UPDATE teammate SET evaluation = ' + point + ' where user_sid = ' + id ;
+      pool.query(sql,function(err){if(err){console.log(err);}});
+    };
+  }
+  module.exports = UpdateID;
+  UpID = new UpdateID();
+
+  function SaveID(){
+    this.select=function(user_id){
+      var sql = 'INSERT INTO freerider (id, sid) VALUES (0,?)';
+      var param = [user_id];
+      pool.query(sql,param,function(err){
+        if(err){console.log(err);}
+      });
+    };
+  }
+  module.exports = SaveID;
+  SaID = new SaveID();
+
+  console.log(req.body);
+  data = Array;
+  SeID.select(function(rdata){
+    data = rdata;
+    
+    if(data[0].Size!=0 && userID!=req.body.sid ){
+      var point = data[0].evaluation;
+      point += (req.body.star-3)*10;
+      if(req.body.freerider=="freerider"){
+        console.log("freerider!!");
+        SaID.select(req.body.sid);
+        point-=30;
+      }
+      UpID.select(point,req.body.sid);
+      res.redirect('/');
+    }
+    else{res.redirect('/');}
+  },req.body.sid);
+  
+});
+
+
 
 //Jack part ends
 //***************************
 //***************************
 
+//Andy part starts
+var forum = require('./routes/forum');
+app.use('/forum',forum);
 var post = require('./routes/post');
 app.use('/post',post);
 
+app.use(function(request, response) {
+  response.status(404).render("404.ejs");
+});
 var server = app.listen(8081, function () {
   var host = server.address().address;
   var port = server.address().port;
   console.log("Adress is http://%s:%s", host, port);
 });
+
+
+
+// **************************************************
+// **************************************************
+// the following code is done by 
+// programmer: Zhao Feng & Jack
+
+var io = require('socket.io')(server);
+let counter = 0;
+io.on('connection', (socket) => {
+  counter++;
+  io.emit("online", counter);
+  socket.on("greet", () => {
+      socket.emit("greet", counter);
+  });
+  socket.on("send", (msg) => {
+      if (Object.keys(msg).length < 2) return;
+      io.emit("msg", msg);
+  });
+  socket.on('disconnect', () => {
+      counter = (counter < 0) ? 0 : counter-=1;
+      io.emit("online", counter);
+  });
+});
+// Zhao Feng part ends
+// *****************************************************
+// *****************************************************
