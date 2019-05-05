@@ -5,7 +5,7 @@
 -->
 <!DOCTYPE html>
 <html lang="en">
-<head>
+ <head>
 
      <title>sign-up page of CU Par</title>
 
@@ -22,16 +22,15 @@
 
      <!-- MAIN CSS -->
      <link rel="stylesheet" href="css/templatemo-style.css">
-</head>
-<body>
+ </head>
+ <body>
 
     <div class="menu-bg"></div>
     <div class="menu-burger">☰</div>
 
     <div class="menu-items">
        <div class="container">
-         <div class="row">
-           
+         <div class="row"> 
            <div class="col-md-offset-2 col-md-4 col-sm-6">
             <h1 style="text-align:center;font-size: 40px">About us</h1>
             <p style="color: white;text-align: center;font-size: 18px">We are CU Par!</p>
@@ -42,99 +41,50 @@
     </div>
 
 
-     <!-- HOME -->
+     <!-- SIGN UP -->
      <section id="home">
         <div class="overlay"></div>
           <div class="container">
                <div class="row">
-
                     <div class="col-md-12 col-sm-12">
                          <div class="home-info">
                               <h1 id="a_title" name="thetitle">Welcome to CU Par!<br>Please enter your information here!</h1>
                               <h1></h1>
-                              
                               <div class="subscribe-form">
-                                <form name="register" method="POST" id="sub" action="http://localhost:8081/signup">
-                                  
+                                <form name="register" method="POST" id="sub" action="http://localhost:8081/signup">  
                                    {{#if this.info}}
-                                <div class="my-notify-info">{{this.info}}</div>
-                                {{else if this.message}}
-                                <div class="my-notify-success">{{this.message}}</div>
-                                {{else if this.warning}}
-                                <div class="my-notify-warning">{{this.warning}}</div>
-                                {{else}}
-                                <div class="my-notify-error">{{error}}</div>
-                                {{/if}}
-                                        <br>
+                                 <div class="my-notify-info">{{this.info}}</div>
+                                 {{else if this.message}}
+                                 <div class="my-notify-success">{{this.message}}</div>
+                                 {{else if this.warning}}
+                                 <div class="my-notify-warning">{{this.warning}}</div>
+                                 {{else}}
+                                 <div class="my-notify-error">{{error}}</div>
+                                 {{/if}}
+                                 <br>
+                                 <input type="hidden" name="action" value="register" />
 
-                                  <input type="hidden" name="action" value="register" />
-                                  <input type="text" name="sid" class="form-control" placeholder="Fill in your student ID" required="" id="sid" maxlength="10", minlength="10" onblur="checksid(this)">
-                                  <br>
-                                  <input type="text" name="username" class="form-control" placeholder="Create your username" required="" id="username" maxlength='20'>
-                                  <br>
+                                 <input type="text" name="sid" class="form-control" placeholder="Fill in your student ID" required="" id="sid" maxlength="10", minlength="10" onblur="checksid(this)"><br>
+
+                                 <input type="text" name="username" class="form-control" placeholder="Create your username" required="" id="username" maxlength='20'><br>
+
                                  <div class="new-form">
                                   <span class="text">Password length should between 6 to 20</span>
-                                  <input type="password" name="password" class="form-control" placeholder="Create your password" required="" id="password" maxlength="20" minlength="6">
+                                  <input type="password" name="password" class="form-control" placeholder="Create your password" required="" id="password" maxlength="20" minlength="6"> 
+                                 </div><br>
+
+                                 <input type="password" name="passwordRP" class="form-control" placeholder="Re-enter your password" required="" id="re-password" maxlength="20" minlength="6"><br>
                                   
-                                </div>
-                                <br>
-                                  <input type="password" name="passwordRP" class="form-control" placeholder="Re-enter your password" required="" id="re-password" maxlength="20" minlength="6">
-                                  
-                                  <br>
-                                  
-                                  <div class="col-xs-6">
-                                    <input type='text' name="code" class="form-control-my" placeholder="   code" required="" id="code" maxlength="6">
-                                  </div>
-                                  <div class="col-xs-1">   
-                                  </div>
-                                  <div class="col-xs-5">
-                                    <input type="button" name="sendcode" class="form-control-my" id="sendcode" value="Send" onclick="getInfo()" > <!--need impove-->
-                                  </div>
-                                  <br>
-                                  <br>
-                                  <br>
-                                  <!--<div class="isa_info">
-                                    <i class="fa fa-info-circle"></i>
-                                    Replace this text with your own text.
-                                </div>
-                                <div class="isa_success">
-                                     <i class="fa fa-check"></i>
-                                     Replace this text with your own text.
-                                </div>
-                                <div class="isa_error">
-                                   <i class="fa fa-times-circle"></i>
-                                   Replace this text with your own text.
-                                </div>
-                                  <div class="isa_warning">
-                                     <i class="fa fa-warning"></i>
-                                     {{this.warning}}
-                                </div>-->
-                               
-                                        <input type="submit" value="submit" class="form-control" id="bt" />
-                                </div>
-                      <!--
-                                  <script>
-                                        $('#bt').on('click', function (){
-                                            var form = new FormData(document.getElementById('sub'));
-                                            $.ajax({
-                                                type: 'post',
-                                                url: '10.13.59.178:8080',
-                                                data:form,
-                                                processData:false,
-                                                contentType:false,
-                                                success: function (data) {
-                                                    console.log(data);
-                                                    alert('succeed in send data');
-                                                    $('#email').val('');
-                                                    $('#username').val('');
-                                                    $('#password').val('');
-                                                }
-                                            })
-                                        })
-                                    </script>
-                      -->
-                                </form>
-                                <p style="color:white"><br>Have account already? Click <a href="login">here</a> to log in</p>
+                                 <div class="col-xs-6">
+                                  <input type='text' name="code" class="form-control-my" placeholder="   code" required="" id="code" maxlength="6"></div>
+                                 <div class="col-xs-1"></div>
+                                 <div class="col-xs-5">
+                                 <input type="button" name="sendcode" class="form-control-my" id="sendcode" value="Send" onclick="getInfo()" >
+                                 </div><br><br><br>
+                                <input type="submit" value="submit" class="form-control" id="bt" />
+                               </form>
+                              </div>
+                              <p style="color:white"><br>Have account already? Click <a href="login">here</a> to log in</p>
                               </div>    
                          </div>
                     </div>
@@ -152,5 +102,5 @@
      <script src="ajax.js"></script>
      <script src="js/entering.js"></script>
 
-</body>
+ </body>
 </html>

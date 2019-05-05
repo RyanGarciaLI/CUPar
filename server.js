@@ -1,1439 +1,147 @@
-//Final version of server.js
+/**
+ *  /sever.js
+ *  Copyright (c) 2018-2019  CUPar Ltd.
+ *  @author:  WEI Qi        <1155107666@link.cuhk.edu.hk>
+ *            ZHAO Feng     <siegfriedzhaof@gmail.com>
+ *            Ryan Yuxin LI <lyxnb2333@gmail.com>
+ *            Jack Xiao     <1155107819@link.cuhk.edu.hk>
+ *            WEI Wang      <1155107718@link.cuhk.edu.hk>
+ *  @version: 4.0
+ *  @since 2019-03-19
+ *  @last updated: 2019-05-04
+ *
+ * Here are some accounts preinstalled in the datebase for testing
+ *        Test accounts     |     Password
+ *     -------------------------------------------
+ *          1155104321      |     zxczxc
+ *          1155107777      |     zxczxc
+ *          1155223344      |     zxczxc
+ *     -------------------------------------------
+ */
 
 var express = require('express');
 var app = express();
 var bodyParser = require('body-parser');
-var mysql  = require('mysql');  
-var fs = require('fs');
-//var path = require('path');
-//var hbs = require('express-hbs');
-var config = require('./config').config;
-//var http = require('http').Server(app);
-
-
-//Test account:1155104321 1155107777 1155223344;zxczxc
-
-// 创建 application/x-www-form-urlencoded 编码解析
-var urlencodedParser = bodyParser.urlencoded({ extended: false });
-
-app.use(express.static('./public'));
-
-// app.engine('hbs', hbs.express4({
-//   partialsDir   : __dirname +'/views/partials',
-//   defaultLayout : __dirname +'/views/layouts/default',
-//   extname       : '.hbs',
-//   layoutsDir    : __dirname +'/views/layouts',
-// }));
-
-// app.set('view engine', 'hbs');
-// app.set('views', path.join(__dirname, 'views'));
 var engines = require('consolidate');
+
 app.engine('html', engines.swig); 
 app.set('view engine', 'html'); 
-// **************************************************
-// **************************************************
-// the following code is done by 
-// programmer: Ryan Garcia Yuxin LI
-// date : 21/03/2018
+// create application/x-www-form-urlencoded coding analyze
+var urlencodedParser = bodyParser.urlencoded({ extended: false });
 app.use(bodyParser.json());
 app.use(urlencodedParser);
+app.use(express.static('./public'));
 
-let favicon = require('serve-favicon');
+/**
+ *  Copyright (c) 2018-2019  CUPar Ltd.
+ *  @author: Ryan Yuxin LI <lyxnb2333@gmail.com>
+ *  @version: 2.3
+ *  @since 2019-03-17
+ *  @last updated: 2019-04-21
+ */
+
+// set favourite icon for the website
+var favicon = require('serve-favicon');
 app.use(favicon( __dirname + '/keyboarder.ico'));
 
-let cookieParser = require('cookie-parser');
-let session = require('express-session');
+// options for cookie and session
+var cookieParser = require('cookie-parser');
+var session = require('express-session');
 app.use(cookieParser("CUPar"));
 app.use(session({
      secret: 'CUPar is the best', 
      resave: true,  // resave session
-     key: 'CUPar deserves an A',  // only for session
-     cookie: { maxAge: 2 * 3600 * 1000},  // only for session
+     key: 'CUPar deserves an A',
+     cookie: { maxAge: 2 * 3600 * 1000},  // expired time
      saveUninitialized: false // passport: true, session: false
-}));  // so that object req will have a attribute:session representing cookie
+}));
 
-let user = require('./controller/user.js');
+// apply authentication for all access request
+var user = require('./models/user.js');
 app.use(user.authenticate);
 
 //invoke  router
-// var account = require('./routes/account');
 var index =require('./routes/index');
 var login = require('./routes/login');
-//var chat = require('./routes/chat');
 var signup = require('./routes/signup');
 var logout = require('./routes/logout');
+var account = require('./routes/account');
+var process_roommate = require('./routes/process_roommate');
+var process_teammate = require('./routes/process_teammate');
+var check_roommate = require('./routes/check_roommate');
+var check_teammate = require('./routes/check_teammate');
+var result_roommate = require('./routes/result_roommate');
+var result_teammate = require('./routes/result_teammate');
+var process_evaluate = require('./routes/process_evaluate');
+
 app.use("/", index);
 app.use("/login", login);
-//app.use("/chat", chat);
 app.use('/signup', signup);
 app.use('/logout', logout);
+app.use('/account_page', account);
+app.use('/process_roommate', process_roommate);
+app.use('/process_teammate', process_teammate);
+app.use('/check_roommate', check_roommate);
+app.use('/check_teammate', check_teammate);
+app.use('/result_roommate', result_roommate);
+app.use('/result_teammate', result_teammate);
+app.use('/process_evaluate', process_evaluate);
 
-// Ryan part ends
-// *****************************************************
-// *****************************************************
+/**
+* -------------------Ryan's part ends ---------------------------
+*/
+
+
 app.get('/Roommate', urlencodedParser, function (req, res) {
-  
-  if( !req.session.passport ){  // if any problems, call Ryan
-    res.redirect('/login');
-}
-  let user_name = req.cookies.islogin.name;// if any problems, call Ryan
-  //let userID = req.cookies.islogin.sid;    // if any problems, call Ryan
+  if( !req.session.passport ){ res.redirect('/login'); }
+  let user_name = req.cookies.islogin.name;
   res.render('Roommate.hbs', {
     layout: null,
-    //name: user_name,
-    //sid : userID,
-    //email: userID + "@link.cuhk.edu.hk",
     username: user_name,
     login: 1
   });
-   //res.end(JSON.stringify(res));
-});
-/*
-app.use('/Roommate.html',function(req,res){ // Ryan changes Roommate.html to Roommate; back
-  if( !req.session.passport ){  // if any problems, call Ryan
-    res.redirect('/login');
-  }
-  var fileName="./Roommate.html";
-  fs.readFile(fileName,function(err,data){
-      if(err)
-          console.log("Sorry, there is a mistake in your Roommate address.");
-      else{res.write(data);}
-  });
 });
 
-app.get('/Roommate', function (req, res) {  // Ryan changes Roommate.html to Roommate
-  if( !req.session.passport ){  // if any problems, call Ryan
-    res.redirect('/login');
-  }
-   res.sendFile( __dirname + "/public/" + "Roommate.html" );
-});
-*/
 app.get('/Teammate', urlencodedParser, function (req, res) {
   
-  if( !req.session.passport ){  // if any problems, call Ryan
-    res.redirect('/login');
-}
-  let user_name = req.cookies.islogin.name;// if any problems, call Ryan
-  //let userID = req.cookies.islogin.sid;    // if any problems, call Ryan
+  if( !req.session.passport ){ res.redirect('/login'); }
+  let user_name = req.cookies.islogin.name;
   res.render('Teammate.hbs', {
     layout: null,
-    //name: user_name,
-    //sid : userID,
-    //email: userID + "@link.cuhk.edu.hk",
     username: user_name,
     login: 1
   });
-   //res.end(JSON.stringify(res));
 });
 
-/*
-app.use('/Teammate.html',function(req,res){ // Ryan changes Roommate.html to Roommate; back
-  if( !req.session.passport ){  // if any problems, call Ryan
-    res.redirect('/login');
-  }
-  var fileName="./Teammate.html";
-  fs.readFile(fileName,function(err,data){
-      if(err)
-          console.log("Sorry, there is a mistake in your Teammate address.");
-      else{res.write(data);}
-  });
-});
-
-app.get('/Teammate', function (req, res) {  // Ryan changes Roommate.html to Roommate
-  if( !req.session.passport ){  // if any problems, call Ryan
-    res.redirect('/login');
-  }
-   res.sendFile( __dirname + "/public/" + "Teammate.html" );
-});
-*/
-
-app.post('/entry', urlencodedParser, function (req, res) {  // Ryan changes Roommate.html to Roommate
-  if( !req.session.passport ){  // if any problems, call Ryan
-    res.redirect('/login');
-  }
+app.post('/entry', urlencodedParser, function (req, res) {
+  if( !req.session.passport ){ res.redirect('/login'); }
   res.redirect('entry.html');
-  //console.log("finally OK");
 });
 
 
-app.post('/evaluate',urlencodedParser, function (req, res) {  // Ryan changes Roommate.html to Roommate
-  if( !req.session.passport ){  // if any problems, call Ryan
-    res.redirect('/login');
-  }
+app.post('/evaluate',urlencodedParser, function (req, res) {
+  if( !req.session.passport ){ res.redirect('/login'); }
   res.redirect('evaluate.html');
 });
 
-
-
-// **************************************************
-// **************************************************
-// the following code is done by 
-// programmer: Xiao Tianygi Jack
-
-/////////////////////////////////
-/////      account Page     /////
-/////////////////////////////////
-app.get('/account_page', urlencodedParser, function (req, res) {
-  
-  if( !req.session.passport ){  // if any problems, call Ryan
-    res.redirect('/login');
-}
-  let user_name = req.cookies.islogin.name;// if any problems, call Ryan
-  let userID = req.cookies.islogin.sid;    // if any problems, call Ryan
-  res.render('account.hbs', {
-    layout: null,
-    name: user_name,
-    sid : userID,
-    email: userID + "@link.cuhk.edu.hk",
-    username: user_name,
-    login: 1
-  });
-   //res.end(JSON.stringify(res));
-});
-
-/////////////////////////////////
-/////////////////////////////////
-
-function link(){
-  return(mysql.createPool({     
-    host     : 'localhost',       
-    user     : config.db_user,              
-    password : config.db_pwd,       
-    port: '3306',                   
-    database: config.db_name,
-    useConnectionPooling: true,
-    connectionLimit: 500
-  }));
-}
-module.exports=link;
-
-function count(o){
-  var n = 0;
-  for(var i in o){ n++; }
-  return n;
-}
-
-///////////////////////////////////////
-/////      Input for Roommate     /////
-///////////////////////////////////////
-app.post('/process_roommate', urlencodedParser, function (req, res) {
- 
-  console.log(req.body);
-  console.log("START");
-  
-  var pool = new link();
-  function SearchID(){
-    this.select=function(callback,id){
-      var sql = 'SELECT distinct * FROM Roommate where user_sid = ' + id;
-      var option = {};
-        pool.query(sql,function(err,result){
-        if(err){console.log(err);}
-        option[0] = {'name':"NO ONE"};
-        if(result){
-          for(var i = 0; i < result.length; i++)
-            {option[i]={'name':result[i].name,'sex':result[i].sex,'college':result[i].college,'hall':result[i].hall,'sid':result[i].user_sid,
-              'remark':result[i].remark,'start':result[i].sleep_time_start,'end':result[i].sleep_time_end};}
-        }
-        callback(option); // If return directly, it will return undefined. So we need call back function to receive the data.
-      });
-    };
-  }
-  module.exports = SearchID;
-  SeID = new SearchID();
-  
-  SeID.select(function(rdata){
-    if(rdata[0].name=="NO ONE"){
-      //res.redirect("/index");
-      var  addSql = 'INSERT INTO Roommate (request_id, user_sid, name, sex, college, hall, sleep_time_start, sleep_time_end, remark,if_matched) VALUES(0,?,?,?,?,?,?,?,?,0)';
-      var  addSqlParams = [req.body.SID, req.body.Name, req.body.sex, req.body.College, req.body.Hall, req.body.sleep_start, req.body.sleep_end, req.body.remarks];
-      //add
-      pool.query(addSql,addSqlParams,function (err, result) {
-        if(err){
-          console.log('[INSERT ERROR] - ',err.message);
-          return;
-        }        
-        console.log('--------------------------INSERT----------------------------');
-        //console.log('INSERT ID:',result.insertId);        
-        console.log('INSERT ID:',result);        
-        console.log('-----------------------------------------------------------------\n\n');  
-      });
-      res.send("yes");
-    }
-    else{
-      //console.log("There should be an aleret!");
-      res.send("Wrong");
-    }
-  },req.body.SID);  
-   
-  //console.log(res);
-  //res.end(JSON.stringify(res));
-  //res.redirect("/index"); // Ryan changes  to index
-});
-
-
-///////////////////////////////////////
-/////      Input for Teammate     /////
-///////////////////////////////////////
-app.post('/process_teammate', urlencodedParser, function (req, res) {
- 
-  //MySql
-  console.log("teammate!!~");
-   var pool = new link();
-   function SearchID(){
-    this.select=function(callback,id){
-      var sql = 'SELECT distinct * FROM Teammate where user_sid = ' + id;
-      var option = {};
-        pool.query(sql,function(err,result){
-        if(err){console.log(err);}
-        option[0] = {'name':"NO ONE"};
-        if(result){
-          for(var i = 0; i < result.length; i++)
-            {option[i]={'name':result[i].name,'sex':result[i].sex};}
-        }
-        callback(option); // If return directly, it will return undefined. So we need call back function to receive the data.
-      });
-    };
-  }
-  module.exports = SearchID;
-  SeID = new SearchID();
-
-  SeID.select(function(rdata){
-    if(rdata[0].name=="NO ONE"){
-      var  addSql = 'INSERT INTO Teammate (request_id, user_sid, name, sex, college, CourseTitle, CourseCode, size, remark, now_size, if_matched) VALUES(0,?,?,?,?,?,?,?,?,1,0)';
-      var  addSqlParams = [req.body.SID, req.body.Name, req.body.sex, req.body.College, req.body.CourseTitle, req.body.CourseCode, req.body.size, req.body.remarks];
-      //add
-      pool.query(addSql,addSqlParams,function (err, result){
-      if(err){
-        console.log('[INSERT ERROR] - ',err.message);
-        return;
-      }        
-      console.log('--------------------------INSERT----------------------------');
-      //console.log('INSERT ID:',result.insertId);        
-      console.log('INSERT ID:',result);        
-      console.log('-----------------------------------------------------------------\n\n');  
-      });
-      res.send("yes");
-    }
-    else{
-      res.send("Wrong");
-    }
-  },req.body.SID);  
-  
-   
-  //console.log(res);
-  //res.end(JSON.stringify(res));
-});
-
-
-
-///////////////////////////////////////
-/////      Match for Roommate     /////
-///////////////////////////////////////
-app.post('/check_roommate', urlencodedParser, function (req, res) {
-   
-  var pool = new link();
-
-  function SearchID(){
-    this.select=function(callback,id){
-      var sql = 'SELECT distinct * FROM Roommate where user_sid = ' + id;
-      var option = {};
-        pool.query(sql,function(err,result){
-        if(err){console.log(err);}
-        option[0] = {'name':"NO ONE"};
-        if(result){
-          for(var i = 0; i < result.length; i++)
-            {option[i]={'name':result[i].name,'sex':result[i].sex,'college':result[i].college,'hall':result[i].hall,'sid':result[i].user_sid,
-              'remark':result[i].remark,'start':result[i].sleep_time_start,'end':result[i].sleep_time_end};}
-        }
-        callback(option); // If return directly, it will return undefined. So we need call back function to receive the data.
-      });
-    };
-  }
-  module.exports = SearchID;
-
-  
-  function MatchID(){    
-    this.select=function(callback1,datas){
-      var sql1 = 'SELECT * FROM Roommate where sex = ? AND college = ? AND hall = ? AND user_sid != ? And if_matched != 1';
-      var Params = [datas.sex,datas.college,datas.hall,datas.sid];
-      var option1 = {};
-      pool.query(sql1,Params,function(err,results){
-        if(err){console.log(err);}
-
-        option1[0]={'name':"NO ONE",'sex':null, 'sid':null};
-        if(results){
-          for(var i = 0; i < results.length; i++)
-          {option1[i]={'name':results[i].name,'sex':results[i].sex,'college':results[i].college,'hall':results[i].hall,'sid':results[i].user_sid,
-            'remark':results[i].remark,'start':results[i].sleep_time_start,'end':results[i].sleep_time_end};}
-        }
-        console.log("Inside the function");
-        console.log(option1);
-        console.log(datas);
-        callback1(option1); // If return directly, it will return undefined. So we need call back function to receive the data.
-      });
-    };
-  }
-  module.exports = MatchID;
-
-  
-  function CheckID(){
-    this.select=function(callback,id){
-      var sql = 'SELECT * FROM Room_result where (user_id1 = ' + id + ' or user_id2 =' + id +' ) AND result != 0';
-      var option = {};  
-      pool.query(sql,function(err,result){
-        if(err){console.log(err);}
-        option[0]={'user_id1':"00000",'user_id2':null,'result':null};
-        if(result){
-          for(var i = 0; i < result.length; i++)
-            {option[i]={'user_id1':result[i].user_id1,'user_id2':result[i].user_id2,'result':result[i].result};}
-        }
-        callback(option); // If return directly, it will return undefined. So we need call back function to receive the data.
-      });
-    };
-  }
-  module.exports = CheckID;
-
-
-  function SaveID(){
-    this.select=function(id1,id2){  
-      var sql = 'INSERT INTO Room_result (id,user_id1,user_id2,result) VALUES (0,"'+id1+'","'+id2+'",2)';
-      pool.query(sql,function(err){
-        if(err){console.log(err);}
-      });
-    };
-  }
-  module.exports = SaveID;
-
-
-  function CheckRE(){
-    this.select=function(callback,id){
-      var sql = 'SELECT * FROM Room_result where user_id1 = ' + id + ' or user_id2 =' + id;
-      var option = {};  
-      pool.query(sql,function(err,result){
-        if(err){console.log(err);}
-        option[0]={'user_id1':"00000",'user_id2':null};
-        if(result){
-          for(var i = 0; i < result.length; i++)
-            {option[i]={'id':result[i].id,'res1':result[i].res1,'res2':result[i].res2,'user_id1':result[i].user_id1,'user_id2':result[i].user_id2};}
-        }
-        callback(option); // If return directly, it will return undefined. So we need call back function to receive the data.
-      });
-    };
-  }
-  module.exports = CheckRE;
-
-  function ReCheckID(){
-    this.select=function(callback,id){
-      var sql = 'SELECT * FROM Room_result where (user_id1 = ' + id + ' or user_id2 = ' + id + ' ) AND result = 0';
-      var option = {};  
-      pool.query(sql,function(err,result){
-        if(err){console.log(err);}
-        option[0]={'user_id1':"00000",'user_id2':null};
-        if(result){
-          for(var i = 0; i < result.length; i++)
-            {option[i]={'id':result[i].id,'res1':result[i].res1,'res2':result[i].res2,'user_id1':result[i].user_id1,'user_id2':result[i].user_id2};}
-        }
-        callback(option); // If return directly, it will return undefined. So we need call back function to receive the data.
-      });
-    };
-  }
-  module.exports = ReCheckID;
-
-
-  var datas = Array;
-  var datasC = Array;
-  var datas1 = Array;
-  var datas2 = Array;
-  var SeID = new SearchID();
-  var MaID = new MatchID();
-  var ChID = new CheckID();
-  var RChID = new ReCheckID();
-  var SaID = new SaveID();
-  
-
-  let userID = req.cookies.islogin.sid; // if any problems, call Ryan
-  SeID.select(function (rdataS){
-    datas = rdataS;
-    if(datas[0].name!="NO ONE"){
-    ChID.select(function (rdataC){
-      datasC = rdataC;
-
-      ////First Check
-      if(datasC[0].user_id1=="00000")
-      {
-        RChID.select(function(rdataR){
-          var ban = Array;
-          
-          for(var i=0;i<count(rdataR);i++){
-            if(rdataR[i].user_id1 == userID)
-              ban[i] = rdataR[i].user_id2;
-            else ban[i] = rdataR[i].user_id1;
-          }
-          console.log("length of recheck list: " + count(rdataR));
-
-          MaID.select(function(rdataM){
-            datas1 = rdataM;
-            console.log("First Check");
-            console.log('----Search----');
-            console.log(datas);
-            console.log('----Check----');
-            console.log(datasC);
-            console.log('----ban----');
-            console.log(ban);
-            console.log('----Match----');
-            console.log(datas1);
-  
-            //No result
-            if(datas1[0].name=="NO ONE"){
-              res.render('NoRoommate.hbs',{
-                username: req.cookies.islogin.name,
-                login: 1
-              });
-            }
-
-            //Have resultm - choose the best roommate
-            else{
-              var len = count(datas1);
-              console.log('length:'+len);
-              var time = 0;
-              var min_time = 10000;
-              var st = datas[0].start;
-              var ed = datas[0].end;
-              var choice;
-              for(var i=0 ; i<len ; i++){
-
-                var check = 0;
-                for(var j=0; j<count(ban) ; j++){
-                  if (ban[j] == datas1[i].sid) {
-                    console.log('Ban at '+ban[j] + ' and ' + datas1[i].sid);
-                    check = 1;
-                    break;
-                } }
-                if(check==1) continue;
-                
-                time = Math.min(ed,datas1[i].end) - Math.min(st,datas1[i].start);
-                console.log('time: '+time);
-                if (time < min_time){
-                  min_time = time;
-                  choice = datas1[i];
-                  console.log('min:'+min_time);
-                }
-              }
-              if(time==0)  {
-                console.log("All is banned");
-                res.render('NoRoommate.hbs',{
-                  username: req.cookies.islogin.name,
-                  login: 1
-                });
-              }
-              else {
-                SaID.select(userID,choice.sid);
-                console.log("First Check");
-                res.render('YesRoommate.hbs', {
-                  layout: null,
-                  r_name: choice.name,
-                  r_sex: choice.sex,
-                  r_sid: choice.sid,
-                  r_remark: choice.remark,
-                  r_status: "waiting for reply",
-                  r_result_id: "(Not prepared yet)",
-                  username: req.cookies.islogin.name,
-                  login: 1
-                });
-              }
-            }
-           },datas[0]);
-        },userID);
-      }
-
-      ////Not First check
-      else{
-        var otherID;
-        if(datasC[0].user_id1==userID) {otherID = datasC[0].user_id2;}
-        else {otherID = datasC[0].user_id1;}
-
-        SeID.select(function(rdataM){
-          datas2 = rdataM;
-          console.log("Not First Check");
-          console.log('----Search----');
-          console.log(datas);
-          console.log('----Check----');
-          console.log(datasC);
-          console.log('----Match----');
-          console.log(datas2);
-          console.log("Not First Check");
-
-          var reply = "waiting for reply";
-          var chat = "(Not prepared yet)";
-          var dataR = Array;
-          //reply ='Temporary';
-          if (datasC[0].result=='1'){
-            reply = "Success!";
-            var ChRE = new CheckRE();
-            ChRE.select(function(rdata){
-              dataR = rdata;
-              chat = dataR[0].id;
-              res.render('YesRoommate.hbs', {
-                layout: null,
-                r_name: datas2[0].name,
-                r_sex: datas2[0].sex,
-                r_sid: datas2[0].sid,
-                r_remark: datas2[0].remark,
-                r_status: reply,
-                r_result_id: chat,
-                username: req.cookies.islogin.name,
-                login: 1
-              });
-            },userID);
-          }
-          else{
-            res.render('YesRoommate.hbs', {
-              layout: null,
-              r_name: datas2[0].name,
-              r_sex: datas2[0].sex,
-              r_sid: datas2[0].sid,
-              r_remark: datas2[0].remark,
-              r_status: reply,
-              r_result_id: chat,
-              username: req.cookies.islogin.name,
-              login: 1
-            });
-          }
-         },otherID);
-       }
-    },userID);
-   }
-   else {
-    res.render('NoRoommate.hbs',{
-    username: req.cookies.islogin.name,
-    login: 1
-  });}
-  },userID);  
-  //res.end(JSON.stringify(res));
-});
-
-
-
-////////////////////////////////////
-//////   Result of Roommate   //////
-////////////////////////////////////
-app.post('/result_roommate', urlencodedParser, function (req, res) {
-
-  res.redirect("/index");
-  let userID = req.cookies.islogin.sid; 
-
-  var pool = new link();
-
-  function CheckRE(){
-    //var connect = new link(); connect.connect();
-    this.select=function(callback,id){
-      var sql = 'SELECT * FROM Room_result where user_id1 = ' + id + ' or user_id2 =' + id;
-      var option = {};  
-      pool.query(sql,function(err,result){
-        if(err){console.log(err);}
-        option[0]={'user_id1':"00000",'user_id2':null};
-        if(result){
-          for(var i = 0; i < result.length; i++)
-            {option[i]={'result':result[i].result,'id':result[i].id,'res1':result[i].res1,'res2':result[i].res2,'user_id1':result[i].user_id1,'user_id2':result[i].user_id2};}
-        }
-        callback(option); // If return directly, it will return undefined. So we need call back function to receive the data.
-      });
-    };
-    //this.end = function(){connect.end();}
-  }
-  module.exports = CheckRE;
-  ChRE = new CheckRE();
-
-
-  function SimpleUpdateRE(){
-    //var connect = new link();connect.connect();
-    this.select=function(id,number,result){
-      var sql = 'UPDATE Room_result SET res' + number + ' = ' + result + ' where user_id1 = ' + id + ' or user_id2 =' + id;
-      pool.query(sql,function(err){
-        if(err){console.log(err);}
-      });
-    };
-    //this.end = function(){connect.end();};
-  }
-  module.exports = SimpleUpdateRE;
-  SiupRE = new SimpleUpdateRE();
-  
-
-  function UpdateRE(){
-    //var connect = new link();connect.connect();
-    this.select=function(id,result){
-      var sql = 'UPDATE Room_result SET result = ' + result + ' where user_id1 = ' + id + ' or user_id2 =' + id;
-      pool.query(sql,function(err){
-        if(err){console.log(err);}
-      });
-    };
-    //this.end = function(){connect.end();};
-  }
-  module.exports = UpdateRE;
-  UpRE = new UpdateRE();
-
-
-  function UpdateID(){
-    //var connect = new link();connect.connect();
-    this.select=function(id){
-      var sql = 'UPDATE Roommate SET if_matched = 1 where user_sid = ' + id ;
-      pool.query(sql,function(err){if(err){console.log(err);}});
-    };
-    //this.end = function(){connect.end();};
-  }
-  module.exports = UpdateID;
-  UpID1 = new UpdateID();
-  UpID2 = new UpdateID();
-
-  datas = Array;
-  
-  ChRE.select(function(rdata){
-    datas = rdata;
-    if(datas[0].result!=1){
-      if(req.body.result=="accept")
-      {
-        var otherID;
-        var num;
-        if(datas[0].user_id1==userID){
-          otherID = datas[0].user_id2;
-          num = 1;
-        }
-        else{
-          num = 2;
-          otherID = datas[0].user_id1;
-        }
-
-        if((datas[0].res1==1 && num==2)||(datas[0].res2==1 && num==1))
-        {//////REAL SUCCESS
-          UpRE.select(userID,1);
-          /*
-          UpID1.select(userID);
-          UpID2.select(otherID);
-          */
-          console.log("-----Real Sucess-----");
-        }
-        else{
-          console.log("-----First accept-----");
-          SiupRE.select(userID,num,1);
-        }
-      }
-      else{
-        console.log("-----Refuse-----");
-        UpRE.select(userID,0);
-      }
-    }
-  },userID);
-  
-});
-
-
-
-////////////////////////////////////
-//////   March for Teammate   //////
-////////////////////////////////////
-app.post('/check_teammate', urlencodedParser, function (req, res) {
-  //MySql
-  var pool = new link();
-  
-  function SearchID(){
-    this.select=function(callback,id){
-      var sql = 'SELECT distinct * FROM Teammate where user_sid = ' + id;
-      var option = {};
-      pool.query(sql,function(err,result){
-        if(err){console.log(err);}
-        option[0] = {'sid':"00000"};
-        if(result){
-          for(var i = 0; i < result.length; i++)
-            {option[i]={'CourseTitle':result[i].CourseTitle,'CourseCode':result[i].CourseCode,
-              'Size':result[i].Size,'sid':result[i].user_sid,'college':result[i].college,'sex':result[i].sex,'remark':result[i].remark,'name':result[i].name};}
-        }
-        callback(option); // If return directly, it will return undefined. So we need call back function to receive the data.
-      });
-    };
-  }
-  module.exports = SearchID;
- 
-
-  function CheckID(){
-    this.select=function(callback,id,adata){
-      var sql = 'SELECT * FROM team_result where (user1 = ? or user2 = ? or user3 = ? or user4 = ? or user5 = ? or user6 = ?) AND CourseTitle = ? AND CourseCode = ? AND result != 0';
-      var param = [id,id,id,id,id,id,adata.CourseTitle,adata.CourseCode];
-      var option = {};  
-      pool.query(sql,param,function(err,result){
-        if(err){console.log(err);}
-        option[0]={'user1':"00000",'user2':null,'result':null};
-        if(result){
-          for(var i = 0; i < result.length; i++)
-            {option[i]={'user1':result[i].user1,'user2':result[i].user2,'user3':result[i].user3,'user4':result[i].user4,'user5':result[i].user5,
-            'user6':result[i].user6,'result':result[i].result,'now_size':result[i].now_size,'Size':result[i].Size,'team_id':result[i].team_id};}
-        }
-        callback(option); // If return directly, it will return undefined. So we need call back function to receive the data.
-      });
-    };
-  }
-  module.exports = CheckID;
-
-
-  function ReCheckID(){
-    this.select=function(callback,adata){
-      var sql = 'SELECT * FROM team_result where  CourseTitle = ? AND CourseCode = ? AND result != 0 AND now_size != ?';
-      var param = [adata.CourseTitle,adata.CourseCode,adata.Size];
-      var option = {};  
-      pool.query(sql,param,function(err,result){
-        if(err){console.log(err);}
-        option[0]={'user1':"00000",'user2':null,'result':null};
-        if(result){
-          for(var i = 0; i < result.length; i++)
-            {option[i]={'team_id':result[i].team_id,'user1':result[i].user1,'user2':result[i].user2,'user3':result[i].user3,'user4':result[i].user4,'user5':result[i].user5,
-            'user6':result[i].user6,'result':result[i].result,'now_size':result[i].now_size};}
-        }
-        callback(option); // If return directly, it will return undefined. So we need call back function to receive the data.
-      });
-    };
-  }
-  module.exports = ReCheckID;
-
-
-  function FirstSaveID(){
-    this.select=function(userid,adata){
-      var sql = 'INSERT INTO team_result (team_id, user1, CourseTitle, CourseCode, Size,now_size,result) VALUES (0,?,?,?,?,1,2)';
-      var param = [userid, adata.CourseTitle, adata.CourseCode, adata.Size];
-      pool.query(sql,param,function(err){
-        if(err){console.log(err);}
-      });
-    };
-  }
-  module.exports = FirstSaveID;
-
-
-  function UpdateID(){
-    this.select=function(num,user_id,team_id){  
-      var sql = 'UPDATE team_result SET user? = ? ,now_size = ? where team_id = ?';
-      var param = [num+1,user_id,num+1,team_id];
-      pool.query(sql,param,function(err){
-        if(err){console.log(err);}
-        console.log('Update');
-      });
-    };
-  }
-  module.exports = UpdateID;
-
-  function FreeID(){
-    this.select=function(callback,id){
-      var sql = 'SELECT * FROM freerider where sid = ?';
-      var param = [id];
-      var option = {};  
-      pool.query(sql,param,function(err,result){
-        if(err){console.log(err);}
-        option[0]={'sid':"00000"};
-        if(result){
-          for(var i = 0; i < result.length; i++)
-            {option[i]={'sid':result[i].sid};}
-        }
-        callback(option); // If return directly, it will return undefined. So we need call back function to receive the data.
-      });
-    };
-  }
-  module.exports = FreeID;
-
-  var SeID = new SearchID();
-  //var MaID = new MatchID();
-  var ChID = new CheckID();
-  var RchID = new ReCheckID();
-  var FsID = new FirstSaveID();
-  var UpID = new UpdateID();
-  var FrID = new FreeID();
-  //var UpRE = new UpdateRE();
-
- 
-  var datas = Array;
-  var datasC = Array;
-  var datasR = Array;
-  
-  let userID = req.cookies.islogin.sid; // if any problems, call Ryan
-
-  function YesRender(number,team,team_id,status){
-    console.log(team);
-    console.log(number);
-    console.log(team_id);
-    switch(number){
-      case(1):
-      res.render('YesTeammate.hbs', {
-        layout: null,
-        r_chat_id: team_id + 50,
-        r_team_id: team_id,
-        r_status: status,
-        r_name1: team[0][0].name,
-        r_sex1: team[0][0].sex,
-        r_sid1: team[0][0].sid,
-        r_remark1: team[0][0].remark,
-        username: req.cookies.islogin.name,
-        login: 1
-      });
-    break;
-      case(2):
-        res.render('YesTeammate.hbs', {
-          layout: null,
-          r_chat_id: team_id + 50,
-          r_team_id: team_id,
-          r_status: status,
-          r_name1: team[0][0].name,
-          r_sex1: team[0][0].sex,
-          r_sid1: team[0][0].sid,
-          r_remark1: team[0][0].remark,
-          r_name2: team[1][0].name,
-          r_sex2: team[1][0].sex,
-          r_sid2: team[1][0].sid,
-          r_remark2: team[1][0].remark,
-          username: req.cookies.islogin.name,
-          login: 1
-        });
-      break;
-      case(3):
-        res.render('YesTeammate.hbs', {
-          layout: null,
-          r_chat_id: team_id + 50,
-          r_team_id: team_id,
-          r_status: status,
-          r_name1: team[0][0].name,
-          r_sex1: team[0][0].sex,
-          r_sid1: team[0][0].sid,
-          r_remark1: team[0][0].remark,
-          r_name2: team[1][0].name,
-          r_sex2: team[1][0].sex,
-          r_sid2: team[1][0].sid,
-          r_remark2: team[1][0].remark,
-          r_name3: team[2][0].name,
-          r_sex3: team[2][0].sex,
-          r_sid3: team[2][0].sid,
-          r_remark3: team[2][0].remark,
-          username: req.cookies.islogin.name,
-          login: 1
-        });
-      break;
-      case(4):
-        res.render('YesTeammate.hbs', {
-          layout: null,
-          r_chat_id: team_id + 50,
-          r_team_id: team_id,
-          r_status: status,
-          r_name1: team[0][0].name,
-          r_sex1: team[0][0].sex,
-          r_sid1: team[0][0].sid,
-          r_remark1: team[0][0].remark,
-          r_name2: team[1][0].name,
-          r_sex2: team[1][0].sex,
-          r_sid2: team[1][0].sid,
-          r_remark2: team[1][0].remark,
-          r_name3: team[2][0].name,
-          r_sex3: team[2][0].sex,
-          r_sid3: team[2][0].sid,
-          r_remark3: team[2][0].remark,
-          r_name4: team[3][0].name,
-          r_sex4: team[3][0].sex,
-          r_sid4: team[3][0].sid,
-          r_remark4: team[3][0].remark,
-          username: req.cookies.islogin.name,
-          login: 1
-        });
-      break;
-      case(5):
-        res.render('YesTeammate.hbs', {
-          layout: null,
-          r_chat_id: team_id + 50,
-          r_team_id: team_id,
-          r_status: status,
-          r_name1: team[0][0].name,
-          r_sex1: team[0][0].sex,
-          r_sid1: team[0][0].sid,
-          r_remark1: team[0][0].remark,
-          r_name2: team[1][0].name,
-          r_sex2: team[1][0].sex,
-          r_sid2: team[1][0].sid,
-          r_remark2: team[1][0].remark,
-          r_name3: team[2][0].name,
-          r_sex3: team[2][0].sex,
-          r_sid3: team[2][0].sid,
-          r_remark3: team[2][0].remark,
-          r_name4: team[3][0].name,
-          r_sex4: team[3][0].sex,
-          r_sid4: team[3][0].sid,
-          r_remark4: team[3][0].remark,
-          r_name5: team[4][0].name,
-          r_sex5: team[4][0].sex,
-          r_sid5: team[4][0].sid,
-          r_remark5: team[4][0].remark,
-          username: req.cookies.islogin.name,
-          login: 1
-        });
-      break;
-    }
-  } 
-  
-  var team = Array;
-  
-  SeID.select(function (rdata){
-    datas = rdata;
-    if(datas[0].sid=='00000'){
-      console.log("No record");
-      res.render('NoTeammate.hbs',{
-        username: req.cookies.islogin.name,
-        login: 1
-      });
-    }
-    else{
-    ChID.select(function(rdataM){
-      datasC = rdataM;
-      if(datasC[0].user1=='00000'){
-        //First Check for user_now
-        console.log("First Check");
-        FrID.select(function (freedata){
-          if(freedata[0].sid!='00000'){
-            res.render('NoTeammate.hbs',{
-              username: req.cookies.islogin.name,
-              login: 1
-            });
-          }
-          else{
-            RchID.select(function(rdataR){
-              datasR = rdataR;
-              if(datasR[0].user1=='00000'){
-                //No relative team_result
-                FsID.select(userID,datas[0]);
-                res.render('NoTeammate.hbs',{
-                  username: req.cookies.islogin.name,
-                  login: 1
-                });
-              }
-              else{
-                //already incomplete team_result there
-                //Let user join the first team
-                //  Which is datasR[0]
-                UpID.select(datasR[0].now_size,userID,datasR[0].team_id);
-                if(datasR[0].now_size+1!=datas[0].Size){
-                  res.render('NoTeammate.hbs',{
-                    username: req.cookies.islogin.name,
-                    login: 1
-                  });
-                }
-                else{
-                  console.log("complete");
-                  //The team become complete and user_now is the last one to join the team
-                  //var team = Array;
-                
-                  var now = datasR[0].now_size;
-                  var chat_id = datasR[0].team_id;
-                  /*
-                  for(var i=0;i<now;i++){
-                    team[i].name = null;
-                    team[i].sex = null;
-                    team[i].sid = null;
-                    team[i].remark = null;
-                  }
-                  */
-                  var status = "waiting for reply";
-                  if(now==1){
-                    SeID.select(function(rdata_t1){
-                      team[0]=rdata_t1;
-                      YesRender(now,team,chat_id,status);
-                    },datasR[0].user1);
-                  }
-                  if(now==2){
-                    SeID.select(function(rdata_t1){
-                      team[0]=rdata_t1;
-                      SeID.select(function(rdata_t2){
-                        team[1]=rdata_t2;
-                        YesRender(now,team,chat_id,status);
-                      },datasR[0].user2);
-                    },datasR[0].user1);
-                  }
-                  if(now==3){
-                    SeID.select(function(rdata_t1){
-                      team[0]=rdata_t1;
-                      SeID.select(function(rdata_t2){
-                        team[1]=rdata_t2;
-                        SeID.select(function(rdata_t3){
-                          team[2]=rdata_t3;
-                          YesRender(now,team,chat_id,status);
-                        },datasR[0].user3);
-                      },datasR[0].user2);
-                    },datasR[0].user1);
-                  }
-                  if(now==4){
-                    SeID.select(function(rdata_t1){
-                      team[0]=rdata_t1;
-                      SeID.select(function(rdata_t2){
-                        team[1]=rdata_t2;
-                        SeID.select(function(rdata_t3){
-                          team[2]=rdata_t3;
-                          SeID.select(function(rdata_t4){
-                            team[3]=rdata_t4;
-                            YesRender(now,team,chat_id,status);
-                          },datasR[0].user4);
-                        },datasR[0].user3);
-                      },datasR[0].user2);
-                    },datasR[0].user1);
-                  }
-                  if(now==5){
-                    SeID.select(function(rdata_t1){
-                      team[0]=rdata_t1;
-                      SeID.select(function(rdata_t2){
-                        team[1]=rdata_t2;
-                        SeID.select(function(rdata_t3){
-                          team[2]=rdata_t3;
-                          SeID.select(function(rdata_t4){
-                            team[3]=rdata_t4;
-                            SeID.select(function(rdata_t5){
-                              team[4]=rdata_t5;
-                              YesRender(now,team,chat_id,status);
-                            },datasR[0].user5);
-                          },datasR[0].user4);
-                        },datasR[0].user3);
-                      },datasR[0].user2);
-                    },datasR[0].user1);
-                  }
-                }
-              }
-            },datas[0]);
-          }
-        },userID);
-        
-      }
-      else{
-        //user already in a team
-        console.log("already in");
-        if(datasC[0].now_size==datasC[0].Size){
-          console.log("complete");
-          //The team become complete and user_now is the last one to join the team
-          //   datasC[0] is the team
-          var now = datasC[0].Size - 1;
-          var a = [0,1,2,3,4,5,6];
-          var sids = Array;
-          var chat_id = datasC[0].team_id;
-          for(var i=0;i<now+1;i++){
-            if(i==0) sids[i] = datasC[0].user1;
-            if(i==1) sids[i] = datasC[0].user2;
-            if(i==2) sids[i] = datasC[0].user3;
-            if(i==3) sids[i] = datasC[0].user4;
-            if(i==4) sids[i] = datasC[0].user5;
-            if(i==5) sids[i] = datasC[0].user6;
-          }
-          for(var j=0;j<now+1;j++){
-            if(sids[j]==userID){
-              a.splice(j,1);
-              break;
-            }
-          }
-          /*
-          for(var i=0;i<now;i++){
-            team[i].name = null;
-            team[i].sex = null;
-            team[i].sid = null;
-            team[i].remark = null;
-          }
-          */
-          var status = "waiting for reply";
-          if(datasC[0].result==1)
-            status = "Success!";
-          if(now==1){
-            SeID.select(function(rdata_t1){
-              team[0]=rdata_t1;
-              YesRender(now,team,chat_id,status);
-            },sids[a[0]]);
-          }
-          if(now==2){
-            SeID.select(function(rdata_t1){
-              team[0]=rdata_t1;
-              SeID.select(function(rdata_t2){
-                team[1]=rdata_t2;
-                YesRender(now,team,chat_id,status);
-              },sids[a[1]]);
-            },sids[a[0]]);
-          }
-          if(now==3){
-            SeID.select(function(rdata_t1){
-              team[0]=rdata_t1;
-              SeID.select(function(rdata_t2){
-                team[1]=rdata_t2;
-                SeID.select(function(rdata_t3){
-                  team[2]=rdata_t3;
-                  YesRender(now,team,chat_id,status);
-                },sids[a[2]]);
-              },sids[a[1]]);
-            },sids[a[0]]);
-          }
-          if(now==4){
-            SeID.select(function(rdata_t1){
-              team[0]=rdata_t1;
-              SeID.select(function(rdata_t2){
-                team[1]=rdata_t2;
-                SeID.select(function(rdata_t3){
-                  team[2]=rdata_t3;
-                  SeID.select(function(rdata_t4){
-                    team[3]=rdata_t4;
-                    YesRender(now,team,chat_id,status);
-                  },sids[a[3]]);
-                },sids[a[2]]);
-              },sids[a[1]]);
-            },sids[a[0]]);
-          }
-          if(now==5){
-            SeID.select(function(rdata_t1){
-              team[0]=rdata_t1;
-              SeID.select(function(rdata_t2){
-                team[1]=rdata_t2;
-                SeID.select(function(rdata_t3){
-                  team[2]=rdata_t3;
-                  SeID.select(function(rdata_t4){
-                    team[3]=rdata_t4;
-                    SeID.select(function(rdata_t5){
-                      team[4]=rdata_t5;
-                      YesRender(now,team,chat_id,status);
-                    },sids[a[4]]);
-                  },sids[a[3]]);
-                },sids[a[2]]);
-              },sids[a[1]]);
-            },sids[a[0]]);
-          }
-        }
-        else{
-          console.log("not complete");
-          res.render('NoTeammate.hbs',{
-            username: req.cookies.islogin.name,
-            login: 1
-          });
-        }
-      }
-    },userID,datas[0]);
-  }
-  },userID);
-
-  
-  
-  
-  console.log(res);
-  //res.end(JSON.stringify(res));
-});
-
-
-
-////////////////////////////////////
-//////   Result of Teammate   //////
-////////////////////////////////////
-app.post('/result_teammate', urlencodedParser, function (req, res) {
-
-  res.redirect("/index");
-  let userID = req.cookies.islogin.sid; 
-
-  var pool = new link();
-
-  function CheckRE(){
-    //var connect = new link(); connect.connect();
-    this.select=function(callback,id,team_id){
-      var sql = 'SELECT * FROM team_result where (user1 = ? or user2 = ? or user3 = ? or user4 = ? or user5 = ? or user6 = ?) AND team_id = ?  AND result != 0';
-      var params = [id,id,id,id,id,id,team_id];
-      var option = {};  
-      pool.query(sql,params,function(err,result){
-        if(err){console.log(err);}
-        option[0]={'user_id1':"00000",'user_id2':null};
-        if(result){
-          for(var i = 0; i < result.length; i++)
-          {option[i]={'user1':result[i].user1,'user2':result[i].user2,'user3':result[i].user3,'user4':result[i].user4,'user5':result[i].user5,
-          'user6':result[i].user6,'result':result[i].result,'now_size':result[i].now_size,'Size':result[i].Size,'team_id':result[i].team_id,'agree_number':result[i].agree_number};}
-        }
-        callback(option); // If return directly, it will return undefined. So we need call back function to receive the data.
-      });
-    };
-    //this.end = function(){connect.end();}
-  }
-  module.exports = CheckRE;
-  ChRE = new CheckRE();
-
-
-  function UpdateNumber(){
-    this.select=function(team_id,number){
-      var sql = 'UPDATE team_result SET agree_number = ' + number + ' where team_id = ' + team_id;
-      pool.query(sql,function(err){
-        if(err){console.log(err);}
-      });
-    };
-  }
-  module.exports = UpdateNumber;
-  UpNum = new UpdateNumber();
-  
-
-  function UpdateRE(){
-    this.select=function(team_id,result){
-      var sql = 'UPDATE team_result SET result = ' + result + ' where team_id = ' + team_id;
-      pool.query(sql,function(err){
-        if(err){console.log(err);}
-      });
-    };
-  }
-  module.exports = UpdateRE;
-  UpRE = new UpdateRE();
-
-
-  function UpdateID(){
-    this.select=function(id){
-      var sql = 'UPDATE teammate SET if_matched = 1 where user_sid = ' + id ;
-      pool.query(sql,function(err){if(err){console.log(err);}});
-    };
-  }
-  module.exports = UpdateID;
-  UpID = new UpdateID();
-  //UpID2 = new UpdateID();
-
-  datas = Array;
-  ChRE.select(function(rdata){
-    datas = rdata;
-    var code = datas[0].agree_number;
-    var position;
-    if(datas[0].user1==userID)
-      position = 0;
-    else if(datas[0].user2==userID)
-      position = 1;
-    else if(datas[0].user3==userID)
-      position = 2;
-    else if(datas[0].user4==userID)
-      position = 3;
-    else if(datas[0].user5==userID)
-      position = 4;
-    else if(datas[0].user6==userID)
-      position = 5;
-    var end_num = 0;
-    for(var i=0;i<datas[0].Size;i++){
-      end_num += Math.pow(10,i);
-    }
-    if(code!=end_num){
-      if(req.body.result=="accept"){
-        if((code % Math.pow(10,position+1)) < Math.pow(10,position)){
-          UpNum.select(req.body.team_id,code+Math.pow(10,position));
-          if(code+Math.pow(10,position)==end_num){
-            UpRE.select(req.body.team_id,1);
-            /*
-            UpID.select(datas[0].user1);
-            if(datas[0].Size>2)
-              UpID.select(datas[0].user2);
-            if(datas[0].Size>3)
-              UpID.select(datas[0].user3);
-            if(datas[0].Size>4)
-              UpID.select(datas[0].user4);
-            if(datas[0].Size>5)
-              UpID.select(datas[0].user5);
-              */
-          }
-        }
-      }
-      else{
-        console.log("-----Refuse-----");
-        UpRE.select(team_id,0);
-      }
-    }
-    
-  },userID,req.body.team_id);
-});
-
-
-
-////////////////////////////////////
-//////       Evaluation       //////
-////////////////////////////////////
-app.post('/process_evaluate', urlencodedParser, function (req, res) {
-
-  var pool = new link();
-  let userID = req.cookies.islogin.sid; 
-  
-  function SearchID(){
-    this.select=function(callback,id){
-      var  sql = 'SELECT distinct * FROM Teammate where user_sid = ' + id;
-      var option = {};
-      pool.query(sql,function(err,result){
-        if(err){console.log(err);}
-        option[0] = {'Size':0,'evaluation':0};
-        if(result){
-          for(var i = 0; i < result.length; i++)
-            {option[i]={'CourseTitle':result[i].CourseTitle,'CourseCode':result[i].CourseCode,'evaluation':result[i].evaluation,
-              'Size':result[i].Size,'sid':result[i].user_sid,'college':result[i].college,'sex':result[i].sex,'remark':result[i].remark,'name':result[i].name};}
-        }
-        callback(option); // If return directly, it will return undefined. So we need call back function to receive the data.
-      });
-    };
-  }
-  module.exports = SearchID;
-  SeID = new SearchID();
-
-  function UpdateID(){
-    this.select=function(point,id){
-      var sql = 'UPDATE teammate SET evaluation = ' + point + ' where user_sid = ' + id ;
-      pool.query(sql,function(err){if(err){console.log(err);}});
-    };
-  }
-  module.exports = UpdateID;
-  UpID = new UpdateID();
-
-  function SaveID(){
-    this.select=function(user_id){
-      var sql = 'INSERT INTO freerider (id, sid) VALUES (0,?)';
-      var param = [user_id];
-      pool.query(sql,param,function(err){
-        if(err){console.log(err);}
-      });
-    };
-  }
-  module.exports = SaveID;
-  SaID = new SaveID();
-
-  console.log(req.body);
-  data = Array;
-  SeID.select(function(rdata){
-    data = rdata;
-    
-    if(data[0].Size!=0 && userID!=req.body.sid ){
-      var point = data[0].evaluation;
-      point += (req.body.star-3)*10;
-      if(req.body.freerider=="freerider"){
-        console.log("freerider!!");
-        SaID.select(req.body.sid);
-        point-=30;
-      }
-      UpID.select(point,req.body.sid);
-      res.redirect('/');
-    }
-    else{res.redirect('/');}
-  },req.body.sid);
-  
-});
-
-
-
-//Jack part ends
-//***************************
-//***************************
 
 //Andy part starts
 var forum = require('./routes/forum');
 app.use('/forum',forum);
 var post = require('./routes/post');
 app.use('/post',post);
-
-app.use(function(request, response) {
-  response.status(404).render("404.ejs");
-});
-var server = app.listen(8081, function () {
-  var host = server.address().address;
-  var port = server.address().port;
-  console.log("Adress is http://%s:%s", host, port);
-});
-
-
+/**
+* -------------------Andy's part ends ---------------------------
+*/
 
 // **************************************************
 // **************************************************
 // the following code is done by 
 // programmer: Zhao Feng & Jack
 
+// all these codes will interact with the front-side
 var io = require('socket.io')(server);
+//count the number of online users
 let counter = 0;
 io.on('connection', (socket) => {
   counter++;
@@ -1442,6 +150,7 @@ io.on('connection', (socket) => {
       socket.emit("greet", counter);
   });
   socket.on("send", (msg) => {
+	  //umpty input is not allowed
       if (Object.keys(msg).length < 2) return;
       io.emit("msg", msg);
   });
@@ -1453,3 +162,13 @@ io.on('connection', (socket) => {
 // Zhao Feng part ends
 // *****************************************************
 // *****************************************************
+app.use(function(request, response) {
+  response.status(404).render("404.ejs");
+});
+var server = app.listen(8081, function () {
+  var host = server.address().address;
+  var port = server.address().port;
+  console.log("Adress is http://%s:%s", host, port);
+});
+
+

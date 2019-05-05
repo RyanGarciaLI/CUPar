@@ -23,7 +23,7 @@
 
 
   <body>    
-    <!-- Hero section -->
+    <!-- Top section -->
     <section id="hero" class="text-white tm-font-big tm-parallax">
       <!-- Navigation -->
       <nav class="navbar navbar-expand-md tm-navbar" id="tmNav">              
@@ -153,7 +153,7 @@
           <br><br>
           <p style="font-size:24px; color:#3496d8">Course code:</p>
           <input class="tm-input-placeholder" name="CourseTitle" id="CourseTitle" type="text" placeholder="Title of the course"  required="" />
-          <input class="tm-input-placeholder" name="CourseCode" id="CourseCode" type="text" placeholder="Code of the course"  required="" />
+          <input class="tm-input-placeholder" name="CourseCode" id="CourseCode" type="number" placeholder="Code of the course"  required="" />
           <br><br>
           <p style="font-size:24px; color:#3496d8">Size of your group: (number)</p>
           <input class="tm-input-placeholder" name="size" id="size" type="number" required="" />
@@ -244,9 +244,12 @@
           if(res=="Wrong"){
             alert("You have already filled your information!");
           }
-          else{
+          else if (res=="yes"){
             alert("Successful Submit!");
             location.reload();
+          }
+          else{
+            alert(res);
           }
         },"text");
         

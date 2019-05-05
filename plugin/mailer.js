@@ -1,16 +1,22 @@
-//************************************
-// Here is a plugin for sending email  
-// via gmail account, use send(mail) to
-// the user with specific configuration
-// insert, update and delete;
-// Author: Ryan Garcia Yuxin LI
-// Date: 21/03/2019
-//************************************
-'use strict';
-let nodemailer = require('nodemailer');
-let config = require('../config').config;
+/**
+ *  /plugin/mailer.js
+ *  Copyright (c) 2018-2019  CUPar Ltd.
+ *  @author: Ryan Yuxin LI <lyxnb2333@gmail.com>
+ *  @version: 2.0
+ *  @since 2019-04-02
+ *  @last updated: 2019-04-21
+ */
+`
+The mailer plugin is able to send email. It requires correct configuration of a mailer
+account. It also contains two template email for authenticaiton and reset respectively.
+If there is no specific email, the mailer shall send default email to the administrator
+`
 
-let transporter = nodemailer.createTransport({
+var nodemailer = require('nodemailer');
+var config = require('../config').config;
+
+// configuration of mailer
+var transporter = nodemailer.createTransport({
     service: config.mail_server, 
     auth: {
         user: config.mail_account,
@@ -18,16 +24,17 @@ let transporter = nodemailer.createTransport({
     }
 });
 
+// function of sending email, if not assign email options, it shall send to 1155107874@link.cuhk.edu.hk
 exports.send = function (mailOptions, callback) {
-    mailOptions = mailOptions || {
-        from: '"CU Par" <' + config.mail_account + '>', // login user must equel to this user
+    mailOptions = mailOptions || {  // default email
+        from: '"CU Par" <' + config.mail_account + '>',
         to: '1155107874@link.cuhk.edu.hk',
         subject: 'Test',
         text: 'this is a test email',
         html: '<b>The main content of the mail. You have successfully logged in to Nodejs.</b>' 
     };
 
-    transporter.sendMail(mailOptions, function(error, info){
+    transporter.sendMail(mailOptions, function (error, info){
         if (error) {
             callback(error);
             return console.log(error);
@@ -37,9 +44,10 @@ exports.send = function (mailOptions, callback) {
     });
 };
 
+// the template email for reset password
 exports.resetEmail = function( email, name, code){
     return {
-        from: '"CU Par" <'+ config.mail_account +'>', // login user must equel to this user
+        from: '"CU Par" <'+ config.mail_account +'>',
         to: email,
         subject: "The CAPTCHA for your to reset password",
 html: `
@@ -56,9 +64,10 @@ CU Par Corporation Limited
     };
 };
 
+// the template email for authentication
 exports.authEmail = function( email, name, code){
     return {
-        from: '"CU Par" <'+ config.mail_account +'>', // login user must equel to this user
+        from: '"CU Par" <'+ config.mail_account +'>',
         to: email,
         subject: "The CAPTCHA for your to sign up CU Par",
 html: `
@@ -74,4 +83,4 @@ CU Par Corporation Limited
 </pre> 
 `
     };
-}
+};

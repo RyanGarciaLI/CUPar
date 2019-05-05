@@ -1,29 +1,34 @@
-//************************************
-// Here is a script for password reset 
-// and send email to users
-// Author: Ryan Garcia Yuxin LI
-// Date: 10/04/2019
-//************************************
+/**
+ *  /public/js/reset.js
+ *  Copyright (c) 2018-2019  CUPar Ltd.
+ *  @author: Ryan Yuxin LI <lyxnb2333@gmail.com>
+ *  @version: 1.0
+ *  @since 2019-04-10
+ *  @last updated: 2019-04-21
+ */
+
+`
+This JavaScript script is able to verify the input of the user and
+invoke back end to send email to the user.
+`
 
 // get info from website
 function getSID(){
-    // get info from website and corresponding validation
+    // get info from website and verify them
     let sid = $('#sid').val() ;    
     if( !checkSid( sid ) ){
         alert("student id is invalid");
         return;
     }
     
-    // unable to send code frequently
-    $("#sendcode").attr("disabled", true);
-    // send email
-    let email = $('#sid').val() + '@link.cuhk.edu.hk';
+    $("#sendcode").attr("disabled", true);  // unable to send code frequently
+    let email = $('#sid').val() + '@link.cuhk.edu.hk';      // send email
     let info = {
         email : email,
         sid : sid
-    };
+    };  // email options
 
-    $.post("/login/reset/email", info, function(res){
+    $.post("/login/reset/email", info, function(res){ // send post request to the router to send email to the user
         // send successfully
         if( res == '001'){ 
             $("#bt").attr("disabled", false);
@@ -39,16 +44,14 @@ function getSID(){
 
 function checkSid( id ){
     if ( id.length !== 10 || id[0] != 1 || id[1] != 1 || id[2] != 5 || id[3] != 5 ){
-        // $(obj).css("border-color","red"); // no change
         return false;
     } 
     else{
-        // $(obj).css("border-color", "green"); // no change
         return true;
     }
 }
 
-
+// a timing function to let the button able after 1 min
 function timing(){
     let time = 60;
     var mytime = setInterval( function(){

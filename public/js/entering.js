@@ -1,13 +1,21 @@
-//************************************
-// Here is a script for verifying input 
-// and send email to users
-// Author: Ryan Garcia Yuxin LI
-// Date: 05/04/2019
-//************************************
+/**
+ *  /public/js/entering.js
+ *  Copyright (c) 2018-2019  CUPar Ltd.
+ *  @author: Ryan Yuxin LI <lyxnb2333@gmail.com>
+ *  @version: 1.0
+ *  @since 2019-04-05
+ *  @last updated: 2019-04-21
+ */
+
+ `
+ This JavaScript script is able to verify the input of the user and
+ invoke back end to send email to the user.
+ `
 
 // get info from website
 function getInfo(){
-    // get info from website and corresponding validation
+    
+    // get info from website and verify them
     let sid = $('#sid').val() ;    
     if( !checkSid( sid ) ){
         alert("student id is invalid");
@@ -30,18 +38,17 @@ function getInfo(){
         alert("Twice inputs are different, please confirm your password!");
         return;
     }
-    
-    // unable to send code frequently
-    $("#sendcode").attr("disabled", true);
+
+    $("#sendcode").attr("disabled", true);  // unable to send code frequently
     // send email
     let email = $('#sid').val() + '@link.cuhk.edu.hk';
     let info = {
         email : email,
         username : username,
-        sid : sid,
-    };
+        sid : sid
+    };  // email option
 
-    $.post("/signup/email", info, function(res){
+    $.post("/signup/email", info, function(res){    // send post request to the back end to send email
         // send successfully
         if( res == '001'){ 
             $("#bt").attr("disabled", false);
@@ -54,21 +61,18 @@ function getInfo(){
         } 
         else if (res == '403'){
             alert("The information you enter doesn't match database, try again");
-            //$('body').html(data);
         }
     }, "text");
     // wait for 60s
     timing();
 }
 
-
+// a series of functions for verification
 function checkSid( id ){
     if ( id.length !== 10 || id[0] != 1 || id[1] != 1 || id[2] != 5 || id[3] != 5 ){
-        // $(obj).css("border-color","red"); // no change
         return false;
     } 
     else{
-        // $(obj).css("border-color", "green"); // no change
         return true;
     }
 }
@@ -94,6 +98,7 @@ function checkPwdVal( password, passwordRP){
     return true;
 }
 
+// a timing function to let the button able after 1 min
 function timing(){
     let time = 60;
     var mytime = setInterval( function(){
@@ -106,12 +111,3 @@ function timing(){
         }
     }, 1000);
 }
-
-// create random code
-var createSixNum = function(){
-    let num = "";
-    for( let i = 0; i < 6; i++){
-        num += Math.floor( Math.random()*10);
-    }
-    return num;
-};

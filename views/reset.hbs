@@ -5,7 +5,7 @@
 -->
 <!DOCTYPE html>
 <html lang="en">
-<head>
+ <head>
 
      <title>login page of CU Par</title>
 
@@ -23,47 +23,8 @@
      <!-- MAIN CSS -->
      <link rel="stylesheet" href="../css/templatemo-style.css">
 
-</head>
-<body>
-
-     <!-- PRE LOADER -->
-     <!--
-     <section class="preloader">
-          <div class="spinner">
-
-               <span class="spinner-rotate"></span>
-               
-          </div>
-     </section>
-    -->
-
-    <!--Grid Line-->
-    <!-- 
-    <section class="grid">
-         <div class="container">
-            <div class="row">
-
-              <div class="col-md-2 col-sm-2">
-                <div class="grid-line"></div>
-              </div>
-              <div class="col-md-2 col-sm-2">
-                <div class="grid-line"></div>
-              </div>
-              <div class="col-md-2 col-sm-2">
-                <div class="grid-line"></div>
-              </div>
-              <div class="col-md-2 col-sm-2">
-                <div class="grid-line"></div>
-              </div>
-              <div class="col-md-2 col-sm-2">
-                <div class="grid-line"></div>
-              </div>
-
-            </div>
-         </div>
-    </section>
-    -->
-
+ </head>
+ <body>
     <div class="menu-bg"></div>
     <div class="menu-burger">☰</div>
 
@@ -80,22 +41,17 @@
        </div>
     </div>
 
-
      <!-- HOME -->
      <section id="home">
         <div class="overlay"></div>
           <div class="container">
                <div class="row">
-
                     <div class="col-md-12 col-sm-12">
                          <div class="home-info">
                               <h1>Welcome to CU Par! <br>Come and find your new partners here!</h1>
                               <h1></h1>
-                              
-    
                               <div class="subscribe-form">
                                 <form method="POST" action="http://localhost:8081/login/reset">
-                                  
                                   {{#if this.info}}
                                 <div class="my-notify-info">{{this.info}}</div>
                                 {{else if this.message}}
@@ -106,41 +62,28 @@
                                 <div class="my-notify-error">{{error}}</div>
                                 {{/if}}
                                 {{#if this.notice}}
-                                  <div class="my-notify-success">{{this.notice}}</div>
-                                  {{/if}}
-                                        <br>
-                                  
-                                  <input type="number" name="sid" class="form-control" placeholder="Enter your student ID" required="" id="sid" maxlength="10" minlength="10">                         
-                                  <br>
-                                  <div class="col-xs-6">
-                                        <input type='text' name="code" class="form-control-my" placeholder="   code" required="" id="code" maxlength="6">
-                                  </div>
-                                  <div class="col-xs-1">   
-                                  </div>
-                                  <div class="col-xs-5">
-                                        <input type="button" name="sendcode" class="form-control-my" id="sendcode" value="Send" onclick="getSID()" >
-                                  </div>
-                                  <br>
-                                  <br>
-                                  <br>
-                                  
-                                
-                                        <input type="submit" value="confirm" class="form-control" id="bt" />
+                                <div class="my-notify-success">{{this.notice}}</div>
+                                {{/if}}<br>
+                                <input type="number" name="sid" class="form-control" placeholder="Enter your student ID" required="" id="sid" maxlength="10" minlength="10">                         
+                                <br>
+                                <div class="col-xs-6">
+                                  <input type='text' name="code" class="form-control-my" placeholder="   code" required="" id="code" maxlength="6">
                                 </div>
-                                        <br>
+                                <div class="col-xs-1">   
+                                </div>
+                                <div class="col-xs-5">
+                                  <input type="button" name="sendcode" class="form-control-my" id="sendcode" value="Send" onclick="getSID()" >
+                                </div> <br> <br> <br>
+                                  <input type="submit" value="confirm" class="form-control" id="bt" />
+                                </div> <br>
                                 </form>
                                 {{#if this.message}}
-                                <p style="color:white">Go back to <a href="/signup">sign-up</a> to active your account</p>
-                               
-                                {{/if}}
-                                <p style="color:white">click <a href="/login">here</a> go back to login</p>
-                                
-                              </div>
-
-                             
+                               <p style="color:white">Go back to <a href="/signup">sign-up</a> to active your account</p>
+                              {{/if}}
+                              <p style="color:white">click <a href="/login">here</a> go back to login</p>  
+                              </div>    
                          </div>
                     </div>
-
                </div>
           </div>
      </section>
@@ -171,9 +114,6 @@
       }
 
 
-       </script>
-
-
-
-</body>
+    </script>
+ </body>
 </html>

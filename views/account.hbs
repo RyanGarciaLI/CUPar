@@ -15,7 +15,7 @@
 
 
   <body>    
-    <!-- Hero section -->
+    <!-- Top section -->
     <section id="hero" class="text-white tm-font-big tm-parallax">
       <!-- Navigation -->
       <nav class="navbar navbar-expand-md tm-navbar" id="tmNav">              
@@ -56,145 +56,91 @@
       
       <div class="text-center tm-hero-text-container">
         <div class="tm-hero-text-container-inner">
-            <h2 class="tm-hero-title">CU Par - MyPage</h2>
+            <h2 class="tm-hero-title">CU Par - {{this.username}}'s Page</h2>
             <p class="tm-hero-subtitle">
               Check your information here!
               <br />Let's see if we find your partners!
             </p>
         </div>        
-      </div>
-      <!--
-      <div class="tm-next tm-intro-next">
-        <a href="#Roommate" class="text-center tm-down-arrow-link">
-          <i class="fas fa-3x fa-caret-down tm-down-arrow"></i>
-        </a>
-      </div>
-    -->      
+      </div>   
     </section>
-
-<!--CHANGES!!-->
 
     <!--Account information-->
     <section id="information" class="tm-section-pad-top">
-      <!-- <div class="row"></div> -->
-            <div class="tm-intro-text-container" >
-                <h1 class="tm-text-primary mb-4 tm-section-title">Account information</h1>
-                <br>
-                <div class="row">
-                  <div class="col-lg-6">
-                    <p style="font-size:24px; color:#3496d8">Name:</p>
-                    <p class="mb-4 tm-intro-text" >{{this.name}}</p>
-                    <p style="font-size:24px; color:#3496d8">SID:</p>
-                    <p class="mb-4 tm-intro-text" >{{this.sid}}</p>
-                    <p style="font-size:24px; color:#3496d8">Email:</p>
-                    <p class="mb-4 tm-intro-text" >{{this.email}}</p>
-                    <form action="http://localhost:8081/entry" method="Post">
-                      <p style="font-size:24px; color:#3496d8">Chat:</p>
-                      <input type="submit" class="tm-btn-primary" style="border-color: white" value="    Chat    "></input>
-                    </form><br><br>
-                  </div>
-                  <div class="col-lg-6">
-                    <form action="http://localhost:8081/check_roommate" method="Post">
-                      <p style="font-size:24px; color:#3496d8">Roommate:</p>
-                      <input type="submit" class="tm-btn-primary" style="border-color: white" value="Check Result"></input>
-                    </form><br>
-
-                    <form action="http://localhost:8081/check_teammate" method="Post">
-                      <p style="font-size:24px; color:#3496d8">Teammate:</p>
-                      <input type="submit" class="tm-btn-primary" style="border-color: white" value="Check Result"></input>
-                    </form><br>
-
-                    <!--Haven't done-->
-                    <form action='http://localhost:8081/forum/mypost' method="get">
-                      <p style="font-size:24px; color:#3496d8">Post:</p>
-                      <input type="submit" class="tm-btn-primary" style="border-color: white" value="View Posts"></input>
-                    </form><br>
-
-                    <form action="http://localhost:8081/evaluate" method="Post">
-                      <p style="font-size:24px; color:#3496d8">Evaluate:</p>
-                      <input type="submit" class="tm-btn-primary" style="border-color: white" value="  Evaluate  "></input>
-                    </form>
-
-
-                  </div>
-                </div>
-            </div>
-        
-      <div class="container">
-        <div class="row tm-section-pad-top">
-          <div class="col-lg-4">
-            <i class="fas fa-4x fa-bus text-center tm-icon"></i>
-            <!--
-            <h4 class="text-center tm-text-primary mb-4">First</h4>
-            <p>
-            Try to add sth.
-            Try to add sth.
-            Try to add sth.
-            </p>
-            -->
+      <div class="tm-intro-text-container" >
+        <h1 class="tm-text-primary mb-4 tm-section-title">Account information</h1><br>
+        <div class="row">
+          <div class="col-lg-6">
+            <p style="font-size:24px; color:#3496d8">Name:</p>
+            <p class="mb-4 tm-intro-text" >{{this.name}}</p>
+            <p style="font-size:24px; color:#3496d8">SID:</p>
+            <p class="mb-4 tm-intro-text" >{{this.sid}}</p>
+            <p style="font-size:24px; color:#3496d8">Email:</p>
+            <p class="mb-4 tm-intro-text" >{{this.email}}</p>
+            <form action="http://localhost:8081/entry" method="Post">
+              <p style="font-size:24px; color:#3496d8">Chat:</p>
+                <input type="submit" class="tm-btn-primary" style="border-color: white" value="    Chat    "></input>
+            </form><br><br>
           </div>
-        
-        <div class="col-lg-4 mt-5 mt-lg-0">
-          <i class="fas fa-4x fa-bicycle text-center tm-icon"></i>
-          <!--
-          <h4 class="text-center tm-text-primary mb-4">Second</h4>
-          <p>
-              Try to add sth.
-              Try to add sth.
-              Try to add sth.
-          </p>
-          -->
-        </div>
-        <div class="col-lg-4 mt-5 mt-lg-0">
-          <i class="fas fa-4x fa-city text-center tm-icon"></i>
-          <!--
-          <h4 class="text-center tm-text-primary mb-4">Third</h4>
-          <p>
-            Try to add sth.
-            Try to add sth.
-            Try to add sth.
-          </p>
-          -->
+          <div class="col-lg-6">
+            <form action="http://localhost:8081/check_roommate" method="Post">
+              <p style="font-size:24px; color:#3496d8">Roommate:</p>
+                <input type="submit" class="tm-btn-primary" style="border-color: white" value="Check Result"></input>
+            </form><br>
+            <form action="http://localhost:8081/check_teammate" method="Post">
+              <p style="font-size:24px; color:#3496d8">Teammate:</p>
+                <input type="submit" class="tm-btn-primary" style="border-color: white" value="Check Result"></input>
+            </form><br>
+
+            <!--Further Improvement-->
+            <form action='http://localhost:8081/forum/mypost' method="get">
+              <p style="font-size:24px; color:#3496d8">Post:</p>
+                <input type="submit" class="tm-btn-primary" style="border-color: white" value="View Posts"></input>
+            </form><br>
+            <form action="http://localhost:8081/evaluate" method="Post">
+              <p style="font-size:24px; color:#3496d8">Evaluate:</p>
+                <input type="submit" class="tm-btn-primary" style="border-color: white" value="  Evaluate  "></input>
+            </form>
+          </div>
         </div>
       </div>
     </section>
-    <br><br>
 
     <!-- Contact -->
     <section id="Contact" class="tm-section-pad-top tm-parallax-2">
       <div class="container tm-container-COntact">
         <div class="row">
-            <div class="col-12">
-                <h2 class="mb-4 tm-section-title">Contact</h2>
-                <div class="mb-5 tm-underline">
-                  <div class="tm-underline-inner"></div>
-                </div>
-                <p class="mb-5">
-                  If you have problems using this website, please contact us.<br> <br> 
-                </p>
-            </div>
+          <div class="col-12">
+              <h2 class="mb-4 tm-section-title">Contact</h2>
+              <div class="mb-5 tm-underline">
+                <div class="tm-underline-inner"></div>
+              </div>
+              <p class="mb-5">
+                If you have problems using this website, please contact us.<br> <br> 
+              </p>
+          </div>
             
-            <div class="text-center col-12">
-                  <i class="fas fa-3x fa-phone mr-4"></i>
-                  <span class="mb-0">3100-0001</span>
-              </a>
-              <br>  <br> <br> <br> <br> <br>             
-            </div>
-            <div class="text-center col-12">
-                  <i class="fas fa-3x fa-envelope mr-4"></i>
-                  <span class="mb-0">jack123qd@hotmail.com</span>
-              </a>              
-            </div>
+          <div class="text-center col-12">
+                <i class="fas fa-3x fa-phone mr-4"></i>
+                <span class="mb-0">3100-0001</span>
+            </a> <br> <br> <br> <br> <br> <br>             
+          </div>
+           <div class="text-center col-12">
+                <i class="fas fa-3x fa-envelope mr-4"></i>
+                <span class="mb-0">jack123qd@hotmail.com</span>
+            </a>              
+          </div>
         </div>
       </div>
       <footer class="text-center large tm-footer">
           <p class="mb-0">
             Copyright &copy; CUPar 
-            
             - Design: Group 01
           </p>
-        </footer>
+      </footer>
     </section>
+
+    <!--Script-->
     <script src="js_main/jquery-1.9.1.min.js"></script>     
     <script src="slick/slick.min.js"></script>
     <script src="magnific-popup/jquery.magnific-popup.min.js"></script>
@@ -233,7 +179,6 @@
         multiplier = 1 - multiplier;
         var $doc = $(document);
         // $object.css({"background-attatchment" : "fixed"});
-
         if(forceSet) {
           setParallaxPosition($doc, multiplier, $object);
         } else {

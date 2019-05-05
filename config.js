@@ -10,6 +10,7 @@ exports.config = {
 }
 */
 
+//cofig of Jack!
 exports.config = {
     db_name: 'cup',
     db_user: 'root',

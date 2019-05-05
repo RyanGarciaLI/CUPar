@@ -5,7 +5,7 @@
 -->
 <!DOCTYPE html>
 <html lang="en">
-<head>
+ <head>
 
      <title>login page of CU Par</title>
 
@@ -23,54 +23,13 @@
      <!-- MAIN CSS -->
      <link rel="stylesheet" href="../../css/templatemo-style.css">
 
-</head>
-<body>
-
-     <!-- PRE LOADER -->
-     <!--
-     <section class="preloader">
-          <div class="spinner">
-
-               <span class="spinner-rotate"></span>
-               
-          </div>
-     </section>
-    -->
-
-    <!--Grid Line-->
-    <!-- 
-    <section class="grid">
-         <div class="container">
-            <div class="row">
-
-              <div class="col-md-2 col-sm-2">
-                <div class="grid-line"></div>
-              </div>
-              <div class="col-md-2 col-sm-2">
-                <div class="grid-line"></div>
-              </div>
-              <div class="col-md-2 col-sm-2">
-                <div class="grid-line"></div>
-              </div>
-              <div class="col-md-2 col-sm-2">
-                <div class="grid-line"></div>
-              </div>
-              <div class="col-md-2 col-sm-2">
-                <div class="grid-line"></div>
-              </div>
-
-            </div>
-         </div>
-    </section>
-    -->
-
+  </head>
+  <body>
     <div class="menu-bg"></div>
     <div class="menu-burger">☰</div>
-
     <div class="menu-items">
        <div class="container">
          <div class="row">
-           
            <div class="col-md-offset-2 col-md-4 col-sm-6">
             <h1 style="text-align:center;font-size: 40px">About us</h1>
             <p style="color: white;text-align: center;font-size: 18px">We are CU Par!</p>
@@ -81,20 +40,17 @@
     </div>
 
 
-     <!-- HOME -->
+     <!-- RESET -->
      <section id="home">
         <div class="overlay"></div>
           <div class="container">
                <div class="row">
-
                     <div class="col-md-12 col-sm-12">
                          <div class="home-info">
                               <h1>Welcome to CU Par! <br>Come and find your new partners here!</h1>
                               <h1></h1>
-                              
                               <div class="subscribe-form">
                                 <form method="POST" action="http://localhost:8081/login">
-                                  
                                   {{#if this.info}}
                                 <div class="my-notify-info">{{this.info}}</div>
                                 {{else if this.message}}
@@ -104,24 +60,16 @@
                                 {{else}}
                                 <div class="my-notify-error">{{error}}</div>
                                 {{/if}}
-
-                                  <br>
-                                  
-                                  <input type="number" name="sid" class="form-control" placeholder="Enter your student ID" required="" maxlength="10" minlength="10">                          
-                                  <br>
-                                  <input type="password" name="password" class="form-control" placeholder="Enter your password" required="">
-                                  <!--  <button type="submit" class="form-control"><i class="fa fa-envelope-o"></i></button>  -->
-                                  <p class="form-control;" style="color:black;font-size:16px;text-align: center;"> <a href="login/reset">forget your password?</a> </p>
-                                  
-                                  
-                                        <input type="submit" value="submit" class="form-control" id="bt" />
-                                </div>
+                                <br>  
+                                <input type="number" name="sid" class="form-control" placeholder="Enter your student ID" required="" maxlength="10" minlength="10"><br>
+                                <input type="password" name="password" class="form-control" placeholder="Enter your password" required="">
+                                <p class="form-control;" style="color:black;font-size:16px;text-align: center;"> <a href="login/reset">forget your password?</a> </p>
                                 </form>
+                                <input type="submit" value="submit" class="form-control" id="bt" />
                                 <p style="color:white"><br>If you haven't got our account<br>please click <a href="signup">here</a></p>
                               </div>
                          </div>
                     </div>
-
                </div>
           </div>
      </section>

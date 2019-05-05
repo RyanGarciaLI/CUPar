@@ -24,7 +24,7 @@
 
 
   <body>    
-    <!-- Hero section -->
+    <!-- Top section -->
     <section id="hero" class="text-white tm-font-big tm-parallax">
       <!-- Navigation -->
       <nav class="navbar navbar-expand-md tm-navbar" id="tmNav">              
@@ -160,85 +160,14 @@
               <option value="WS">Lee Woo Sing College</option>
           </select>
           <br><br>
-          <!--
-          <script>
-              function change(){
-                var coll = document.getElementById("College").value;
-                var sel = document.getElementById("Hall");
-                if(coll!="CC"){
-                  for(var i=0;i<10;i++){
-                    sel.remove(i);
-                  }
-                  switch(coll){
-                    case "CC":
-                      break;
-                    case "WYS":{
-                        //sel.options[0].text="Wu Yee Sun College";
-                        //sel.options[0].value="WYS";
-                        var newOption = document.createElement("option");
-                        newOption.appendChild(document.createTextNode("Wu Yee Sun College"));
-                        newOption.setAttribute("value","WYS");
-                        sel.appendChild(newOption);
-                      }
-                      break;
-                    case NA:
-                      break;
-                    case NA:
-                      break;
-                    case NA:
-                      break;
-                    case NA:
-                      break;
-                    case NA:
-                      break;
-                    case NA:
-                      break;
-                    case NA:
-                      break;
-                  }
-                }
-              } 
-          </script>
-        -->
+
         <!--Hall-->
          <p style="font-size:24px; color:#3496d8">Hall:</p>
           <select name="Hall" id="Hall" class="tm-input-select" type="text"  id="Hall" >
               <option value="">-- select one -- </option>
           </select>
           <br><br>
-         <!--
-          <p style="font-size:24px; color:#3496d8">Hall:</p>
-          <select name="Hall" class="tm-input-select" type="text"  id="Hall" >
-              <option value="HL">CC:Hua Lien Tang</option>
-              <option value="LSP">CC:Lee Shu Pui Hall</option>
-              <option value="MSH">CC:Madam SH Ho Hall</option>
-              <option value="MH">CC:Ming Hua Tang</option>
-              <option value="PMH">CC:Pentecostal Mission Hall(High)</option>
-              <option value="PML">CC:Pentecostal Mission Hall(Low)</option>
-              <option value="TB">CC:Theology Building</option>
-              <option value="WC">CC:Wen Chih Tang</option>
-              <option value="WL">CC:Wen Lin Tang</option>
-              <option value="YL">CC:Ying Lin Tang</option>
-              <option value="CH">NA:Chih Hsing Hall</option>
-              <option value="XS">NA:Xuesi Hall</option>
-              <option value="GT">NA:Grace Tien Hall</option>
-              <option value="XS">NA:Daisy Li Hall</option>
-              <option value="AS">UC:Adam Schall Residence</option>
-              <option value="BH">UC:Bethlehem Hall</option>
-              <option value="CCH">UC:Chan Chun Ha Hostel</option>
-              <option value="HS">UC:Hang Seng Hall</option>
-              <option value="KM">Shaw:Kuo Mou Hall</option>
-              <option value="SH2">Shaw:Student Hostel 2</option>
-              <option value="LQW">SHHO:Lee Quo Wei Hall</option>
-              <option value="HT">SHHO:Ho Tim Hall</option>
-              <option value="MC">Morningside College</option>
-              <option value="CW">C.W.Chu College</option>
-              <option value="WYS">Wu Yee Sun College</option>
-              <option value="WS">Lee Woo Sing College</option>
-            </select>
-          <br><br>
-          -->
-          
+
           <p style="font-size:24px; color:#3496d8">When do you go to bed?</p>
           <select name="sleep_start" id="sleep_start" class="tm-input-select">
             <option value=100>10:00PM</option>
@@ -325,41 +254,7 @@
     <script src="js_main/new.js"></script>
     <script src="js/ajax.js"></script> 
     <script>
-
-/*
-      function getRoommate(){
-        let SID = $('#SID').val() ;   
-        let Name = $('#Name').val() ;
-        let College = $('#College').val() ;
-        let Hall = $('#Hall').val() ;
-        let sex = $('#sex').val() ;
-        let sleep_starte = $('#sleep_start').val() ;
-        let sleep_end = $('#sleep_end').val() ;
-        let remarks = $('#remarks').val() ;        
-
-        let info={
-          Name: Name,
-          sex: sex,
-          SID: SID,
-          College: College,
-          Hall: Hall,
-          sleep_start: sleep_start,
-          sleep_end: sleep_end,
-          remarks: remarks
-        };
-        
-
-        $.post("/process_roommate",info, function(res){
-          alert(res);
-          if(res=="Wrong"){
-            alert("You have already filled your information!");
-          }
-          else{
-            alert("Successful Submit!");
-          }
-        },"text");
-      }
-      */
+      
       function getRoommate(){
         let SID = $('#SID').val() ;   
         let Name = $('#Name').val() ;
@@ -386,9 +281,12 @@
           if(res=="Wrong"){
             alert("You have already filled your information!");
           }
-          else{
+          else if(res=="yes"){
             alert("Successful Submit!");
             location.reload();
+          }
+          else{
+            alert(res);
           }
         },"text");
         
