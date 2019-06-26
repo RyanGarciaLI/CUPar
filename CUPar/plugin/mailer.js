@@ -84,3 +84,24 @@ CU Par Corporation Limited
 `
     };
 };
+
+// the template email for deletion
+exports.delEmail = function( email, name, code){
+    return {
+        from: '"CU Par" <'+ config.mail_account +'>',
+        to: email,
+        subject: "The CAPTCHA for your to sign up CU Par",
+html: `
+<pre style="font-family:calibri;font-size:17px">
+Dear ` + name + ` : 
+    
+    Thank you for your usage. We are sorry to hear that you want to leave. Here is your CAPTCHA Code for authentication: <b>` + code + `</b> , please enter it into form in 10 minitues :)
+    We are looking forward to you coming back. Here is CU Par, a powful integral platform for all CUHK Undergraduate students!
+    
+
+Best wishes
+CU Par Corporation Limited
+</pre> 
+`
+    };
+};

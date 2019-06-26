@@ -103,7 +103,7 @@ DB.prototype.doUpdate = function(sql, params, callback){ // do updation
     );
 }
 
-DB.prototype.doDelete = function(sql, callback){ // do deletion
+DB.prototype.doDelete = function(sql, params, callback){ // do deletion
     let self = this;
     self.client.query(
         sql,

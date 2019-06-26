@@ -65,6 +65,7 @@ var index =require('./routes/index');
 var login = require('./routes/login');
 var signup = require('./routes/signup');
 var logout = require('./routes/logout');
+var deleteAccount = require('./routes/deleteAccount');
 var account = require('./routes/account');
 var process_roommate = require('./routes/process_roommate');
 var process_teammate = require('./routes/process_teammate');
@@ -78,6 +79,7 @@ app.use("/", index);
 app.use("/login", login);
 app.use('/signup', signup);
 app.use('/logout', logout);
+app.use('/deleteAccount', deleteAccount);
 app.use('/account_page', account);
 app.use('/process_roommate', process_roommate);
 app.use('/process_teammate', process_teammate);
@@ -168,7 +170,8 @@ app.use(function(request, response) {
 var server = app.listen(8081, function () {
   var host = server.address().address;
   var port = server.address().port;
-  console.log("Adress is http://%s:%s", host, port);
+  console.log("Address is http://%s:%s", host, port);
+  console.log("server address: ", server.address())
 });
 
 

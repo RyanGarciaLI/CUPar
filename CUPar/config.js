@@ -18,6 +18,7 @@ exports.config = {
     mail_server:'gmail',
     mail_account: 'ryangarcia2333@gmail.com',
     mail_pwd:'lyxnb2333',
-    server_port: '8081'
+    server_port: '8081',
+    server_address: '127.0.0.1'
  }
  
