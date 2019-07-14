@@ -1,6 +1,6 @@
 /**
  *  /sever.js
- *  Copyright (c) 2018-2019  CUPar Ltd.
+ *  Copyright (c) 2018-2019  CUPar Ltd. All reserved.
  *  @author:  WEI Qi        <1155107666@link.cuhk.edu.hk>
  *            ZHAO Feng     <siegfriedzhaof@gmail.com>
  *            Ryan Yuxin LI <lyxnb2333@gmail.com>

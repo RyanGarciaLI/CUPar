@@ -24,7 +24,7 @@ router.get('/', function( req, res){
     
     // If user hasn't logged in
     if( !req.session.passport ){ 
-      res.redirect('/login');
+        res.redirect('/login');
     }
 
     // get user's information
@@ -33,12 +33,12 @@ router.get('/', function( req, res){
     
     // render the hbs document
     res.render('account.hbs', {
-      layout: null,
-      name: user_name,
-      sid : userID,
-      email: userID + "@link.cuhk.edu.hk",
-      username: user_name,
-      login: 1
+        layout: null,
+        name: user_name,
+        sid : userID,
+        email: userID + "@link.cuhk.edu.hk",
+        username: user_name,
+        login: 1
     });
 
 });
