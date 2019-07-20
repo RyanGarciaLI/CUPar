@@ -25,12 +25,15 @@ var express = require('express');
 var router = express.Router();
 var bodyParser = require('body-parser');
 var urlencodedParser = bodyParser.urlencoded({ extended: false })
-var User = require('../models/user');
+// var User = require('../models/user');
 var md5 = require('../plugin/encryption');
 var mailer = require('../plugin/mailer');
+var DB = require('../plugin/database')
 
 // the subrouter for login
 router.post( '/', urlencodedParser, function(req, res){
+    console.log('I am here')
+    console.log(req.body)
     let sid = req.body.sid || 1234;
     let password = req.body.password;
 
@@ -51,12 +54,15 @@ router.post( '/', urlencodedParser, function(req, res){
 
     // procedure of login
     password = md5(password);   // encrypt the password
-    User.selectUserInfo( sid, function( results ){  // search user in db
+    console.log('I go here')
+    // User.selectUserInfo( sid, function( results ){ 
+    DB.verify_user_identity(sid, password, function(results){
         if( results.length > 0 ){   // find the user out
             if(results[0].state == 1){  // the user is active
                 // set passport as the authentication to access the website
                 let passport = { id : results[0].id, name: results[0].name, sid: sid};
                 res.cookie('islogin', passport, { maxAge: 2 * 3600 * 1000});
+                console.log('Verified')
                 res.redirect('/');
             }
             else{
@@ -66,7 +72,7 @@ router.post( '/', urlencodedParser, function(req, res){
                 });
             }
         }
-        else{   
+        else{
             res.render('login.hbs', {
                 layout: null,
                 error: "Password or SID is wrong. Try again~"
@@ -94,7 +100,8 @@ router.get('/reset', function(req, res){
 router.post('/reset', urlencodedParser, function(req, res){
     let sid = req.body.sid;
     let code = req.body.code;
-    User.selectUserInfo( sid, function( result){    // search user in db
+    // User.selectUserInfo(sid, function(result){
+    DB.select_user_data(sid, function(result){
         if( result.length === 0 ){ // have not registed yet
             res.render('reset.hbs', {
                 layout : null,
@@ -131,8 +138,8 @@ router.post( '/reset/email', urlencodedParser, function(req, res){
     let sid = req.body.sid;
     let email = req.body.email;
     let code = createSixNum();  // generate verification code
-    
-    User.selectUserInfo(req.body.sid, function(result){
+
+    DB.select_user_data(req.body.sid, function(result){
         if( result.length === 0 ){  // have not registed yet
             res.render('reset.hbs', {
                 layout : null,
@@ -148,7 +155,14 @@ router.post( '/reset/email', urlencodedParser, function(req, res){
                         return res.send('000'); // unsuccessfully
                     }
 
-                    User.updateCode(sid, code, function(err){  // update user's code in db
+                    // User.updateCode(sid, code, function(err){
+                    let data_set = {code:code};
+                    DB.update_user(sid, data_set, callback=function(err){
+                        if(err){
+                            console.error('----Some error(s) happened when updating \
+                                code of active user: /reset/email----');
+                            console.error(err);
+                        }
                         res.send('001');    // successfully
                     });
                 });
@@ -159,8 +173,13 @@ router.post( '/reset/email', urlencodedParser, function(req, res){
                     if(err){
                         return res.send('000'); // unsuccessfully
                     }
-
-                    User.updateCode( sid, code, function(err){   // update user'code in db
+                    let data_set = {code:code};
+                    DB.update_user(sid, data_set, callback=function(err){
+                        if(err){
+                            console.error('----Some error(s) happened when updating \
+                                code of unactivate user: /reset/email----');
+                            console.error(err);
+                        }
                         res.render('reset.hbs', {
                             lyaout: null,
                             warning : "Account hasn't been activated, please return to sign-up page"
@@ -199,13 +218,16 @@ router.post('/reset/pwd', function(req, res){
 
     password = md5(password); // encrypt the password
     // find the user
-    User.selectUserInfo(sid, function(result){
+    DB.select_user_data(sid, function(result){
         if(result.length === 0 ){
             return console.log(" Can't find the user, error");
         }
-
-        User.updatePwd( sid, password, function(result){
-            res.render('loginReset.hbs', {
+        let data_set = {password:password};
+        DB.update_user(sid, data_set, callback=function(err){
+            if(err){
+                console.error('----Some error(s) happened while udpating user pwd')
+            }
+            res.render('login_after_reset_pwd.hbs', {
                 layout: null,
                 message: 'Reset password successfully, please log in'
             });

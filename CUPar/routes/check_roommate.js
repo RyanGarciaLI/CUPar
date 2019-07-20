@@ -55,21 +55,21 @@ router.post('/', function (req, res) {
     // the function to search the information with given SID
     function SearchID(){
         this.select=function(callback,id){
-        var sql = 'SELECT distinct * FROM Roommate where user_sid = ' + id;
-        var option = {};
-            pool.query(sql,function(err,result){
-            if(err){console.log(err);}
-            // default value for result
-            option[0] = {'name':"NO ONE"};
-            if(result){
-            for(var i = 0; i < result.length; i++){
-                option[i]={'name':result[i].name, 'sex':result[i].sex, 'college':result[i].college,
-                            'hall':result[i].hall, 'sid':result[i].user_sid, 'remark':result[i].remark,
-                            'start':result[i].sleep_time_start, 'end':result[i].sleep_time_end};}
-            }
-            // If return directly, it will return undefined. So we need call back function to receive the data.
-            callback(option); 
-        });
+            var sql = 'SELECT distinct * FROM Roommate where user_sid = ' + id;
+            var option = {};
+                pool.query(sql,function(err,result){
+                    if(err){console.log(err);}
+                    // default value for result
+                    option[0] = {'name':"NO ONE"};
+                    if(result){
+                    for(var i = 0; i < result.length; i++){
+                        option[i]={'name':result[i].name, 'sex':result[i].sex, 'college':result[i].college,
+                                    'hall':result[i].hall, 'sid':result[i].user_sid, 'remark':result[i].remark,
+                                    'start':result[i].sleep_time_start, 'end':result[i].sleep_time_end};}
+                    }
+                // If return directly, it will return undefined. So we need call back function to receive the data.
+                callback(option); 
+            });
         };
     }
     module.exports = SearchID;

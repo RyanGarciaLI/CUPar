@@ -23,14 +23,15 @@ var express = require('express');
 var app = express();
 var bodyParser = require('body-parser');
 var engines = require('consolidate');
+var path = require('path');
 
-app.engine('html', engines.swig); 
-app.set('view engine', 'html'); 
+app.engine('html', engines.swig);
+app.set('view engine', 'html');
 // create application/x-www-form-urlencoded coding analyze
-var urlencodedParser = bodyParser.urlencoded({ extended: false });
+var urlencodedParser = bodyParser.urlencoded({extended: false });
 app.use(bodyParser.json());
 app.use(urlencodedParser);
-app.use(express.static('./public'));
+app.use(express.static(path.join('.','public')));
 
 /**
  *  Copyright (c) 2018-2019  CUPar Ltd.
@@ -42,7 +43,7 @@ app.use(express.static('./public'));
 
 // set favourite icon for the website
 var favicon = require('serve-favicon');
-app.use(favicon( __dirname + '/keyboarder.ico'));
+app.use(favicon(path.join(__dirname, 'keyboarder.ico')));
 
 // options for cookie and session
 var cookieParser = require('cookie-parser');
@@ -163,6 +164,10 @@ io.on('connection', (socket) => {
 // *****************************************************
 // *****************************************************
 app.use(function(request, response) {
+  console.debug('-------------------------The request is:-----------------------')
+  console.debug('head', request.headers)
+  console.debug('body', request.body)
+  console.log('----------------------------------------------------------------')
   response.status(404).render("404.ejs");
 });
 var server = app.listen(8081, function () {
