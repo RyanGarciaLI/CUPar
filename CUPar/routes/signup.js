@@ -32,7 +32,7 @@ var DB = require('../plugin/database');
 
 // the subrouter for signup
 router.get('/', function(req, res){
-    res.render('sign-up.hbs', {
+    res.render('acct_signup.hbs', {
         layout : null,
         info : "Click and send code to your email",
     });
@@ -47,28 +47,28 @@ router.post('/', urlencodedParser, function(req, res, next){
 
     // verify user's information
     if( sid.length !== 10 || sid[0] != 1 || sid[1] != 1 || sid[2] != 5 || sid[3] != 5){
-        return res.render('sign-up.hbs', {
+        return res.render('acct_signup.hbs', {
             layout : null,
             error :"SID is invalid!",
         });
     }
 
     if( password.length < 6 || password.length > 20 ){
-        return res.render('sign-up.hbs', {
+        return res.render('acct_signup.hbs', {
             layout : null,
             error :"The length of password must be in the range from 6 to 20, both inclusive!",
         });
     }
 
     if( username.length === 0 || username.length > 20 ){
-        return res.render('sign-up.hbs', {
+        return res.render('acct_signup.hbs', {
             layout : null,
             error :"The length of name must be nonempty and no more than 20 !",
         });
     }
 
     if( password != passwordRP ){
-        return res.render('sign-up.hbs', {
+        return res.render('acct_signup.hbs', {
             layout : null,
             error : "Two passwords are not the same!",
         });
@@ -79,13 +79,13 @@ router.post('/', urlencodedParser, function(req, res, next){
     DB.select_user_data(sid, function(results){
         if( results.length > 0 ){  // has registed
             if( results[0].state === 1){
-                res.render('sign-up.hbs',{
+                res.render('acct_signup.hbs',{
                     layout : null,
                     warning : "You have registed, please log in"
                 });
             }
             else if( results[0].code != code ){ // wrong code
-                res.render('sign-up.hbs', {
+                res.render('acct_signup.hbs', {
                     layout : null,
                     error : "Wrong code, check or send it again"
                 });

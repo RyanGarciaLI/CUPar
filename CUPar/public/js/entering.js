@@ -28,16 +28,16 @@ function getInfo(){
         return;
     }
 
-    let password = $('#password').val();
-    let passwordRP = $('#re-password').val();
-    if( !checkPwdLen( password )){
-        alert("password must be equal or larger than 6 and equal or less than 20!");
-        return;
-    }
-    if( !checkPwdVal( password, passwordRP)){
-        alert("Twice inputs are different, please confirm your password!");
-        return;
-    }
+    // let password = $('#password').val();
+    // let passwordRP = $('#re-password').val();
+    // if( !checkPwdLen( password )){
+    //     alert("password must be equal or larger than 6 and equal or less than 20!");
+    //     return;
+    // }
+    // if( !checkPwdVal( password, passwordRP)){
+    //     alert("Twice inputs are different, please confirm your password!");
+    //     return;
+    // }
 
     $("#sendcode").attr("disabled", true);  // unable to send code frequently
     // send email

@@ -23,12 +23,10 @@
      <!-- MAIN CSS -->
      <link rel="stylesheet" href="http://localhost:8081/css/templatemo-style.css">
 
- </head>
- <body>
-
+  </head>
+  <body>
     <div class="menu-bg"></div>
     <div class="menu-burger">☰</div>
-
     <div class="menu-items">
        <div class="container">
          <div class="row">
@@ -42,7 +40,7 @@
     </div>
 
 
-     <!-- LOGIN IN -->
+     <!-- RESET -->
      <section id="home">
         <div class="overlay"></div>
           <div class="container">
@@ -62,14 +60,18 @@
                                 {{else}}
                                 <div class="my-notify-error">{{error}}</div>
                                 {{/if}}
-                                <br>
-                                <input type="number" name="sid" class="form-control" placeholder="Enter your student ID" required="" maxlength="10" minlength="10">                          
-                                <br>
+                                <br>  
+                                <input type="number" name="sid" class="form-control" placeholder="Enter your student ID" required="" maxlength="10" minlength="10"><br>
                                 <input type="password" name="password" class="form-control" placeholder="Enter your password" required="">
                                 <p class="form-control;" style="color:black;font-size:16px;text-align: center;"> <a href="login/reset">forget your password?</a> </p>
-                                <input type="submit" value="submit" class="form-control" id="bt" />
                                 </form>
+                                <input type="submit" value="submit" class="form-control" id="bt"/>
+                                <input type="button" onclick="fx()" value="Submit">
                                 <p style="color:white"><br>If you haven't got our account<br>please click <a href="signup">here</a></p>
+                                <form method="POST" action="/login"><br>
+                                  <input type="button" value="Submit">
+                                </form>
+
                               </div>
                          </div>
                     </div>
@@ -78,11 +80,28 @@
      </section>
 
      <!-- SCRIPTS -->
-     <script src="../../../js/jquery.js"></script>
-     <script src="../../../js/bootstrap.min.js"></script>
-     <script src="../../../vegas.min.js"></script>
-     <script src="../../../js/countdown.js"></script>
-     <script src="../../../js/init.js"></script>
-     <script src="../js/custom.js"></script>
- </body>
+     <script src="http://localhost:8081/js/jquery.js"></script>
+     <script src="http://localhost:8081/js/bootstrap.min.js"></script>
+     <script src="http://localhost:8081/js/vegas.min.js"></script>
+     <script src="http://localhost:8081/js/countdown.js"></script>
+     <script src="http://localhost:8081/js/init.js"></script>
+     <script src="http://localhost:8081/js/custom.js"></script>
+     <script>
+       function fx(){
+         try{
+         alert('what the fuck')
+         let sid = document.getElementsByName('sid')[0].value
+         let pwd = document.getElementsByName('password')[0].value
+         alert("sid: "+sid+" pwd:"+pwd )
+         try{
+          $.post('/login', {sid:sid, password:pwd}, function(res){alert(res)})
+         }catch(err){
+           alert(err)
+         }
+         }catch(err){alert(err)}
+       }
+     </script>
+     {{!-- <script scr="../../js/entering.js"></script> --}}
+
+</body>
 </html>
