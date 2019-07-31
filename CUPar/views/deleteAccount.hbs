@@ -1,0 +1,118 @@
+<!--
+    Templates are used. They're downloaded from 
+    "https://templatemo.com/tm-521-get-ready" and 
+    "https://templatemo.com/tm-525-the-town"  
+-->
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+
+     <title>delete your account of CU Par</title>
+
+     <meta charset="UTF-8">
+     <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+     <meta name="description" content="">
+     <meta name="keywords" content="">
+     <meta name="team" content="">
+     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+     <link rel="stylesheet" href="../css/bootstrap.min.css">
+     <link rel="stylesheet" href="../css/vegas.min.css">
+     <link rel="stylesheet" href="../css/font-awesome.min.css">
+
+     <!-- MAIN CSS -->
+     <link rel="stylesheet" href="../css/templatemo-style.css">
+
+ </head>
+ <body>
+    <div class="menu-bg"></div>
+    <div class="menu-burger">☰</div>
+
+    <div class="menu-items">
+       <div class="container">
+         <div class="row">
+           
+           <div class="col-md-offset-2 col-md-4 col-sm-6">
+            <h1 style="text-align:center;font-size: 40px">About us</h1>
+            <p style="color: white;text-align: center;font-size: 18px">We are CU Par!</p>
+            <p style="color: white;text-align: center;font-size: 18px ">Join us and find your partners here!</p>
+           </div>
+         </div>
+       </div>
+    </div>
+
+     <!-- HOME -->
+     <section id="home">
+        <div class="overlay"></div>
+          <div class="container">
+               <div class="row">
+                    <div class="col-md-12 col-sm-12">
+                         <div class="home-info">
+                              <h1>Thank you for your usage<br>We are looking forward to you coming back!</h1>
+                              <h1></h1>
+                              <div class="subscribe-form">
+                                <form method="POST" action="http://localhost:8081/deleteAccount">
+                                  {{#if this.info}}
+                                <div class="my-notify-info">{{this.info}}</div>
+                                {{else if this.message}}
+                                <div class="my-notify-success">{{this.message}}</div>
+                                {{else if this.warning}}
+                                <div class="my-notify-warning">{{this.warning}}</div>
+                                {{else if this.error }}
+                                <div class="my-notify-error">{{this.error}}</div>
+                                {{/if}}
+                                {{#if this.notice}}
+                                <div class="my-notify-success">{{this.notice}}</div>
+                                {{/if}}<br>
+                                <input type="number" name="sid" class="form-control" placeholder="Confirm your student ID" required="" id="sid" maxlength="10" minlength="10">                         
+                                <br>
+                                <input type="password" name="password" class="form-control" placeholder="Confirm your password" required="" id="password">
+                                <br>
+                                <div class="col-xs-6">
+                                  <input type='text' name="code" class="form-control-my" placeholder="   code" required="" id="code" maxlength="6">
+                                </div>
+                                <div class="col-xs-1">   
+                                </div>
+                                <div class="col-xs-5">
+                                  <input type="button" name="sendcode" class="form-control-my" id="sendcode" value="Send" onclick="getSID()" >
+                                </div> <br> <br> <br>
+                                  <input type="submit" value="confirm" class="form-control" id="bt" />
+                                </div> <br>
+                                </form>
+                               <p style="color:white">Go back to your <a href="/account_page">account page</a></p>
+                              </div>    
+                         </div>
+                    </div>
+               </div>
+          </div>
+     </section>
+
+     <!-- SCRIPTS -->
+     <script src="../js/jquery.js"></script>
+     <script src="../js/bootstrap.min.js"></script>
+     <script src="../js/vegas.min.js"></script>
+     <script src="../js/countdown.js"></script>
+     <script src="../js/init.js"></script>
+     <script src="js/custom.js"></script>
+     <script src="../js/ajax.js"></script>
+     <script src="../../js/reset.js"></script>
+     <script>
+      let sid = $('#sid').val();
+      let code = $('#sid').val();
+      function send(){
+          let info = {
+            sid : sid,
+            code : code
+          }
+          $.post("/login/reset", info, function(res){
+            alert("CAPTCHA code is sent to you via email");
+          })
+          alert('Hi')
+          $("#sid").attr("value", sid);
+          $('#code').attr("value",code);
+      }
+
+
+    </script>
+ </body>
+</html>
