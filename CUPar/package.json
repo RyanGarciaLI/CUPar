@@ -3,7 +3,7 @@
     "async": "^3.2.2",
     "consolidate": "^0.15.1",
     "cookie-parser": "^1.4.4",
-    "ejs": "^2.6.2",
+    "ejs": "^3.1.7",
     "express": "^4.17.1",
     "express-session": "^1.16.2",
     "handlebars": "^4.7.7",
